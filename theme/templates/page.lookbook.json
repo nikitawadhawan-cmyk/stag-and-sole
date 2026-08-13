@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "lookbook",
+      "blocks": {
+        "look-1": { "type": "look", "settings": { "product": "the-marlow-derby" } },
+        "look-2": { "type": "look", "settings": { "product": "halden-low-sneaker" } },
+        "look-3": { "type": "look", "settings": { "product": "ashe-penny-loafer" } },
+        "look-4": { "type": "look", "settings": { "product": "fenn-chukka-boot" } },
+        "look-5": { "type": "look", "settings": { "product": "the-ridge-monk" } },
+        "look-6": { "type": "look", "settings": { "product": "court-01-sneaker" } }
+      },
+      "block_order": ["look-1", "look-2", "look-3", "look-4", "look-5", "look-6"],
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,144 @@
+{% paginate collections by 12 %}
+  <section class="wrap colist">
+    <header class="colist__head">
+      <h1 class="colist__title">{{ 'collections.title' | t }}</h1>
+    </header>
+
+    <div class="colist__grid" data-reveal-stagger>
+      {% for collection in collections %}
+        <a href="{{ collection.url }}" class="colist__tile">
+          {% if collection.featured_image %}
+            {{
+              collection.featured_image
+              | image_url: width: 900
+              | image_tag: class: 'colist__img', widths: '450, 700, 900', sizes: '(max-width: 900px) 50vw, 33vw', loading: 'lazy', alt: collection.featured_image.alt
+            }}
+          {% else %}
+            {{ 'collection-1' | placeholder_svg_tag: 'colist__img' }}
+          {% endif %}
+          <span class="colist__overlay">
+            <span class="colist__name">{{ collection.title }}</span>
+            <span class="colist__count">
+              {{- 'sections.category_tiles.styles_count' | t: count: collection.products_count -}}
+            </span>
+          </span>
+        </a>
+      {% endfor %}
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <nav class="pagination" aria-label="{{ 'collections.pagination' | t }}">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="pagination__arrow">&larr;</a>
+        {% endif %}
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" class="pagination__page">{{ part.title }}</a>
+          {% elsif part.title == paginate.current_page %}
+            <span class="pagination__page is-current" aria-current="page">{{ part.title }}</span>
+          {% else %}
+            <span class="pagination__gap">{{ part.title }}</span>
+          {% endif %}
+        {% endfor %}
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="pagination__arrow">&rarr;</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  </section>
+{% endpaginate %}
+
+{% stylesheet %}
+  .colist {
+    padding-top: 40px;
+    padding-bottom: 80px;
+  }
+
+  .colist__head {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .colist__title {
+    margin: 0;
+    font-size: 42px;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+  }
+
+  .colist__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .colist__tile {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--color-background-secondary);
+  }
+
+  .colist__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .colist__tile:hover .colist__img {
+    transform: scale(1.04);
+  }
+
+  .colist__overlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 24px;
+    background: linear-gradient(transparent, rgba(var(--color-foreground-rgb), 0.6));
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    pointer-events: none;
+  }
+
+  .colist__name {
+    font-size: 23px;
+    font-weight: 600;
+    color: var(--color-background);
+    letter-spacing: -0.02em;
+  }
+
+  .colist__count {
+    font-size: 13px;
+    color: var(--color-background);
+    opacity: 0.8;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .colist__img {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .colist__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .colist__title {
+      font-size: 32px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

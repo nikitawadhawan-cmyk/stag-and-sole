@@ -1,0 +1,99 @@
+{
+  "sections": {
+    "main": {
+      "type": "faq",
+      "blocks": {
+        "g-orders": { "type": "group", "settings": { "heading": "Orders and shipping" } },
+        "q-shipping-time": {
+          "type": "question",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Orders leave the workshop within 2 business days and arrive in 3–5 business days, tracked door to door.</p>"
+          }
+        },
+        "q-free-shipping": {
+          "type": "question",
+          "settings": {
+            "question": "Do you offer free shipping?",
+            "answer": "<p>Yes — free tracked shipping on qualifying orders. The current threshold shows in the announcement bar at the top of the page, and the cart shows exactly how far you are from it.</p>"
+          }
+        },
+        "q-change-order": {
+          "type": "question",
+          "settings": {
+            "question": "Can I change or cancel my order?",
+            "answer": "<p>Within 24 hours of ordering, yes — write to us from the contact page with your order number and we catch it before it ships.</p>"
+          }
+        },
+        "q-international": {
+          "type": "question",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>We currently ship across India. International shipping is on the bench — join the newsletter and you'll hear when it lands.</p>"
+          }
+        },
+        "g-returns": { "type": "group", "settings": { "heading": "Returns and exchanges" } },
+        "q-return-policy": {
+          "type": "question",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>30 days, no questions. Shoes should be unworn outdoors and returned in their box. Refunds land within 5–7 business days of the return reaching us.</p>"
+          }
+        },
+        "q-start-return": {
+          "type": "question",
+          "settings": {
+            "question": "How do I start a return?",
+            "answer": "<p>Write to us from the contact page with your order number. We arrange the pickup — you just keep the box handy.</p>"
+          }
+        },
+        "q-exchange": {
+          "type": "question",
+          "settings": {
+            "question": "Can I exchange for a different size or color?",
+            "answer": "<p>One free size exchange per order, both directions. Color exchanges work the same way, subject to stock — the size chart on every product page shows what's available live.</p>"
+          }
+        },
+        "g-product": { "type": "group", "settings": { "heading": "Product and care" } },
+        "q-true-to-size": {
+          "type": "question",
+          "settings": {
+            "question": "Do your shoes run true to size?",
+            "answer": "<p>Most pairs run true. Suede loafers run about half a size large — size down if in doubt. Every product page has a size chart with foot lengths in centimeters.</p>"
+          }
+        },
+        "q-care": {
+          "type": "question",
+          "settings": {
+            "question": "How do I care for full-grain leather?",
+            "answer": "<p>Wipe with a soft dry cloth, condition monthly with a neutral cream, and rest pairs a day between wears on cedar trees. Brush suede dry — never wet.</p>"
+          }
+        },
+        "q-resole": {
+          "type": "question",
+          "settings": {
+            "question": "How does the resole service work?",
+            "answer": "<p>Every pair can come back to the bench it was made on — twice, on us. Write to us, we arrange pickup, and the same workshop that made your pair resoles it.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "g-orders",
+        "q-shipping-time",
+        "q-free-shipping",
+        "q-change-order",
+        "q-international",
+        "g-returns",
+        "q-return-policy",
+        "q-start-return",
+        "q-exchange",
+        "g-product",
+        "q-true-to-size",
+        "q-care",
+        "q-resole"
+      ],
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

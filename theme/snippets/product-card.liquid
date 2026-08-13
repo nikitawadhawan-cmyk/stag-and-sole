@@ -1,0 +1,292 @@
+{% doc %}
+  Renders a product card. On hover the media cross-fades to the product's
+  second image when one exists.
+
+  @param {product} product - The product to render
+  @param {string} [style] - Card style: 'grid' (default) or 'editorial'
+  @param {boolean} [show_type] - Show the product type under the title
+  @param {boolean} [show_swatches] - Show color swatches from the Color option
+  @param {string} [sizes] - The sizes attribute for the responsive image
+{% enddoc %}
+
+{% liquid
+  assign sizes = sizes | default: '(max-width: 700px) 50vw, 25vw'
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+
+  # Hover image: the first media that is not a color-variant image (variant
+  # featured media) and not the card's main image — a second angle or
+  # lifestyle shot. Falls back to the second image.
+  assign hover_image = nil
+  for media in product.media
+    if media.id == product.featured_media.id
+      continue
+    endif
+    assign is_variant_media = false
+    for variant in product.variants
+      if variant.featured_media.id == media.id
+        assign is_variant_media = true
+        break
+      endif
+    endfor
+    unless is_variant_media
+      assign hover_image = media.preview_image
+      break
+    endunless
+  endfor
+  if hover_image == blank
+    assign hover_image = product.images[1]
+  endif
+%}
+
+{% if style == 'editorial' %}
+  <a href="{{ product.url }}" class="new-card">
+    <div class="new-card__media">
+      {% if product.featured_image %}
+        {{
+          product.featured_image
+          | image_url: width: 900
+          | image_tag: class: 'new-card__img', widths: '450, 700, 900', sizes: sizes, loading: 'lazy', alt: product.featured_image.alt
+        }}
+      {% endif %}
+    </div>
+    <div class="new-card__meta">
+      <div class="new-card__stack">
+        <span class="new-card__name">{{ product.title }}</span>
+        {% if show_type and product.type != blank %}
+          <span class="new-card__note">{{ product.type }}</span>
+        {% endif %}
+      </div>
+      <span class="new-card__price">
+        {%- if product.price_varies %}{{ 'products.from_price_html' | t: price: product.price_min | money }}{% else %}{{ product.price | money }}{% endif -%}
+      </span>
+    </div>
+  </a>
+{% else %}
+  <a href="{{ product.url }}" class="product-card">
+    <div class="product-card__media">
+      {% if product.featured_image %}
+        {{
+          product.featured_image
+          | image_url: width: 900
+          | image_tag: class: 'product-card__img', widths: '450, 700, 900', sizes: sizes, loading: 'lazy', alt: product.featured_image.alt
+        }}
+      {% endif %}
+      {% if hover_image %}
+        {{
+          hover_image
+          | image_url: width: 900
+          | image_tag: class: 'product-card__img product-card__img--hover', widths: '450, 700, 900', sizes: sizes, loading: 'lazy', alt: hover_image.alt
+        }}
+      {% endif %}
+      {% if on_sale %}
+        <span class="product-card__tag product-card__tag--sale">{{ 'products.on_sale' | t }}</span>
+      {% elsif product.tags contains 'Bestseller' %}
+        <span class="product-card__tag">{{ 'products.bestseller' | t }}</span>
+      {% endif %}
+    </div>
+    <div class="product-card__info">
+      <span class="product-card__name">{{ product.title }}</span>
+      {% if show_type and product.type != blank %}
+        <span class="product-card__material">{{ product.type }}</span>
+      {% endif %}
+      <span class="product-card__price">
+        {%- if on_sale -%}
+          <s class="product-card__compare">{{ product.compare_at_price | money }}</s>
+        {%- endif -%}
+        {% if product.price_varies %}
+          {{- 'products.from_price_html' | t: price: product.price_min | money -}}
+        {% else %}
+          {{- product.price | money -}}
+        {% endif %}
+      </span>
+      {% if product.selected_or_first_available_variant.unit_price_measurement %}
+        <span class="product-card__unit-price">
+          {{ product.selected_or_first_available_variant.unit_price | money }}
+          /
+          {{ product.selected_or_first_available_variant.unit_price_measurement.reference_unit }}
+        </span>
+      {% endif %}
+    </div>
+    {% if show_swatches %}
+      {% for option in product.options_with_values %}
+        {% assign option_name_down = option.name | downcase %}
+        {% if option_name_down == 'color' or option_name_down == 'colour' %}
+          <div class="product-card__colors" aria-hidden="true">
+            {% for value in option.values limit: 5 %}
+              {% if value.swatch.color %}
+                <span class="product-card__swatch" style="background: rgb({{ value.swatch.color.rgb }})"></span>
+              {% elsif value.swatch.image %}
+                <span class="product-card__swatch" style="background-image: url({{ value.swatch.image | image_url: width: 28 }})"></span>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </a>
+{% endif %}
+
+{% stylesheet %}
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .product-card__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: var(--color-background-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .product-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-card__img--hover {
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+
+  .product-card:hover .product-card__img--hover {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-card__img--hover {
+      transition: none;
+    }
+  }
+
+  .product-card__tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 9px;
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  .product-card__tag--sale {
+    background: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  .product-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .product-card__name {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .product-card__material {
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+
+  .product-card__price {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 2px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .product-card__compare {
+    color: var(--color-muted);
+    font-weight: 400;
+  }
+
+  .product-card__unit-price {
+    font-size: 12px;
+    color: var(--color-muted);
+  }
+
+  .product-card__colors {
+    display: flex;
+    gap: 6px;
+  }
+
+  .product-card__swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid rgba(var(--color-foreground-rgb), 0.2);
+    background-size: cover;
+  }
+
+  .new-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .new-card__media {
+    height: 300px;
+    background: var(--color-background-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .new-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .new-card__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .new-card__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .new-card__name {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .new-card__note {
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+
+  .new-card__price {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .new-card__media {
+      height: 340px;
+    }
+  }
+{% endstylesheet %}

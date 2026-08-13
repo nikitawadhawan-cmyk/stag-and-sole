@@ -1,0 +1,140 @@
+<section class="wrap section">
+  <div class="ugc-head">
+    <h2>{{ section.settings.heading }}</h2>
+    {% if section.settings.link_label != blank and section.settings.link != blank %}
+      <a href="{{ section.settings.link }}" class="more">{{ section.settings.link_label }} &rarr;</a>
+    {% endif %}
+  </div>
+
+  <div class="ugc">
+    {% for block in section.blocks %}
+      {% if block.settings.link != blank %}
+        <a href="{{ block.settings.link }}" class="ugc__tile" {{ block.shopify_attributes }}>
+      {% else %}
+        <div class="ugc__tile" {{ block.shopify_attributes }}>
+      {% endif %}
+
+      {% if block.settings.image %}
+        {{
+          block.settings.image
+          | image_url: width: 600
+          | image_tag: class: 'ugc__img', widths: '300, 450, 600', sizes: '(max-width: 700px) 33vw, 20vw', loading: 'lazy'
+        }}
+      {% else %}
+        {% assign placeholder_index = forloop.index0 | modulo: 5 | plus: 1 %}
+        <img
+          src="{{ 'placeholder-ugc-' | append: placeholder_index | append: '.jpg' | asset_url }}"
+          class="ugc__img"
+          alt=""
+          width="600"
+          height="600"
+          loading="lazy"
+        >
+      {% endif %}
+
+      {% if block.settings.link != blank %}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .ugc-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .ugc-head h2 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .ugc {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+
+  .ugc__tile {
+    display: block;
+    aspect-ratio: 1;
+    background: var(--color-background-secondary);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .ugc__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 700px) {
+    .ugc {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image gallery",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "As worn by you"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1:1 aspect ratio recommended"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image gallery",
+      "blocks": [
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" }
+      ]
+    }
+  ]
+}
+{% endschema %}

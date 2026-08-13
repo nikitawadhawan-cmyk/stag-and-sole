@@ -1,0 +1,262 @@
+<section class="wrap cart-page" data-cart-page>
+  <header class="cart-page__head">
+    <h1 class="cart-page__title">
+      {{ 'cart.title' | t }}
+      <span class="cart-page__count">{{ 'cart.item_count' | t: count: cart.item_count }}</span>
+    </h1>
+    {% if cart.item_count > 0 %}
+      <a href="{{ routes.all_products_collection_url }}" class="more">{{ 'cart.empty_cta' | t }} &rarr;</a>
+    {% endif %}
+  </header>
+
+  {% if cart.item_count > 0 %}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-page__grid">
+      <div class="cart-page__items" data-cart-items>
+        {% render 'cart-line-items' %}
+        <noscript>
+          <button type="submit" name="update" class="btn btn--outline cart-page__update">
+            {{- 'cart.update' | t -}}
+          </button>
+        </noscript>
+      </div>
+
+      <aside class="cart-summary">
+        {% render 'free-shipping-bar' %}
+
+        {% if settings.cart_show_note %}
+          <details class="cart-summary__note"{% if cart.note != blank %} open{% endif %}>
+            <summary>{{ 'cart.note_label' | t }}</summary>
+            <textarea
+              name="note"
+              form="cart-note-form"
+              rows="3"
+              placeholder="{{ 'cart.note_placeholder' | t }}"
+              data-cart-note
+              aria-label="{{ 'cart.note_label' | t }}"
+            >{{ cart.note }}</textarea>
+          </details>
+        {% endif %}
+
+        {% if cart.cart_level_discount_applications.size > 0 %}
+          <div class="cart-summary__row cart-summary__row--discount">
+            <span>{{ 'cart.subtotal' | t }}</span>
+            <span>{{ cart.items_subtotal_price | money }}</span>
+          </div>
+          {% for discount_application in cart.cart_level_discount_applications %}
+            <div class="cart-summary__row cart-summary__row--discount">
+              <span class="cart-summary__discount-name">{{ discount_application.title }}</span>
+              <span class="cart-summary__discount-amount">&minus;{{ discount_application.total_allocated_amount | money }}</span>
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <div class="cart-summary__row cart-summary__row--total">
+          <span>{{ 'cart.total' | t }}</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+
+        <p class="cart-summary__taxes">
+          {% if cart.taxes_included %}
+            {{ 'cart.taxes_included' | t }}
+          {% else %}
+            {{ 'cart.taxes_at_checkout' | t }}
+          {% endif %}
+        </p>
+
+        <button type="submit" name="checkout" class="cart-summary__checkout">
+          {{- 'cart.checkout' | t -}}
+        </button>
+
+        {% if additional_checkout_buttons %}
+          <div class="cart-summary__accelerated additional-checkout-buttons">
+            {{ content_for_additional_checkout_buttons }}
+          </div>
+        {% endif %}
+      </aside>
+    </form>
+
+    {% comment %}
+      The note posts separately so typing in it never conflicts with the
+      quantity form; JS saves it via /cart/update.js on blur.
+    {% endcomment %}
+    <form id="cart-note-form" action="{{ routes.cart_url }}" method="post" hidden></form>
+  {% else %}
+    <div class="cart-page__empty">
+      <p>{{ 'cart.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn--dark">{{ 'cart.empty_cta' | t }}</a>
+    </div>
+  {% endif %}
+</section>
+
+{% stylesheet %}
+  .cart-page {
+    padding-top: 32px;
+    padding-bottom: 80px;
+  }
+
+  .cart-page__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+
+  .cart-page__title {
+    margin: 0;
+    font-size: 42px;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+
+  .cart-page__count {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--color-muted);
+  }
+
+  .cart-page__grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .cart-page__update {
+    margin-top: 20px;
+  }
+
+  .cart-summary {
+    position: sticky;
+    top: 106px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: var(--color-background-secondary);
+    border-radius: 4px;
+    padding: 28px;
+  }
+
+  .cart-summary__note summary {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .cart-summary__note summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .cart-summary__note summary::after {
+    content: ' +';
+    color: var(--color-muted);
+  }
+
+  .cart-summary__note[open] summary::after {
+    content: ' \2212';
+  }
+
+  .cart-summary__note textarea {
+    margin-top: 10px;
+    width: 100%;
+    border: 1px solid var(--color-input-line);
+    border-radius: var(--style-border-radius-inputs);
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-primary--family);
+    font-size: 14px;
+    padding: 10px 12px;
+    resize: vertical;
+  }
+
+  .cart-summary__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+
+  .cart-summary__row--total {
+    font-size: 17px;
+    font-weight: 600;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-input-line);
+  }
+
+  .cart-summary__discount-name,
+  .cart-summary__discount-amount {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .cart-summary__taxes {
+    margin: 0;
+    font-size: 12px;
+    color: var(--color-muted);
+  }
+
+  .cart-summary__checkout {
+    width: 100%;
+    padding: 18px 30px;
+    border: none;
+    border-radius: var(--style-border-radius-inputs);
+    background: var(--color-foreground);
+    color: var(--color-background);
+    font-family: var(--font-primary--family);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.18s ease;
+  }
+
+  .cart-summary__checkout:hover {
+    background: var(--color-accent);
+  }
+
+  .cart-page__empty {
+    padding: 90px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .cart-page__empty p {
+    margin: 0;
+    font-size: 17px;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .cart-page__grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .cart-summary {
+      position: static;
+    }
+
+    .cart-page__title {
+      font-size: 32px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

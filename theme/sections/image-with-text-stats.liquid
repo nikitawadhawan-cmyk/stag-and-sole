@@ -1,0 +1,267 @@
+<section class="making">
+  <div class="wrap making__in">
+    <div class="making__copy">
+      {% if section.settings.eyebrow != blank %}
+        <div class="eyebrow making__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      <h2 class="making__title">
+        {{ section.settings.heading }}
+        {%- if section.settings.heading_accent != blank -%}
+          <br><span class="serif">{{ section.settings.heading_accent }}</span>
+          {{- section.settings.heading_after -}}
+        {%- endif -%}
+      </h2>
+
+      {% if section.settings.text != blank %}
+        <p class="making__body">{{ section.settings.text }}</p>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="making__stats">
+          {% for block in section.blocks %}
+            <div class="stat" {{ block.shopify_attributes }}>
+              <span class="stat__value">{{ block.settings.value }}</span>
+              <span class="stat__label">{{ block.settings.label }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link }}" class="btn btn--ghost-light making__cta">
+          {{- section.settings.button_label -}}
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="making__media">
+      {% if section.settings.image %}
+        {{
+          section.settings.image
+          | image_url: width: 1200
+          | image_tag: class: 'making__img', widths: '600, 900, 1200', sizes: '(max-width: 1024px) 100vw, 50vw', loading: 'lazy'
+        }}
+      {% else %}
+        {% render 'placeholder-image', name: section.settings.placeholder_image, class: 'making__img' %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .making {
+    margin-top: 92px;
+    background: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  .making__in {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: center;
+  }
+
+  .making__copy {
+    padding: 92px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .making__eyebrow {
+    color: var(--color-background);
+    opacity: 0.6;
+  }
+
+  .making__title {
+    margin: 0;
+    font-size: 46px;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+
+  .making__body {
+    margin: 0;
+    max-width: 420px;
+    font-size: 16px;
+    line-height: 1.65;
+    opacity: 0.82;
+    text-wrap: pretty;
+  }
+
+  .making__stats {
+    display: flex;
+    gap: 44px;
+    padding-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat__value {
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .stat__label {
+    font-size: 13px;
+    opacity: 0.65;
+  }
+
+  .making__cta {
+    align-self: flex-start;
+    margin-top: 12px;
+  }
+
+  .making__media {
+    height: 560px;
+    background: var(--color-accent-deep);
+    overflow: hidden;
+  }
+
+  .making__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 1024px) {
+    .making__in {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .making__copy {
+      padding: 64px 0 48px;
+    }
+
+    .making__media {
+      height: 420px;
+      margin: 0 calc(-1 * var(--page-margin));
+    }
+  }
+
+  @media (max-width: 700px) {
+    .making__title {
+      font-size: 36px;
+    }
+
+    .making__stats {
+      gap: 28px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image with text",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "The making"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "One workshop."
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Accent word",
+      "info": "Shows on a second line in the accent font",
+      "default": "No"
+    },
+    {
+      "type": "text",
+      "id": "heading_after",
+      "label": "Text after accent word",
+      "default": " middlemen."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Body text",
+      "default": "We cut, stitch and finish every pair with one family-run workshop. Selling direct is why our shoes cost half the usual retail price."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Read our story"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1:1 aspect ratio recommended"
+    },
+    {
+      "type": "select",
+      "id": "placeholder_image",
+      "label": "Placeholder image",
+      "info": "Shows until an image is selected",
+      "options": [
+        { "value": "workshop", "label": "Workshop" },
+        { "value": "street", "label": "Street" },
+        { "value": "formal", "label": "Formal shoes" },
+        { "value": "sneakers", "label": "Sneakers" },
+        { "value": "loafers", "label": "Loafers" },
+        { "value": "cafe", "label": "Cafe" },
+        { "value": "scooter", "label": "Scooter" },
+        { "value": "bench", "label": "Park bench" },
+        { "value": "unboxing", "label": "Unboxing" },
+        { "value": "doorway", "label": "Doorway" }
+      ],
+      "default": "workshop"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Statistic",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "42"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "hand steps per pair"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with text",
+      "blocks": [
+        { "type": "stat" },
+        { "type": "stat", "settings": { "value": "6 mo", "label": "sole warranty" } },
+        { "type": "stat", "settings": { "value": "1", "label": "workshop, no outsourcing" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,31 +1,52 @@
-# Stag & Sole — Homepage
+# Stag & Sole
 
-Static homepage for **Stag & Sole**, a direct-to-consumer men's leather footwear brand.
-Implemented from the Claude Design project *"Stag & Sole branding direction"*
-(`Stag & Sole Home.dc.html`), compiled to plain HTML/CSS — no frameworks, no build step.
+Design and Shopify theme for **Stag & Sole**, a direct-to-consumer men's leather
+footwear brand — and the development home of **Stag**, a commercial Shopify theme
+built on the Skeleton baseline for Theme Store sale.
 
-**Live:** https://eclecticdigital.github.io/stag-and-sole/
+**Live design site:** https://eclecticdigital.github.io/stag-and-sole/
 
-## Stack
+## Contents
 
-- Single `index.html` + `styles.css`
-- Fonts: [Archivo](https://fonts.google.com/specimen/Archivo) + [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif) via Google Fonts
-- Imagery: AI-generated product and lifestyle photography (`images/`)
-- Hosted on GitHub Pages
-
-## Palette
-
-| Token | Hex |
+| Path | What it is |
 | --- | --- |
-| Cream (background) | `#F4F1EA` |
-| Sand (tiles/cards) | `#E3DCCD` |
-| Ink (text) | `#14140F` |
-| Forest green (accent) | `#23402F` |
-| Tan (hover/accent) | `#C0703A` |
+| `index.html` + `styles.css` | Static homepage design (from the Claude Design project *"Stag & Sole branding direction"*) |
+| `product.html` | Static product-page design seed (same tokens, self-contained) |
+| `design-system.html` | Living style guide — tokens, type, components, rules |
+| `design-system/` | Per-component design-system cards synced to the Claude Design project |
+| `images/` | AI-generated brand photography (also served to the dev store via GitHub Pages) |
+| `theme/` | **The Stag Shopify theme** — Skeleton-based, OS 2.0, homepage + product page built |
+| `scripts/` | Dev-store tooling: token exchange, theme push (`push-theme.mjs`, `update-theme.mjs`), catalog seeding |
 
-## Local preview
+## Theme development
 
-Open `index.html` in a browser, or serve the folder:
+The theme targets the `stag-and-sole.myshopify.com` development store via the
+Admin GraphQL API (client-credentials OAuth). Credentials live in an `.env`
+file at the repo root (gitignored):
+
+```
+SHOPIFY_STORE=...
+SHOPIFY_CLIENT_ID=...
+SHOPIFY_CLIENT_SECRET=...
+```
+
+- `node scripts/push-theme.mjs` — package and upload the theme as a new unpublished theme
+- `node scripts/update-theme.mjs <files…>` — upsert changed files to the dev theme
+- `npx @shopify/cli theme check` — lint (kept at zero offenses)
+
+Seed scripts (`seed-*.mjs`) build the demo catalog: products with Color × Size
+variant matrices, color-accurate variant images, collections, inventory, and
+deliberate sold-out combinations.
+
+## Design system
+
+Palette: cream `#F4F1EA` · sand `#E3DCCD` · ink `#14140F` · forest `#23402F` ·
+tan `#C0703A`. Fonts: [Archivo](https://fonts.google.com/specimen/Archivo) +
+[Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif) (theme
+uses Shopify `font_picker`, serif defaults to Playfair Display). Full rules in
+`design-system.html`.
+
+## Local preview of the design site
 
 ```
 python -m http.server 8080

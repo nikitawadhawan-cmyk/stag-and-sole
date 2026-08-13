@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stag &amp; Sole — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Stag & Sole — Design System v1.0
+   The single source of truth for every page of the brand.
+   ============================================================ */
+:root {
+  /* color tokens */
+  --cream: #F4F1EA;      /* page background */
+  --sand: #E3DCCD;       /* tiles, cards, media backgrounds */
+  --ink: #14140F;        /* text, dark surfaces */
+  --green: #23402F;      /* brand accent: bands, announce, serif words */
+  --green-deep: #1B3325; /* media backdrop on green bands */
+  --tan: #C0703A;        /* hover, links, stars, small accents */
+  --muted: #6B6558;      /* secondary text on cream */
+  --body-muted: #4A463C; /* long-form body text on cream */
+  --line: #DFD8CA;       /* hairlines, borders */
+  --input-line: #C9C0AE; /* form control borders */
+
+  /* type */
+  --font-sans: 'Archivo', system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', serif;
+
+  /* radii */
+  --r-tag: 2px;   /* badges, tags */
+  --r-ui: 3px;    /* buttons, inputs, pills, small tiles */
+  --r-card: 4px;  /* cards, media blocks, bands */
+
+  /* spacing scale (px): 4 base */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 20px;
+  --s-6: 24px; --s-8: 32px; --s-10: 40px; --s-14: 56px; --s-19: 76px; --s-23: 92px;
+
+  /* layout */
+  --container: 1320px;
+  --gutter: 40px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--cream); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+a { color: var(--ink); text-decoration: none; }
+a:hover { color: var(--tan); }
+img { display: block; max-width: 100%; }
+.serif { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+.wrap { max-width: var(--container); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+:focus-visible { outline: 2px solid var(--tan); outline-offset: 2px; }
+
+/* ---------- guide chrome (not part of the brand system) ---------- */
+.g-header { border-bottom: 1px solid var(--line); padding: 40px 0 32px; }
+.g-title { margin: 0; font-size: 52px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
+.g-sub { margin: 12px 0 0; font-size: 15px; color: var(--muted); max-width: 560px; line-height: 1.6; }
+.g-section { padding-top: 64px; }
+.g-h { margin: 0 0 6px; font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tan); }
+.g-h2 { margin: 0 0 22px; font-size: 30px; font-weight: 600; letter-spacing: -0.03em; }
+.g-note { font-size: 13.5px; color: var(--muted); line-height: 1.6; max-width: 640px; margin: 0 0 22px; }
+.g-grid { display: grid; gap: 16px; }
+.g-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; }
+.g-spec { font-size: 12px; color: var(--muted); font-family: ui-monospace, monospace; }
+.g-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+.g-card { border: 1px solid var(--line); border-radius: var(--r-card); padding: 22px; }
+.g-do { color: var(--green); font-weight: 600; }
+.g-dont { color: var(--tan); font-weight: 600; }
+.g-list { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--body-muted); line-height: 1.7; }
+.g-footer { margin-top: 80px; border-top: 1px solid var(--line); padding: 24px 0 48px; font-size: 13px; color: var(--muted); }
+
+/* ---------- 01 color ---------- */
+.swatches { grid-template-columns: repeat(5, 1fr); }
+.swatch-card { border-radius: var(--r-card); overflow: hidden; border: 1px solid var(--line); }
+.swatch-chip { height: 96px; }
+.swatch-meta { padding: 12px 14px; background: #fff0; }
+.swatch-name { font-size: 14px; font-weight: 600; }
+.pairs { grid-template-columns: repeat(4, 1fr); }
+.pair { border-radius: var(--r-card); padding: 18px; font-size: 14px; font-weight: 500; min-height: 84px; display: flex; flex-direction: column; justify-content: space-between; }
+
+/* ---------- 02 typography ---------- */
+.type-row { display: flex; align-items: baseline; gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.type-row:last-child { border-bottom: none; }
+.t-display { font-size: 76px; line-height: 0.94; letter-spacing: -0.04em; font-weight: 600; }
+.t-h2 { font-size: 34px; letter-spacing: -0.03em; font-weight: 600; line-height: 1.1; }
+.t-h3 { font-size: 25px; letter-spacing: -0.02em; font-weight: 600; }
+.t-body-lg { font-size: 17px; line-height: 1.6; color: var(--body-muted); }
+.t-body { font-size: 15px; line-height: 1.65; color: var(--body-muted); }
+.t-small { font-size: 13px; color: var(--muted); }
+.t-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.t-serif-demo { font-size: 46px; font-weight: 600; letter-spacing: -0.03em; }
+.t-serif-demo .serif { color: var(--green); }
+
+/* ---------- 03 buttons & interactive ---------- */
+.btn { display: inline-block; padding: 16px 30px; border-radius: var(--r-ui); border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; letter-spacing: 0.02em; cursor: pointer; transition: background 0.18s ease, color 0.18s ease; }
+.btn--dark { background: var(--ink); color: var(--cream); }
+.btn--dark:hover { background: var(--green); }
+.btn--outline { background: transparent; border: 1px solid var(--ink); color: var(--ink); }
+.btn--outline:hover { background: var(--sand); }
+.btn--ghost-light { background: var(--green); color: var(--cream); border: 1px solid rgba(244,241,234,0.5); }
+.btn--ghost-light:hover { background: var(--cream); color: var(--green); border-color: var(--cream); }
+.text-link { font-size: 14px; font-weight: 500; color: var(--muted); }
+.text-link:hover { color: var(--tan); }
+.pill { min-width: 56px; padding: 12px 16px; border: 1px solid var(--input-line); border-radius: var(--r-ui); background: transparent; font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; }
+.pill:hover { border-color: var(--ink); }
+.pill.is-active { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+.pill.is-soldout { color: var(--input-line); text-decoration: line-through; cursor: not-allowed; }
+.dot-swatch { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(20,20,15,0.2); cursor: pointer; }
+.dot-swatch.is-active { box-shadow: 0 0 0 2px var(--cream), 0 0 0 4px var(--ink); }
+.tag { display: inline-block; background: var(--cream); color: var(--ink); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 9px; border-radius: var(--r-tag); border: 1px solid var(--line); }
+.tag--sale { background: var(--green); color: var(--cream); border-color: var(--green); }
+.count-pill { min-width: 20px; height: 20px; border-radius: 10px; background: var(--ink); color: var(--cream); font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; padding: 0 6px; }
+
+/* ---------- 04 forms ---------- */
+.input { border: 1px solid var(--input-line); background: var(--cream); border-radius: var(--r-ui); padding: 16px 18px; font-family: var(--font-sans); font-size: 15px; color: var(--ink); outline: none; min-width: 260px; }
+.input:focus { border-color: var(--tan); }
+.qty { display: inline-flex; align-items: stretch; border: 1px solid var(--input-line); border-radius: var(--r-ui); overflow: hidden; }
+.qty button { width: 44px; border: none; background: transparent; font-size: 17px; cursor: pointer; color: var(--ink); }
+.qty button:hover { background: var(--sand); }
+.qty input { width: 46px; border: none; text-align: center; font-family: var(--font-sans); font-size: 15px; background: transparent; }
+
+/* ---------- 05 cards ---------- */
+.demo-media { background: var(--sand); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+.product { display: flex; flex-direction: column; gap: 12px; width: 250px; }
+.product__media { position: relative; height: 280px; border-radius: var(--r-card); overflow: hidden; }
+.product__name { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.product__material { font-size: 13px; color: var(--muted); }
+.product__price { font-size: 14px; font-weight: 600; margin-top: 2px; }
+.product__tag { position: absolute; top: 12px; left: 12px; }
+.review { background: var(--sand); border-radius: var(--r-card); padding: 28px; display: flex; flex-direction: column; gap: 14px; width: 300px; }
+.review__stars { font-size: 13px; letter-spacing: 0.2em; color: var(--tan); }
+.review__quote { margin: 0; font-size: 15px; line-height: 1.6; }
+.review__name { font-size: 13px; font-weight: 600; }
+.review__meta { font-size: 12px; color: var(--muted); }
+.stat { display: flex; flex-direction: column; gap: 4px; }
+.stat__value { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; }
+.stat__label { font-size: 13px; opacity: 0.65; }
+.band-demo { background: var(--green); color: var(--cream); border-radius: var(--r-card); padding: 32px; display: flex; gap: 40px; align-items: center; flex-wrap: wrap; }
+.acc { border-top: 1px solid var(--line); max-width: 420px; }
+.acc:last-of-type { border-bottom: 1px solid var(--line); }
+.acc summary { padding: 16px 0; font-size: 14px; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary::after { content: '+'; font-weight: 400; color: var(--muted); }
+.acc[open] summary::after { content: '−'; }
+.acc div { padding: 0 0 16px; font-size: 14px; line-height: 1.6; color: var(--body-muted); }
+
+/* ---------- 06 ornament ---------- */
+.logo { display: inline-flex; flex-direction: column; align-items: center; gap: 1px; line-height: 1.05; }
+.logo__word { font-size: 16px; font-weight: 600; letter-spacing: -0.02em; }
+.logo__amp-row { display: flex; align-items: center; gap: 7px; width: 92px; }
+.logo__rule { flex: 1; height: 1px; background: var(--ink); opacity: 0.3; }
+.logo__amp { font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--green); }
+.rule-demo { display: flex; align-items: center; gap: 10px; width: 200px; }
+.rule-demo span:not(.serif) { flex: 1; height: 1px; background: var(--ink); opacity: 0.3; }
+
+@media (max-width: 1024px) {
+  .wrap { padding-left: 24px; padding-right: 24px; }
+  .swatches, .pairs { grid-template-columns: repeat(2, 1fr); }
+  .t-display { font-size: 47px; }
+}
+</style>
+</head>
+<body>
+
+<header class="g-header">
+  <div class="wrap">
+    <h1 class="g-title">Stag <span class="serif" style="color:var(--green)">&amp;</span> Sole<br>Design System <span class="serif">v1.0</span></h1>
+    <p class="g-sub">The single source of truth for every Stag &amp; Sole page. Flat, warm, editorial. If a decision isn't covered here, the answer is almost always: less ornament, more whitespace, ink on cream.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ 01 COLOR ============ -->
+  <section class="g-section">
+    <div class="g-h">01</div>
+    <h2 class="g-h2">Color</h2>
+    <p class="g-note">Five brand colors plus three text/line utilities. Cream is the only page background. Sand is the only surface for media and cards. Green and ink are the only dark surfaces. Tan is never a background — it lives in hovers, links, stars, and small accents only.</p>
+    <div class="g-grid swatches">
+      <div class="swatch-card"><div class="swatch-chip" style="background:var(--cream)"></div><div class="swatch-meta"><div class="swatch-name">Cream</div><div class="g-spec">#F4F1EA · page bg</div></div></div>
+      <div class="swatch-card"><div class="swatch-chip" style="background:var(--sand)"></div><div class="swatch-meta"><div class="swatch-name">Sand</div><div class="g-spec">#E3DCCD · cards, media bg</div></div></div>
+      <div class="swatch-card"><div class="swatch-chip" style="background:var(--ink)"></div><div class="swatch-meta"><div class="swatch-name">Ink</div><div class="g-spec">#14140F · text, footer, buttons</div></div></div>
+      <div class="swatch-card"><div class="swatch-chip" style="background:var(--green)"></div><div class="swatch-meta"><div class="swatch-name">Forest</div><div class="g-spec">#23402F · bands, serif words</div></div></div>
+      <div class="swatch-card"><div class="swatch-chip" style="background:var(--tan)"></div><div class="swatch-meta"><div class="swatch-name">Tan</div><div class="g-spec">#C0703A · hover, stars, accents</div></div></div>
+      <div class="swatch-card"><div class="swatch-chip" style="background:var(--green-deep)"></div><div class="swatch-meta"><div class="swatch-name">Forest deep</div><div class="g-spec">#1B3325 · media bg on green</div></div></div>
+      <div class="swatch-card"><div class="swatch-chip" style="background:var(--muted)"></div><div class="swatch-meta"><div class="swatch-name">Muted</div><div class="g-spec">#6B6558 · secondary text</div></div></div>
+      <div class="swatch-card"><div class="swatch-chip" style="background:var(--body-muted)"></div><div class="swatch-meta"><div class="swatch-name">Body</div><div class="g-spec">#4A463C · long-form text</div></div></div>
+      <div class="swatch-card"><div class="swatch-chip" style="background:var(--line)"></div><div class="swatch-meta"><div class="swatch-name">Line</div><div class="g-spec">#DFD8CA · hairlines</div></div></div>
+      <div class="swatch-card"><div class="swatch-chip" style="background:var(--input-line)"></div><div class="swatch-meta"><div class="swatch-name">Input line</div><div class="g-spec">#C9C0AE · form borders</div></div></div>
+    </div>
+    <div style="height:20px"></div>
+    <span class="g-label">Approved pairings (all AA at their size)</span>
+    <div class="g-grid pairs">
+      <div class="pair" style="background:var(--cream); color:var(--ink); border:1px solid var(--line)"><span>Ink on cream</span><span class="g-spec">body default</span></div>
+      <div class="pair" style="background:var(--sand); color:var(--ink)"><span>Ink on sand</span><span class="g-spec">cards</span></div>
+      <div class="pair" style="background:var(--green); color:var(--cream)"><span>Cream on forest</span><span class="g-spec">bands, announce</span></div>
+      <div class="pair" style="background:var(--ink); color:var(--cream)"><span>Cream on ink</span><span class="g-spec">footer, buttons</span></div>
+    </div>
+  </section>
+
+  <!-- ============ 02 TYPOGRAPHY ============ -->
+  <section class="g-section">
+    <div class="g-h">02</div>
+    <h2 class="g-h2">Typography</h2>
+    <p class="g-note">Two typefaces, one rule. <strong>Archivo</strong> (400/500/600) does all the work. <strong>Instrument Serif italic</strong> appears only as a single accent word or short phrase inside a heading — never for whole headings, never for body text, never roman. In Shopify the serif maps to the accent font_picker (default: Playfair Display).</p>
+    <div class="type-row"><span class="t-display">Made to be worn out.</span><span class="g-spec">Display · 76/0.94 · 600 · -0.04em · mobile 47</span></div>
+    <div class="type-row"><span class="t-serif-demo">One workshop. <span class="serif">No</span> middlemen.</span><span class="g-spec">Serif accent word · inherits size · green or inherit</span></div>
+    <div class="type-row"><span class="t-h2">This week's bestsellers</span><span class="g-spec">H2 · 34 · 600 · -0.03em · mobile 27</span></div>
+    <div class="type-row"><span class="t-h3">Formal &amp; derby</span><span class="g-spec">H3 · 25 · 600 · -0.02em</span></div>
+    <div class="type-row"><span class="t-body-lg" style="max-width:420px">Everyday men's shoes on full-grain leather with a sole that survives the commute.</span><span class="g-spec">Lede · 17/1.6 · body-muted</span></div>
+    <div class="type-row"><span class="t-body" style="max-width:420px">We cut, stitch and finish every pair with one family-run workshop that has made leather shoes for four decades.</span><span class="g-spec">Body · 15–16/1.65 · body-muted</span></div>
+    <div class="type-row"><span class="t-small">Full-grain calf leather · 3–5 days, tracked</span><span class="g-spec">Small · 13 · muted</span></div>
+    <div class="type-row"><span class="t-eyebrow">Men's footwear · Autumn 2026</span><span class="g-spec">Eyebrow · 12 · 600 · +0.16em · uppercase</span></div>
+  </section>
+
+  <!-- ============ 03 BUTTONS & INTERACTIVE ============ -->
+  <section class="g-section">
+    <div class="g-h">03</div>
+    <h2 class="g-h2">Buttons &amp; interactive</h2>
+    <p class="g-note">Three buttons, no more. Hovers change color only (0.18s ease) — nothing moves, grows, or casts a shadow. Focus is always a 2px tan outline.</p>
+    <div class="g-row">
+      <div><span class="g-label">Primary</span><button class="btn btn--dark">Add to bag</button><div class="g-spec" style="margin-top:8px">ink → forest on hover</div></div>
+      <div><span class="g-label">Secondary</span><button class="btn btn--outline">See new arrivals</button><div class="g-spec" style="margin-top:8px">1px ink border → sand fill</div></div>
+      <div><span class="g-label">On dark (ghost)</span><button class="btn btn--ghost-light">Read our story</button><div class="g-spec" style="margin-top:8px">50% cream border → cream fill</div></div>
+      <div><span class="g-label">Text link</span><div style="padding:16px 0"><a href="#" class="text-link">View all →</a></div><div class="g-spec">muted → tan</div></div>
+    </div>
+    <div style="height:26px"></div>
+    <div class="g-row">
+      <div>
+        <span class="g-label">Size pills — default / active / sold out</span>
+        <div class="g-row" style="gap:8px">
+          <button class="pill">UK 8</button>
+          <button class="pill is-active">UK 9</button>
+          <button class="pill is-soldout" disabled>UK 11</button>
+        </div>
+      </div>
+      <div>
+        <span class="g-label">Color swatches</span>
+        <div class="g-row" style="gap:10px">
+          <button class="dot-swatch is-active" style="background:#3A2318" aria-label="Chestnut"></button>
+          <button class="dot-swatch" style="background:#14140F" aria-label="Black"></button>
+          <button class="dot-swatch" style="background:#8A5A32" aria-label="Tan"></button>
+        </div>
+      </div>
+      <div>
+        <span class="g-label">Badges</span>
+        <div class="g-row" style="gap:8px; align-items:center">
+          <span class="tag">Bestseller</span>
+          <span class="tag tag--sale">Sale</span>
+          <span class="count-pill">2</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 FORMS ============ -->
+  <section class="g-section">
+    <div class="g-h">04</div>
+    <h2 class="g-h2">Forms</h2>
+    <p class="g-note">Inputs sit on cream with input-line borders, 3px radius, 16/18px padding. Focus swaps the border to tan — no glow. Labels are eyebrow-style or visually hidden with placeholder text.</p>
+    <div class="g-row">
+      <div><span class="g-label">Text input</span><input class="input" type="email" placeholder="you@email.com"></div>
+      <div><span class="g-label">Quantity stepper</span><div class="qty"><button>−</button><input value="1" aria-label="Quantity"><button>+</button></div></div>
+    </div>
+  </section>
+
+  <!-- ============ 05 CARDS & CONTENT BLOCKS ============ -->
+  <section class="g-section">
+    <div class="g-h">05</div>
+    <h2 class="g-h2">Cards &amp; content blocks</h2>
+    <p class="g-note">Cards are flat: sand or media on a 4px radius, meta text below, no borders, no shadows. Media always object-fit cover on a sand backdrop. Overlay text uses an ink gradient scrim (transparent → 60% ink).</p>
+    <div class="g-row" style="gap:28px">
+      <div>
+        <span class="g-label">Product card</span>
+        <div class="product">
+          <div class="product__media demo-media"><span>Product photo</span><span class="tag product__tag">Bestseller</span></div>
+          <div>
+            <div class="product__name">The Marlow Derby</div>
+            <div class="product__material">Full-grain calf leather</div>
+            <div class="product__price">₹3,499</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <span class="g-label">Review card</span>
+        <div class="review">
+          <span class="review__stars">★★★★★</span>
+          <p class="review__quote">Wore the Marlow straight out of the box to a nine-hour wedding. No blisters.</p>
+          <div><div class="review__name">Aditya R.</div><div class="review__meta">Bengaluru · The Marlow Derby</div></div>
+        </div>
+      </div>
+      <div>
+        <span class="g-label">Accordion</span>
+        <details class="acc" open><summary>Materials and construction</summary><div>Full-grain calf upper, leather lining, stitched rubber sole.</div></details>
+        <details class="acc"><summary>Shipping and returns</summary><div>Tracked delivery in 3–5 days across India.</div></details>
+      </div>
+    </div>
+    <div style="height:26px"></div>
+    <span class="g-label">Forest band with stats (brand moment — max one per page)</span>
+    <div class="band-demo">
+      <div class="stat"><span class="stat__value">42</span><span class="stat__label">hand steps per pair</span></div>
+      <div class="stat"><span class="stat__value">6 mo</span><span class="stat__label">sole warranty</span></div>
+      <div class="stat"><span class="stat__value">1</span><span class="stat__label">workshop, no outsourcing</span></div>
+      <button class="btn btn--ghost-light" style="margin-left:auto">Read our story</button>
+    </div>
+  </section>
+
+  <!-- ============ 06 LOGO & ORNAMENT ============ -->
+  <section class="g-section">
+    <div class="g-h">06</div>
+    <h2 class="g-h2">Logo &amp; ornament</h2>
+    <p class="g-note">The wordmark is stacked: word / ruled ampersand row / word. The serif italic ampersand is green on light, tan on dark. The ruled-line motif (thin line · serif glyph · thin line) is the brand's only ornament — no icons, no illustrations. Where an icon feels needed, use a text label or a 5px tan dot instead.</p>
+    <div class="g-row" style="gap:56px; align-items:center">
+      <div><span class="g-label">Wordmark</span>
+        <span class="logo"><span class="logo__word">STAG</span><span class="logo__amp-row"><span class="logo__rule"></span><span class="logo__amp">&amp;</span><span class="logo__rule"></span></span><span class="logo__word">SOLE</span></span>
+      </div>
+      <div><span class="g-label">Rule motif</span>
+        <div class="rule-demo"><span></span><span class="serif" style="color:var(--green)">est. 2026</span><span></span></div>
+      </div>
+      <div><span class="g-label">Dot separator</span>
+        <div class="t-small">Full-grain leather <span style="opacity:.5">·</span> Cushioned insole <span style="opacity:.5">·</span> Direct pricing</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 LAYOUT, IMAGERY, MOTION, VOICE ============ -->
+  <section class="g-section">
+    <div class="g-h">07</div>
+    <h2 class="g-h2">Layout, imagery, motion, voice</h2>
+    <div class="g-row" style="gap:16px">
+      <div class="g-card" style="flex:1; min-width:260px">
+        <span class="g-label">Layout</span>
+        <ul class="g-list">
+          <li>Container 1320px, gutters 40px (24px ≤1024px)</li>
+          <li>Section rhythm: 76–80px top padding (56px ≤700px)</li>
+          <li>Grid gaps: 18px cards, 16px tiles, 10px dense (UGC)</li>
+          <li>Breakpoints: 1180 / 1024 / 900 / 700</li>
+          <li>Radii: 2px tags · 3px controls · 4px cards. Never larger.</li>
+          <li>No shadows anywhere. Depth = color, scrims, hairlines.</li>
+        </ul>
+      </div>
+      <div class="g-card" style="flex:1; min-width:260px">
+        <span class="g-label">Imagery</span>
+        <ul class="g-list">
+          <li>Warm, sunlit, editorial product photography</li>
+          <li>Always on sand backdrop, object-fit cover</li>
+          <li>Ratios: hero 3:4 · PDP 4:5 · reels 9:16 · UGC 1:1</li>
+          <li>Shoes in use — streets, cafes, commutes; not studio-sterile</li>
+          <li>Ink gradient scrim under any text over imagery</li>
+        </ul>
+      </div>
+      <div class="g-card" style="flex:1; min-width:260px">
+        <span class="g-label">Motion</span>
+        <ul class="g-list">
+          <li>Color/background transitions only, 0.15–0.18s ease</li>
+          <li>No movement, scale, parallax, or entrance animations</li>
+          <li>Smooth scroll for anchors; respect prefers-reduced-motion</li>
+        </ul>
+      </div>
+      <div class="g-card" style="flex:1; min-width:260px">
+        <span class="g-label">Voice</span>
+        <ul class="g-list">
+          <li>Sentence case everywhere except the wordmark and eyebrows</li>
+          <li>Honest, specific, lightly wry: "Wear them home first"</li>
+          <li>Prices stated plainly; the value story is direct-from-workshop, never "discount"</li>
+          <li>₹ with Indian grouping: ₹3,499 · ₹6,000</li>
+          <li><span class="g-do">Do</span>: "42 hand steps per pair" &nbsp; <span class="g-dont">Don't</span>: "Premium luxury quality"</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="g-footer">
+  <div class="wrap">Stag &amp; Sole Design System v1.0 · Fonts: Archivo + Instrument Serif (Shopify: font_picker, serif → Playfair Display default) · Source of truth for index.html, product.html, and the Stag theme.</div>
+</footer>
+
+</body>
+</html>

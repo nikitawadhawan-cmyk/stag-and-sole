@@ -1,0 +1,47 @@
+<!-- @dsCard group="Components" name="Buttons" subtitle="Dark / outline / ghost-on-dark + text link" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Buttons</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#F4F1EA; --sand:#E3DCCD; --ink:#14140F; --green:#23402F; --green-deep:#1B3325;
+  --tan:#C0703A; --muted:#6B6558; --body-muted:#4A463C; --line:#DFD8CA; --input-line:#C9C0AE;
+  --font-sans:'Archivo',system-ui,sans-serif; --font-serif:'Instrument Serif',serif;
+  --r-tag:2px; --r-ui:3px; --r-card:4px;
+}
+*{box-sizing:border-box}
+body{margin:0;padding:28px;background:var(--cream);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:none} a:hover{color:var(--tan)}
+.serif{font-family:var(--font-serif);font-style:italic;font-weight:400}
+:focus-visible{outline:2px solid var(--tan);outline-offset:2px}
+.g-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;display:block}
+.g-spec{font-size:12px;color:var(--muted);font-family:ui-monospace,monospace}
+.row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+.stack{display:flex;flex-direction:column;gap:22px}
+</style>
+</head>
+<body>
+<style>
+.btn{display:inline-block;padding:16px 30px;border-radius:var(--r-ui);border:none;font-family:var(--font-sans);font-size:14px;font-weight:600;letter-spacing:.02em;cursor:pointer;transition:background .18s ease,color .18s ease}
+.b1{background:var(--ink);color:var(--cream)} .b1:hover{background:var(--green)}
+.b2{background:transparent;border:1px solid var(--ink);color:var(--ink)} .b2:hover{background:var(--sand)}
+.b3wrap{background:var(--green);padding:20px;border-radius:var(--r-card);display:inline-block}
+.b3{background:transparent;color:var(--cream);border:1px solid rgba(244,241,234,.5)} .b3:hover{background:var(--cream);color:var(--green)}
+.lnk{font-size:14px;font-weight:500;color:var(--muted)} .lnk:hover{color:var(--tan)}
+</style>
+<div class="row" style="align-items:center;gap:28px">
+  <div><span class="g-label">Primary — ink → forest</span><button class="btn b1">Add to bag</button></div>
+  <div><span class="g-label">Secondary — outline → sand</span><button class="btn b2">See new arrivals</button></div>
+  <div><span class="g-label">Ghost on dark</span><div class="b3wrap"><button class="btn b3">Read our story</button></div></div>
+  <div><span class="g-label">Text link — muted → tan</span><a href="#" class="lnk">View all →</a></div>
+</div>
+<p class="g-spec" style="margin-top:18px">Hover = color only, 0.18s ease. Nothing moves, grows, or casts a shadow. Focus: 2px tan outline.</p>
+</body>
+</html>

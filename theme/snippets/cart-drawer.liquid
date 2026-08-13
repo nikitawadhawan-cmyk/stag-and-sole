@@ -1,0 +1,216 @@
+{% doc %}
+  Renders the slide-out cart drawer. Included from the header so it exists
+  on every page; opened by JS when clicking the bag or after add-to-cart.
+{% enddoc %}
+
+<cart-drawer class="drawer" data-cart-drawer data-open-on-add="{{ settings.cart_drawer_enabled }}">
+  <div class="drawer__overlay" data-drawer-close aria-hidden="true"></div>
+  <aside class="drawer__panel" role="dialog" aria-modal="true" aria-label="{{ 'cart.title' | t }}">
+    <div class="drawer__head">
+      <h2 class="drawer__title">
+        {{ 'cart.title' | t }}
+        <span class="drawer__count" data-drawer-count>{{ 'cart.item_count' | t: count: cart.item_count }}</span>
+      </h2>
+      <button type="button" class="drawer__close" data-drawer-close aria-label="{{ 'cart.close' | t }}">&times;</button>
+    </div>
+
+    <div class="drawer__body" data-drawer-body>
+      {% if cart.item_count > 0 %}
+        <div class="drawer__shipbar">
+          {% render 'free-shipping-bar' %}
+        </div>
+        {% render 'cart-line-items', compact: true %}
+      {% else %}
+        <div class="drawer__empty">
+          <p>{{ 'cart.empty' | t }}</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn--dark">{{ 'cart.empty_cta' | t }}</a>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if cart.item_count > 0 %}
+      <footer class="drawer__foot" data-drawer-foot>
+        <div class="drawer__total">
+          <span>{{ 'cart.total' | t }}</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        <p class="drawer__taxes">
+          {% if cart.taxes_included %}
+            {{ 'cart.taxes_included' | t }}
+          {% else %}
+            {{ 'cart.taxes_at_checkout' | t }}
+          {% endif %}
+        </p>
+        <form action="{{ routes.cart_url }}" method="post">
+          <button type="submit" name="checkout" class="drawer__checkout">{{ 'cart.checkout' | t }}</button>
+        </form>
+        <a href="{{ routes.cart_url }}" class="drawer__view-bag">{{ 'cart.view_bag' | t }}</a>
+      </footer>
+    {% endif %}
+  </aside>
+</cart-drawer>
+
+{% stylesheet %}
+  .drawer {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .drawer.is-open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .drawer__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--color-foreground-rgb), 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .drawer.is-open .drawer__overlay {
+    opacity: 1;
+  }
+
+  .drawer__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(420px, 100vw);
+    background: var(--color-background);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .drawer.is-open .drawer__panel {
+    transform: none;
+  }
+
+  .drawer__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 22px 24px 18px;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .drawer__title {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .drawer__count {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-muted);
+  }
+
+  .drawer__close {
+    border: none;
+    background: none;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--color-muted);
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .drawer__close:hover {
+    color: var(--color-foreground);
+  }
+
+  .drawer__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 24px;
+  }
+
+  .drawer__shipbar {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .drawer__empty {
+    padding: 70px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .drawer__empty p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--color-muted);
+  }
+
+  .drawer__foot {
+    border-top: 1px solid var(--color-line);
+    padding: 18px 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .drawer__total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .drawer__taxes {
+    margin: 0;
+    font-size: 12px;
+    color: var(--color-muted);
+  }
+
+  .drawer__checkout {
+    width: 100%;
+    padding: 17px 30px;
+    border: none;
+    border-radius: var(--style-border-radius-inputs);
+    background: var(--color-foreground);
+    color: var(--color-background);
+    font-family: var(--font-primary--family);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.18s ease;
+  }
+
+  .drawer__checkout:hover {
+    background: var(--color-accent);
+  }
+
+  .drawer__view-bag {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drawer__overlay,
+    .drawer__panel {
+      transition: none;
+    }
+  }
+{% endstylesheet %}

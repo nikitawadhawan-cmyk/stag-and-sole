@@ -1,0 +1,51 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "popup": {
+      "type": "newsletter-popup",
+      "settings": {
+        "enabled": true,
+        "trigger_percent": 50,
+        "days_between": 30,
+        "placeholder_image": "street"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop-links": {
+          "type": "link_column",
+          "settings": {
+            "heading": "Shop",
+            "menu": "main-menu"
+          }
+        },
+        "explore-links": {
+          "type": "link_column",
+          "settings": {
+            "heading": "Explore",
+            "menu": "explore"
+          }
+        },
+        "help-links": {
+          "type": "link_column",
+          "settings": {
+            "heading": "Help",
+            "menu": "footer"
+          }
+        },
+        "newsletter": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "From the workshop, monthly",
+            "text": "New lasts, restocks, and a fit guide worth reading. Never more than one email a month.",
+            "show_social": true
+          }
+        }
+      },
+      "block_order": ["shop-links", "explore-links", "help-links", "newsletter"]
+    }
+  },
+  "order": ["popup", "footer"]
+}

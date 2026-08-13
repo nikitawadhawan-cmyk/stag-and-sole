@@ -1,0 +1,153 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{{ 'gift_card.card' | t }} &mdash; {{ shop.name }}</title>
+    {% render 'css-variables' %}
+    {{ 'critical.css' | asset_url | stylesheet_tag }}
+    {{ content_for_header }}
+    <style>
+      .giftcard {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 48px 20px 64px;
+        text-align: center;
+      }
+
+      .giftcard__card {
+        margin-top: 34px;
+        width: min(420px, 100%);
+        background: var(--color-background-secondary);
+        border-radius: 6px;
+        padding: 36px 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .giftcard__amount {
+        font-size: 46px;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+      }
+
+      .giftcard__amount .serif {
+        color: var(--color-accent);
+      }
+
+      .giftcard__qr {
+        background: var(--color-background);
+        border-radius: 4px;
+        padding: 14px;
+      }
+
+      .giftcard__qr img,
+      .giftcard__qr canvas {
+        display: block;
+        width: 140px;
+        height: 140px;
+      }
+
+      .giftcard__code {
+        font-family: ui-monospace, monospace;
+        font-size: 17px;
+        letter-spacing: 0.14em;
+        background: var(--color-background);
+        border: 1px dashed var(--color-input-line);
+        border-radius: var(--style-border-radius-inputs);
+        padding: 12px 18px;
+      }
+
+      .giftcard__note {
+        margin: 0;
+        font-size: 13px;
+        color: var(--color-muted);
+      }
+
+      .giftcard__expired {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--color-accent-secondary);
+      }
+
+      .giftcard__actions {
+        margin-top: 26px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .giftcard__wallet img {
+        height: 44px;
+        width: auto;
+      }
+
+      @media print {
+        .giftcard__actions {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="giftcard">
+      {% render 'logo', link: false %}
+
+      <div class="giftcard__card">
+        <span class="giftcard__amount">
+          {{ gift_card.balance | money }}
+          {%- if gift_card.balance != gift_card.initial_value %}
+            <span class="serif">/ {{ gift_card.initial_value | money }}</span>
+          {%- endif %}
+        </span>
+
+        {% if gift_card.expired %}
+          <span class="giftcard__expired">{{ 'gift_card.expired' | t }}</span>
+        {% elsif gift_card.expires_on %}
+          {% assign expires = gift_card.expires_on | date: '%B %-d, %Y' %}
+          <p class="giftcard__note">{{ 'gift_card.expires_on' | t: expires_on: expires }}</p>
+        {% endif %}
+
+        <div class="giftcard__qr" id="gift-card-qr" data-identifier="{{ gift_card.qr_identifier }}"></div>
+
+        <span class="giftcard__code">{{ gift_card.code | format_code }}</span>
+        <p class="giftcard__note">{{ 'gift_card.use_at_checkout' | t }}</p>
+      </div>
+
+      <div class="giftcard__actions">
+        {% if gift_card.pass_url %}
+          <a href="{{ gift_card.pass_url }}" class="giftcard__wallet">
+            <img
+              src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}"
+              alt="{{ 'gift_card.add_to_apple_wallet' | t }}"
+              width="130"
+              height="44"
+            >
+          </a>
+        {% endif %}
+        <a href="{{ shop.url }}" class="btn btn--dark">{{ 'cart.empty_cta' | t }}</a>
+      </div>
+    </main>
+
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+    <script>
+      window.addEventListener('DOMContentLoaded', function () {
+        var qr = document.getElementById('gift-card-qr');
+        if (qr && window.QRCode) {
+          new QRCode(qr, {
+            text: qr.dataset.identifier,
+            width: 140,
+            height: 140,
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

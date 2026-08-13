@@ -1,0 +1,136 @@
+{% liquid
+  assign collection = section.settings.collection
+  assign limit = section.settings.products_to_show
+%}
+
+<section class="wrap section">
+  <div class="section-head">
+    <h2>{{ section.settings.heading }}</h2>
+    {% if section.settings.link_label != blank %}
+      <a href="{{ collection.url | default: routes.all_products_collection_url }}" class="more">
+        {{- section.settings.link_label }} &rarr;</a>
+    {% endif %}
+  </div>
+
+  {% if section.settings.layout == 'editorial' %}
+    <div class="featured-products featured-products--editorial">
+      {% for product in collection.products limit: limit %}
+        {% render 'product-card',
+          product: product,
+          style: 'editorial',
+          show_type: section.settings.show_product_type,
+          sizes: '(max-width: 900px) 100vw, 33vw'
+        %}
+      {% else %}
+        {% render 'product-card-placeholders', count: limit %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="featured-products">
+      {% for product in collection.products limit: limit %}
+        {% render 'product-card',
+          product: product,
+          show_type: section.settings.show_product_type,
+          show_swatches: section.settings.show_swatches
+        %}
+      {% else %}
+        {% render 'product-card-placeholders', count: limit %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+{% stylesheet %}
+  .featured-products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  .featured-products--editorial {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 1180px) {
+    .featured-products {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .featured-products--editorial {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .featured-products--editorial {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .featured-products {
+      gap: 14px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Bestsellers"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Products to show",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "grid", "label": "Grid" },
+        { "value": "editorial", "label": "Editorial" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "View all"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_type",
+      "label": "Show product type",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show color swatches",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection"
+    }
+  ]
+}
+{% endschema %}

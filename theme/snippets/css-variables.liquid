@@ -1,0 +1,30 @@
+{% style %}
+  {% # Loads all font variations with display: swap %}
+  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
+  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_accent_font | font_face: font_display: 'swap' }}
+  {{ settings.type_accent_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+
+  :root {
+    --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
+    --font-primary--style: {{ settings.type_primary_font.style }};
+    --font-primary--weight: {{ settings.type_primary_font.weight }};
+    --font-accent--family: {{ settings.type_accent_font.family }}, {{ settings.type_accent_font.fallback_families }};
+    --page-width: {{ settings.max_page_width }};
+    --page-margin: {{ settings.min_page_margin }}px;
+    --color-background: {{ settings.background_color }};
+    --color-background-rgb: {{ settings.background_color.rgb | replace: ' ', ', ' }};
+    --color-background-secondary: {{ settings.background_secondary_color }};
+    --color-foreground: {{ settings.foreground_color }};
+    --color-foreground-rgb: {{ settings.foreground_color.rgb | replace: ' ', ', ' }};
+    --color-muted: {{ settings.foreground_muted_color }};
+    --color-accent: {{ settings.accent_color }};
+    --color-accent-deep: {{ settings.accent_color | color_darken: 5 }};
+    --color-accent-secondary: {{ settings.accent_secondary_color }};
+    --color-line: {{ settings.line_color }};
+    --color-input-line: {{ settings.line_color | color_darken: 10 }};
+    --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+  }
+{% endstyle %}

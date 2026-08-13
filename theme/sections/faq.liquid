@@ -1,0 +1,244 @@
+<section class="wrap faq-page">
+  <h1 class="faq-page__title">{{ page.title | default: section.settings.heading }}</h1>
+
+  <faq-accordion class="faq">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'group' %}
+          <h2 class="faq__group" {{ block.shopify_attributes }}>{{ block.settings.heading }}</h2>
+        {% when 'question' %}
+          <details class="faq__item" {{ block.shopify_attributes }}>
+            <summary class="faq__question">
+              <span>{{ block.settings.question }}</span>
+              <span class="faq__chevron" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.4"/>
+                </svg>
+              </span>
+            </summary>
+            <div class="faq__body">
+              <div class="faq__answer rte">{{ block.settings.answer }}</div>
+            </div>
+          </details>
+      {% endcase %}
+    {% endfor %}
+  </faq-accordion>
+</section>
+
+{% stylesheet %}
+  .faq-page {
+    padding-top: 48px;
+    padding-bottom: 90px;
+    max-width: calc(920px + var(--page-margin) * 2);
+  }
+
+  .faq-page__title {
+    margin: 0 0 10px;
+    font-size: 46px;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+  }
+
+  .faq {
+    display: block;
+  }
+
+  .faq__group {
+    margin: 54px 0 10px;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .faq__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 0;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question:hover {
+    color: var(--color-accent-secondary);
+  }
+
+  .faq__chevron {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--color-line);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-muted);
+    transition: transform 0.28s ease, border-color 0.18s ease;
+  }
+
+  .faq__question:hover .faq__chevron {
+    border-color: var(--color-foreground);
+    color: var(--color-foreground);
+  }
+
+  .faq__item[open] .faq__chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq__body {
+    overflow: hidden;
+  }
+
+  .faq__answer {
+    padding: 0 0 22px;
+    max-width: 680px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--color-muted);
+    opacity: 0;
+    transition: opacity 0.2s ease 0.08s;
+  }
+
+  .faq__item[open] .faq__answer {
+    opacity: 1;
+  }
+
+  html:not(.js) .faq__answer {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq__chevron,
+    .faq__answer {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .faq-page__title {
+      font-size: 34px;
+    }
+
+    .faq__group {
+      font-size: 23px;
+      margin-top: 40px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class FaqAccordion extends HTMLElement {
+    connectedCallback() {
+      this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      this.querySelectorAll('summary').forEach((summary) => {
+        summary.addEventListener('click', (event) => {
+          event.preventDefault();
+          this.toggle(summary.closest('details'));
+        });
+      });
+    }
+
+    animate(body, from, to, onDone) {
+      if (this.reduced) {
+        onDone();
+        return;
+      }
+      body.style.maxHeight = `${from}px`;
+      body.style.transition = 'max-height 0.28s ease-out';
+      requestAnimationFrame(() => {
+        body.style.maxHeight = `${to}px`;
+      });
+      body.addEventListener(
+        'transitionend',
+        () => {
+          body.style.maxHeight = '';
+          body.style.transition = '';
+          onDone();
+        },
+        { once: true }
+      );
+    }
+
+    toggle(details) {
+      const body = details.querySelector('.faq__body');
+      if (details.open) {
+        this.animate(body, body.scrollHeight, 0, () => {
+          details.open = false;
+        });
+      } else {
+        details.open = true;
+        this.animate(body, 0, body.scrollHeight, () => {});
+      }
+    }
+  }
+
+  customElements.define('faq-accordion', FaqAccordion);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "max_blocks": 40,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FAQ"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "group",
+      "name": "Group heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Orders and shipping"
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How long does shipping take?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Orders leave the workshop within 2 business days and arrive in 3–5 business days, tracked.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "group" },
+        { "type": "question" },
+        { "type": "question", "settings": { "question": "Do you offer free shipping?", "answer": "<p>Yes — free tracked shipping on qualifying orders. The current threshold shows in the bar at the top of the page.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

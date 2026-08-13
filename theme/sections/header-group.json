@@ -1,0 +1,63 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "message-1": {
+          "type": "message",
+          "settings": {
+            "text": "Free shipping",
+            "detail": "on qualifying orders"
+          }
+        },
+        "message-2": {
+          "type": "message",
+          "settings": {
+            "text": "30-day returns",
+            "detail": "no questions"
+          }
+        },
+        "message-3": {
+          "type": "message",
+          "settings": {
+            "text": "Free size exchange",
+            "detail": "both directions"
+          }
+        }
+      },
+      "block_order": ["message-1", "message-2", "message-3"]
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "promo-1": {
+          "type": "mega_promo",
+          "settings": {
+            "heading": "This week's bestsellers",
+            "text": "The pairs everyone keeps coming back for",
+            "link": "shopify://collections/bestsellers"
+          }
+        },
+        "promo-2": {
+          "type": "mega_promo",
+          "settings": {
+            "heading": "The Sale edit",
+            "text": "Full-grain leather, honest markdowns",
+            "link": "shopify://collections/sale"
+          }
+        }
+      },
+      "block_order": ["promo-1", "promo-2"],
+      "settings": {
+        "accent_last_link": false,
+        "wishlist_page": "wishlist",
+        "show_utility_bar": true,
+        "utility_menu": "utility",
+        "utility_show_social": true
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

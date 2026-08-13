@@ -1,0 +1,71 @@
+{% doc %}
+  Renders the free-shipping progress bar from theme settings. Hidden when
+  disabled, when the threshold is 0, or when the cart is empty.
+{% enddoc %}
+
+{% liquid
+  assign threshold = settings.free_shipping_threshold | times: 100
+%}
+{% if settings.show_free_shipping_bar and threshold > 0 and cart.item_count > 0 %}
+  {% liquid
+    assign remaining = threshold | minus: cart.total_price
+    assign progress = cart.total_price | times: 100 | divided_by: threshold
+    if progress > 100
+      assign progress = 100
+    endif
+  %}
+  <div class="shipbar" role="status">
+    {% if remaining > 0 %}
+      {% assign remaining_money = remaining | money %}
+      <p class="shipbar__text">{{ 'cart.free_shipping_away_html' | t: amount: remaining_money }}</p>
+    {% else %}
+      <p class="shipbar__text shipbar__text--done">{{ 'cart.free_shipping_unlocked' | t }}</p>
+    {% endif %}
+    <div class="shipbar__track" aria-hidden="true">
+      <div class="shipbar__fill{% if remaining <= 0 %} shipbar__fill--done{% endif %}" style="width: {{ progress }}%"></div>
+    </div>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .shipbar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .shipbar__text {
+    margin: 0;
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+
+  .shipbar__text--done {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .shipbar__track {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--color-line);
+    overflow: hidden;
+  }
+
+  .shipbar__fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--color-foreground);
+    transition: width 0.4s ease;
+  }
+
+  .shipbar__fill--done {
+    background: var(--color-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shipbar__fill {
+      transition: none;
+    }
+  }
+{% endstylesheet %}

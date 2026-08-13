@@ -1,0 +1,40 @@
+{% doc %}
+  Renders one of the theme's bundled placeholder photographs, used when a
+  section has no image selected.
+
+  @param {string} name - workshop, street, formal, sneakers, loafers, cafe, scooter, bench, unboxing, or doorway
+  @param {string} class - CSS class for the img element
+{% enddoc %}
+
+{% liquid
+  case name
+    when 'street'
+      assign file = 'placeholder-hero.jpg'
+    when 'formal'
+      assign file = 'placeholder-cat-1.jpg'
+    when 'sneakers'
+      assign file = 'placeholder-cat-2.jpg'
+    when 'loafers'
+      assign file = 'placeholder-cat-3.jpg'
+    when 'cafe'
+      assign file = 'placeholder-ugc-1.jpg'
+    when 'scooter'
+      assign file = 'placeholder-ugc-2.jpg'
+    when 'bench'
+      assign file = 'placeholder-ugc-3.jpg'
+    when 'unboxing'
+      assign file = 'placeholder-ugc-4.jpg'
+    when 'doorway'
+      assign file = 'placeholder-ugc-5.jpg'
+    else
+      assign file = 'placeholder-craft.jpg'
+  endcase
+%}
+<img
+  src="{{ file | asset_url }}"
+  class="{{ class }}"
+  alt=""
+  width="1200"
+  height="1200"
+  loading="lazy"
+>

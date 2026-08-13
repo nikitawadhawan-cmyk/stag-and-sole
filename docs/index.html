@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stag Theme Documentation</title>
+<meta name="description" content="Setup guide and documentation for the Stag Shopify theme.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#F4F1EA;--sand:#E3DCCD;--ink:#14140F;--forest:#23402F;--tan:#C0703A;--muted:#6B6558;--line:#DFD8CA}
+  *{box-sizing:border-box;margin:0}
+  body{font-family:'Archivo',system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.65;font-size:16px}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+  header.site{background:var(--forest);color:var(--cream);padding:60px 0 48px}
+  header.site h1{font-size:44px;letter-spacing:-.03em;font-weight:600}
+  header.site h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+  header.site p{margin-top:10px;opacity:.85;max-width:560px}
+  nav.toc{background:var(--sand);border-bottom:1px solid var(--line)}
+  nav.toc .wrap{display:flex;gap:22px;flex-wrap:wrap;padding-top:14px;padding-bottom:14px}
+  nav.toc a{color:var(--ink);text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+  nav.toc a:hover{color:var(--tan)}
+  main{padding:56px 0 90px}
+  section+section{margin-top:64px}
+  h2{font-size:28px;letter-spacing:-.02em;margin-bottom:14px;padding-top:8px}
+  h3{font-size:18px;margin:26px 0 8px}
+  p,li{color:#3a382f}
+  ul,ol{padding-left:22px;margin:10px 0}
+  li{margin:6px 0}
+  code{background:var(--sand);padding:2px 7px;border-radius:5px;font-size:14px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px 26px;margin:18px 0}
+  .pill{display:inline-block;background:var(--forest);color:var(--cream);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:4px 12px;margin-bottom:10px}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+  th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  a{color:var(--forest)}
+  footer.site{background:var(--ink);color:var(--cream);padding:36px 0;font-size:14px}
+  footer.site a{color:var(--sand)}
+  .btn{display:inline-block;background:var(--forest);color:var(--cream);text-decoration:none;font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:13px 26px;border-radius:8px}
+  .btn:hover{background:#1a3024}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <h1>Stag <em>documentation</em></h1>
+    <p>Everything you need to set up and customize the Stag theme — a warm, editorial Shopify theme for premium footwear, apparel, and craft brands.</p>
+    <p style="margin-top:18px"><a class="btn" href="support.html">Contact support</a></p>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#getting-started">Getting started</a>
+  <a href="#homepage">Homepage</a>
+  <a href="#products">Product pages</a>
+  <a href="#cart">Cart</a>
+  <a href="#navigation">Navigation</a>
+  <a href="#collections">Collections &amp; filters</a>
+  <a href="#localization">Localization</a>
+  <a href="#faq">FAQ</a>
+  <a href="#changelog">Changelog</a>
+</div></nav>
+
+<main class="wrap">
+  <section id="getting-started">
+    <span class="pill">Setup</span>
+    <h2>Getting started</h2>
+    <ol>
+      <li>From your Shopify admin, go to <strong>Online Store → Themes</strong> and add Stag, then click <strong>Customize</strong> to open the theme editor.</li>
+      <li>Set your brand under <strong>Theme settings → Colors</strong> and <strong>Typography</strong>. Stag ships with a warm cream / forest palette and pairs a sans-serif with an accent serif — both fonts are pickable.</li>
+      <li>Upload your logo in the header section, or leave it empty to use the stacked text wordmark.</li>
+      <li>Assign your menus (see <a href="#navigation">Navigation</a>), then work through the homepage sections top to bottom.</li>
+    </ol>
+    <div class="card"><strong>Tip:</strong> every section that shows imagery has a <em>placeholder image</em> picker, so the theme looks finished while you're still gathering photography. Uploaded images always take priority.</div>
+  </section>
+
+  <section id="homepage">
+    <span class="pill">Sections</span>
+    <h2>Homepage sections</h2>
+    <table>
+      <tr><th>Section</th><th>What it does</th></tr>
+      <tr><td>Hero / Hero carousel</td><td>Full-width opener with headline, accent serif word, buttons, and optional rotating slides.</td></tr>
+      <tr><td>Value props</td><td>Row of short selling points with icons.</td></tr>
+      <tr><td>Video gallery</td><td>Auto-scrolling reel row; each tile takes a video or poster image.</td></tr>
+      <tr><td>Category tiles</td><td>Collection links with cover imagery.</td></tr>
+      <tr><td>Featured collection</td><td>Product grid or editorial layout from any collection.</td></tr>
+      <tr><td>Image with text / + stats</td><td>Split layouts with copy, buttons, and optional counters.</td></tr>
+      <tr><td>Testimonials / Reviews carousel</td><td>Quote cards with ratings.</td></tr>
+      <tr><td>Image gallery, Ticker, FAQ, Rich text, Countdown, Newsletter</td><td>Supporting storytelling and capture sections.</td></tr>
+    </table>
+  </section>
+
+  <section id="products">
+    <span class="pill">PDP</span>
+    <h2>Product pages</h2>
+    <ul>
+      <li><strong>Gallery:</strong> sticky, cross-fading media with a thumbnail rail. Media assigned to a color variant only shows when that color is selected.</li>
+      <li><strong>Variant picker:</strong> availability-aware pills; sold-out combinations are struck through. A size-chart dialog is available on the size option.</li>
+      <li><strong>Blocks:</strong> the product info column is fully block-based — eyebrow, title, price, picker, buy buttons, accordions, share icons, custom Liquid, and app blocks can be reordered freely.</li>
+      <li><strong>Share:</strong> direct share icons for Facebook, X, Pinterest, and WhatsApp, plus copy-link.</li>
+      <li><strong>Recommendations:</strong> "You may also like" and "Seen on feet" sections come configured on the default template.</li>
+    </ul>
+  </section>
+
+  <section id="cart">
+    <span class="pill">Cart</span>
+    <h2>Cart drawer &amp; cart page</h2>
+    <p>The slide-out cart is card-based and fully configurable under <strong>Theme settings → Cart</strong>:</p>
+    <ul>
+      <li><strong>Offers bar with milestones:</strong> set a free-shipping threshold plus up to two reward milestones (e.g. free gift wrap). The drawer shows a "Pick your gifts" progress banner that expands to a milestone tracker.</li>
+      <li><strong>Coupon field:</strong> customers can enter a discount code in the drawer; valid codes celebrate with confetti and show the reduced total.</li>
+      <li><strong>Gift option:</strong> a gift checkbox and message, saved onto the order as cart attributes.</li>
+      <li><strong>Order note, login card, product recommendations:</strong> each can be shown or hidden independently.</li>
+    </ul>
+    <div class="card"><strong>Note:</strong> discount codes are created in your Shopify admin under <strong>Discounts</strong>. The theme applies whatever codes your store offers — it never invents discounts.</div>
+  </section>
+
+  <section id="navigation">
+    <span class="pill">Menus</span>
+    <h2>Navigation</h2>
+    <ul>
+      <li><strong>Main menu:</strong> supports three levels; second-level items render as dropdown columns, and a mega-menu option with a promo image is available in header settings.</li>
+      <li><strong>Footer:</strong> up to four columns — three link columns (each takes any menu) and a newsletter block with social icons.</li>
+      <li><strong>Utility bar:</strong> an optional top strip with its own small menu, social icons, and the country and language selectors.</li>
+      <li>Menu items with <code>#</code> as their link act as headings: the header renders their children as a dropdown, and the footer lists the children directly.</li>
+    </ul>
+  </section>
+
+  <section id="collections">
+    <span class="pill">Catalog</span>
+    <h2>Collections &amp; filters</h2>
+    <ul>
+      <li>Faceted filtering (availability, price, options) uses Shopify's native filters. Configure them once in the free <strong>Search &amp; Discovery</strong> app under <strong>Apps → Search &amp; Discovery → Filters</strong> — until then, only sorting appears.</li>
+      <li>Products per page, image hover behavior, and quick-view are collection section settings.</li>
+      <li>The search page supports the same filters, plus a predictive search overlay in the header.</li>
+    </ul>
+  </section>
+
+  <section id="localization">
+    <span class="pill">Global</span>
+    <h2>Localization</h2>
+    <ul>
+      <li><strong>Country/currency selector</strong> appears automatically in the utility bar when more than one market country is active.</li>
+      <li><strong>Language selector</strong> appears when your store publishes more than one language (<strong>Settings → Languages</strong>).</li>
+      <li>All theme copy is translatable via <strong>Edit default theme content</strong>.</li>
+      <li>Image focal points set in the Shopify admin are respected across the theme's cropped imagery.</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <span class="pill">Help</span>
+    <h2>FAQ</h2>
+    <h3>My collection pages show no filters.</h3>
+    <p>Install and configure the free Search &amp; Discovery app (see <a href="#collections">Collections &amp; filters</a>).</p>
+    <h3>How do I show color swatches instead of text pills?</h3>
+    <p>Connect your color option to Shopify's taxonomy (edit the option in the admin and pick the standard <em>Color</em> attribute). The theme renders swatch colors and images automatically once linked.</p>
+    <h3>The countdown section shows nothing.</h3>
+    <p>It requires a real end date — set one in the section settings. It never fakes urgency.</p>
+    <h3>How do I change what opens when customers add to cart?</h3>
+    <p><strong>Theme settings → Cart → Open cart drawer when adding to cart.</strong> Turned off, the buttons link to the cart page.</p>
+    <h3>Something else?</h3>
+    <p>Use the <a href="support.html">support form</a> — include your store URL and theme version and we'll reply within two business days.</p>
+  </section>
+
+  <section id="changelog">
+    <span class="pill">Releases</span>
+    <h2>Changelog</h2>
+    <div class="card">
+      <strong>1.0.0</strong> — Initial release: full Online Store 2.0 template set, cart drawer with milestone offers and coupons, editorial homepage sections, color-aware product gallery, localization selectors, focal-point support.
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    Stag theme · <a href="support.html">Support</a> · Documentation for the Stag Shopify theme.
+  </div>
+</footer>
+</body>
+</html>

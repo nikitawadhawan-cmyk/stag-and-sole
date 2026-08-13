@@ -1,0 +1,105 @@
+{% doc %}
+  Renders the gift card recipient form inside a product form, letting the
+  buyer send the gift card to someone else with a message.
+
+  @param {object} section - The current section, for unique input ids
+{% enddoc %}
+
+<gift-card-recipient class="recipient">
+  <label class="recipient__toggle">
+    <input
+      type="checkbox"
+      name="properties[__shopify_send_gift_card_to_recipient]"
+      data-recipient-toggle
+    >
+    <span>{{ 'gift_card.recipient_checkbox' | t }}</span>
+  </label>
+
+  <div class="recipient__fields" data-recipient-fields hidden>
+    <div class="recipient__field">
+      <label for="recipient-email-{{ section.id }}">{{ 'gift_card.recipient_email' | t }}</label>
+      <input
+        id="recipient-email-{{ section.id }}"
+        type="email"
+        name="properties[Recipient email]"
+        autocomplete="email"
+      >
+    </div>
+    <div class="recipient__field">
+      <label for="recipient-name-{{ section.id }}">{{ 'gift_card.recipient_name' | t }}</label>
+      <input
+        id="recipient-name-{{ section.id }}"
+        type="text"
+        name="properties[Recipient name]"
+        autocomplete="name"
+      >
+    </div>
+    <div class="recipient__field">
+      <label for="recipient-message-{{ section.id }}">{{ 'gift_card.recipient_message' | t }}</label>
+      <textarea
+        id="recipient-message-{{ section.id }}"
+        name="properties[Message]"
+        rows="3"
+        maxlength="200"
+      ></textarea>
+    </div>
+    <div class="recipient__field">
+      <label for="recipient-date-{{ section.id }}">{{ 'gift_card.recipient_send_on' | t }}</label>
+      <input
+        id="recipient-date-{{ section.id }}"
+        type="date"
+        name="properties[Send on]"
+      >
+    </div>
+  </div>
+</gift-card-recipient>
+
+{% stylesheet %}
+  .recipient {
+    display: block;
+    border: 1px solid var(--color-line);
+    border-radius: var(--style-border-radius-inputs);
+    padding: 16px;
+  }
+
+  .recipient__toggle {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .recipient__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .recipient__field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .recipient__field label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .recipient__field input,
+  .recipient__field textarea {
+    border: 1px solid var(--color-input-line);
+    border-radius: var(--style-border-radius-inputs);
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-primary--family);
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+{% endstylesheet %}

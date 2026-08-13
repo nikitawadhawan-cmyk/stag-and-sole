@@ -1,0 +1,249 @@
+<section class="wrap multicolumn" data-reveal>
+  {% if section.settings.heading != blank %}
+    <header class="multicolumn__head">
+      <h2 class="multicolumn__title">{{ section.settings.heading }}</h2>
+      {% if section.settings.text != blank %}
+        <p class="multicolumn__intro">{{ section.settings.text }}</p>
+      {% endif %}
+    </header>
+  {% endif %}
+
+  <div class="multicolumn__grid multicolumn__grid--{{ section.settings.columns }}" data-reveal-stagger>
+    {% for block in section.blocks %}
+      <div class="mcol" {{ block.shopify_attributes }}>
+        {% if block.settings.image %}
+          <div class="mcol__media{% if section.settings.image_shape == 'round' %} mcol__media--round{% endif %}">
+            {%- liquid
+              assign focal_style = nil
+              if block.settings.image.presentation.focal_point
+                assign focal_style = 'object-position: ' | append: block.settings.image.presentation.focal_point
+              endif
+            -%}
+            {{
+              block.settings.image
+              | image_url: width: 800
+              | image_tag: class: 'mcol__img', widths: '400, 600, 800', sizes: '(max-width: 900px) 100vw, 33vw', loading: 'lazy', alt: block.settings.image.alt, style: focal_style
+            }}
+          </div>
+        {% endif %}
+        {% if block.settings.heading != blank %}
+          <h3 class="mcol__title">{{ block.settings.heading }}</h3>
+        {% endif %}
+        {% if block.settings.text != blank %}
+          <div class="mcol__text rte">{{ block.settings.text }}</div>
+        {% endif %}
+        {% if block.settings.link_label != blank and block.settings.link != blank %}
+          <a href="{{ block.settings.link }}" class="mcol__link">{{ block.settings.link_label }} &rarr;</a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .multicolumn {
+    padding-top: 64px;
+    padding-bottom: 40px;
+  }
+
+  .multicolumn__head {
+    max-width: 560px;
+    margin-bottom: 30px;
+  }
+
+  .multicolumn__title {
+    margin: 0 0 10px;
+    font-size: 32px;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+
+  .multicolumn__intro {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+
+  .multicolumn__grid {
+    display: grid;
+    gap: 32px;
+  }
+
+  .multicolumn__grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .multicolumn__grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .multicolumn__grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .mcol {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .mcol__media {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--style-border-radius-inputs);
+    overflow: hidden;
+    background: var(--color-background-secondary);
+    margin-bottom: 6px;
+  }
+
+  .mcol__media--round {
+    width: 96px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+
+  .mcol__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mcol__title {
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+
+  .mcol__text {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+
+  .mcol__text p {
+    margin: 0;
+  }
+
+  .mcol__link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-foreground);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .mcol__link:hover {
+    color: var(--color-accent-secondary);
+  }
+
+  @media (max-width: 900px) {
+    .multicolumn__grid--3,
+    .multicolumn__grid--4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .multicolumn__grid--2,
+    .multicolumn__grid--3,
+    .multicolumn__grid--4 {
+      grid-template-columns: 1fr;
+    }
+
+    .multicolumn__title {
+      font-size: 26px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Multicolumn",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why choose us"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns on large screens",
+      "options": [
+        { "value": "2", "label": "2 columns" },
+        { "value": "3", "label": "3 columns" },
+        { "value": "4", "label": "4 columns" }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "label": "Image shape",
+      "options": [
+        { "value": "landscape", "label": "Landscape" },
+        { "value": "round", "label": "Round" }
+      ],
+      "default": "landscape"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Column heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Pair text with an image to add detail about your craft, materials, or what makes your brand different.</p>"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multicolumn",
+      "blocks": [
+        { "type": "column" },
+        { "type": "column" },
+        { "type": "column" }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,116 @@
+{% # theme-check-disable ValidScopedCSSClass %}
+{% comment %}
+  Renders the quick-view panel for one product. Never placed in a template —
+  fetched by global.js via /products/<handle>?section_id=quick-view and
+  injected into the quick-view dialog. Reuses the featured-product custom
+  element and styles, so variant selection, price, and availability all
+  behave identically.
+{% endcomment %}
+
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+%}
+
+<featured-product class="fprod fprod--quick" data-quick-view-content>
+  <div class="fprod__media">
+    {% if product.featured_media %}
+      <div class="fprod__media-item is-active" data-fp-media="{{ product.featured_media.id }}">
+        {{
+          product.featured_media
+          | image_url: width: 900
+          | image_tag: class: 'fprod__img', widths: '450, 700, 900', sizes: '(max-width: 700px) 100vw, 420px', loading: 'eager', alt: product.featured_media.alt
+        }}
+      </div>
+      {% for media in product.media offset: 1 limit: 5 %}
+        <div class="fprod__media-item" data-fp-media="{{ media.id }}">
+          {{
+            media.preview_image
+            | image_url: width: 900
+            | image_tag: class: 'fprod__img', widths: '450, 700, 900', sizes: '(max-width: 700px) 100vw, 420px', loading: 'lazy', alt: media.preview_image.alt
+          }}
+        </div>
+      {% endfor %}
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag: 'fprod__img fprod__img--placeholder' }}
+    {% endif %}
+  </div>
+
+  <div class="fprod__info">
+    {% form 'product', product %}
+      <input type="hidden" name="id" value="{{ current_variant.id }}" data-fp-id>
+
+      <h2 class="fprod__title fprod__title--quick">
+        <a href="{{ product.url }}">{{ product.title }}</a>
+      </h2>
+
+      <div class="fprod__price" data-fp-price>
+        {% if current_variant.compare_at_price > current_variant.price %}
+          <s>{{ current_variant.compare_at_price | money }}</s>
+        {% endif %}
+        <span>{{ current_variant.price | money }}</span>
+      </div>
+
+      {% unless product.has_only_default_variant %}
+        <div class="fprod__options">
+          {% for option in product.options_with_values %}
+            <label class="fprod__option">
+              <span>{{ option.name }}</span>
+              <select data-fp-option="{{ forloop.index0 }}">
+                {% for value in option.values %}
+                  <option
+                    value="{{ value | escape }}"
+                    {% if option.selected_value == value %}selected{% endif %}
+                  >
+                    {{ value }}
+                  </option>
+                {% endfor %}
+              </select>
+            </label>
+          {% endfor %}
+        </div>
+        <script type="application/json" data-fp-variants>
+          [
+            {%- for variant in product.variants -%}
+              {
+                "id": {{ variant.id }},
+                "available": {{ variant.available }},
+                "options": {{ variant.options | json }},
+                "price": {{ variant.price | money | json }},
+                "compare_at_price": {% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | json }}{% else %}null{% endif %},
+                "media_id": {{ variant.featured_media.id | default: 'null' }}
+              }{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          ]
+        </script>
+      {% endunless %}
+
+      <div class="fprod__buy">
+        <button
+          type="submit"
+          name="add"
+          class="btn btn--dark fprod__atc"
+          data-fp-add
+          data-add-label="{{ 'products.add_to_cart' | t | escape }}"
+          data-sold-out-label="{{ 'products.sold_out' | t | escape }}"
+          data-unavailable-label="{{ 'products.unavailable' | t | escape }}"
+          {% if current_variant.available == false %}disabled{% endif %}
+        >
+          {% if current_variant.available %}
+            {{ 'products.add_to_cart' | t }}
+          {% else %}
+            {{ 'products.sold_out' | t }}
+          {% endif %}
+        </button>
+      </div>
+
+      <a href="{{ product.url }}" class="fprod__details-link">{{ 'products.view_full_details' | t }} &rarr;</a>
+    {% endform %}
+  </div>
+</featured-product>
+
+{% schema %}
+{
+  "name": "Quick view",
+  "settings": []
+}
+{% endschema %}

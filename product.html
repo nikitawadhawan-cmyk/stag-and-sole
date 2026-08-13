@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Marlow Derby — Stag &amp; Sole</title>
+<meta name="description" content="The Marlow Derby in chestnut full-grain calf leather. ₹3,499, honest pricing, ships across India.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Stag & Sole — product page design seed
+   Same tokens as styles.css (homepage). Self-contained file.
+   ============================================================ */
+:root {
+  --cream: #F4F1EA;
+  --sand: #E3DCCD;
+  --ink: #14140F;
+  --green: #23402F;
+  --green-deep: #1B3325;
+  --tan: #C0703A;
+  --muted: #6B6558;
+  --body-muted: #4A463C;
+  --line: #DFD8CA;
+  --input-line: #C9C0AE;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Archivo', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--ink); text-decoration: none; }
+a:hover { color: var(--tan); }
+img { display: block; max-width: 100%; }
+.serif { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; }
+.slot-img { width: 100%; height: 100%; object-fit: cover; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+:focus-visible { outline: 2px solid var(--tan); outline-offset: 2px; }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.btn {
+  display: inline-block; padding: 16px 30px; border-radius: 3px; border: none;
+  font-family: 'Archivo', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
+  cursor: pointer; transition: background 0.18s ease, color 0.18s ease;
+}
+.btn--dark { background: var(--ink); color: var(--cream); }
+.btn--dark:hover { background: var(--green); }
+.btn--outline { background: transparent; border: 1px solid var(--ink); color: var(--ink); }
+.btn--outline:hover { background: var(--sand); }
+
+/* ---------- announcement + header (same as homepage) ---------- */
+.announce {
+  background: var(--green); color: var(--cream); display: flex; align-items: center; justify-content: center;
+  gap: 14px; padding: 11px 20px; font-size: 13px; letter-spacing: 0.03em;
+}
+.announce .sep { opacity: 0.4; }
+.site-header {
+  position: sticky; top: 0; z-index: 40; background: rgba(244, 241, 234, 0.94);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
+}
+.site-header__in { height: 82px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+.site-nav { display: flex; gap: 26px; font-size: 14px; font-weight: 500; }
+.site-nav a.is-accent { color: var(--tan); }
+.logo { display: flex; flex-direction: column; align-items: center; gap: 1px; line-height: 1.05; }
+.logo__word { font-size: 16px; font-weight: 600; letter-spacing: -0.02em; }
+.logo__amp-row { display: flex; align-items: center; gap: 7px; width: 92px; }
+.logo__rule { flex: 1; height: 1px; background: var(--ink); opacity: 0.3; }
+.logo__amp { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 14px; color: var(--green); }
+.header-actions { display: flex; gap: 22px; justify-content: flex-end; align-items: center; font-size: 14px; font-weight: 500; }
+.bag { display: flex; align-items: center; gap: 8px; }
+.bag__count {
+  min-width: 20px; height: 20px; border-radius: 10px; background: var(--ink); color: var(--cream);
+  font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; padding: 0 6px;
+}
+
+/* ---------- breadcrumbs ---------- */
+.crumbs { padding-top: 22px; font-size: 13px; color: var(--muted); display: flex; gap: 8px; }
+.crumbs a { color: var(--muted); }
+.crumbs a:hover { color: var(--tan); }
+.crumbs .sep { opacity: 0.5; }
+.crumbs .current { color: var(--ink); }
+
+/* ---------- product layout ---------- */
+.pdp { padding-top: 26px; display: grid; grid-template-columns: 1.15fr 1fr; gap: 64px; align-items: start; }
+
+/* gallery */
+.pdp-gallery { position: sticky; top: 106px; display: flex; flex-direction: column; gap: 12px; }
+.pdp-gallery__main { position: relative; background: var(--sand); border-radius: 4px; overflow: hidden; aspect-ratio: 4 / 5; }
+.pdp-gallery__badge {
+  position: absolute; top: 16px; left: 16px; background: var(--cream); color: var(--ink);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 5px 9px; border-radius: 2px;
+}
+.pdp-thumbs { display: flex; gap: 10px; }
+.pdp-thumbs__item {
+  width: 76px; height: 76px; border-radius: 3px; overflow: hidden; background: var(--sand);
+  border: 1px solid transparent; padding: 0; cursor: pointer;
+}
+.pdp-thumbs__item.is-active { border-color: var(--ink); }
+
+/* info column */
+.pdp-info { display: flex; flex-direction: column; gap: 24px; }
+.pdp-info__head { display: flex; flex-direction: column; gap: 12px; }
+.pdp-title { margin: 0; font-size: 46px; line-height: 1.0; letter-spacing: -0.035em; font-weight: 600; text-wrap: balance; }
+.pdp-price-row { display: flex; align-items: baseline; gap: 12px; }
+.pdp-price { font-size: 22px; font-weight: 600; }
+.pdp-compare { font-size: 16px; color: var(--muted); text-decoration: line-through; }
+.pdp-tax { font-size: 13px; color: var(--muted); }
+
+/* options */
+.pdp-option { display: flex; flex-direction: column; gap: 10px; }
+.pdp-option__name { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.pdp-option__name span { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted); }
+.pdp-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.pdp-pill {
+  min-width: 58px; padding: 13px 16px; border: 1px solid var(--input-line); border-radius: 3px;
+  background: transparent; font-family: 'Archivo', sans-serif; font-size: 14px; font-weight: 500;
+  text-align: center; cursor: pointer; transition: all 0.15s ease;
+}
+.pdp-pill:hover { border-color: var(--ink); }
+.pdp-pill.is-active { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+.pdp-pill.is-soldout { color: var(--input-line); text-decoration: line-through; cursor: not-allowed; }
+.pdp-swatches { display: flex; gap: 10px; }
+.pdp-swatch { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(20,20,15,0.2); cursor: pointer; }
+.pdp-swatch.is-active { box-shadow: 0 0 0 2px var(--cream), 0 0 0 4px var(--ink); }
+.pdp-fit-note { font-size: 13px; color: var(--muted); }
+.pdp-fit-note a { text-decoration: underline; text-underline-offset: 3px; color: var(--muted); }
+
+/* buy area */
+.pdp-buy { display: flex; flex-direction: column; gap: 10px; }
+.pdp-buy__row { display: flex; gap: 10px; }
+.pdp-qty { display: inline-flex; align-items: stretch; border: 1px solid var(--input-line); border-radius: 3px; overflow: hidden; }
+.pdp-qty button { width: 44px; border: none; background: transparent; font-size: 17px; cursor: pointer; color: var(--ink); font-family: 'Archivo', sans-serif; }
+.pdp-qty button:hover { background: var(--sand); }
+.pdp-qty input {
+  width: 46px; border: none; text-align: center; font-family: 'Archivo', sans-serif; font-size: 15px;
+  background: transparent; color: var(--ink);
+}
+.pdp-atc { flex: 1; padding: 17px 30px; font-size: 15px; }
+.pdp-express { width: 100%; padding: 15px 30px; border-radius: 3px; border: 1px solid var(--input-line); background: var(--cream); font-family: 'Archivo', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; }
+.pdp-express:hover { border-color: var(--ink); }
+.pdp-pickup { display: flex; gap: 9px; align-items: baseline; font-size: 13.5px; color: var(--muted); }
+.pdp-pickup__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+/* mini USPs */
+.pdp-usps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.pdp-usps__item { font-size: 13px; color: var(--body-muted); display: flex; gap: 8px; align-items: baseline; }
+.pdp-usps__item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--tan); flex-shrink: 0; }
+
+/* description + accordions */
+.pdp-desc { margin: 0; font-size: 15px; line-height: 1.65; color: var(--body-muted); }
+.pdp-acc { border-top: 1px solid var(--line); }
+.pdp-acc:last-of-type { border-bottom: 1px solid var(--line); }
+.pdp-acc summary {
+  padding: 16px 0; font-size: 14px; font-weight: 600; cursor: pointer; list-style: none;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.pdp-acc summary::-webkit-details-marker { display: none; }
+.pdp-acc summary::after { content: '+'; font-size: 18px; font-weight: 400; color: var(--muted); }
+.pdp-acc[open] summary::after { content: '−'; }
+.pdp-acc div { padding: 0 0 18px; font-size: 14px; line-height: 1.65; color: var(--body-muted); }
+
+/* ---------- making strip (condensed) ---------- */
+.pdp-making { margin-top: 90px; background: var(--green); color: var(--cream); }
+.pdp-making__in { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; padding-top: 44px; padding-bottom: 44px; }
+.pdp-making__title { margin: 0; font-size: 28px; letter-spacing: -0.02em; font-weight: 600; }
+.pdp-making__body { margin: 6px 0 0; font-size: 14.5px; opacity: 0.82; max-width: 520px; }
+.pdp-making .btn--ghost-light { border: 1px solid rgba(244,241,234,0.5); color: var(--cream); background: transparent; }
+.pdp-making .btn--ghost-light:hover { background: var(--cream); color: var(--green); }
+
+/* ---------- sections below ---------- */
+.section { padding-top: 76px; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 26px; gap: 16px; }
+.section-head h2 { margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.03em; }
+.section-head .more { font-size: 14px; font-weight: 500; color: var(--muted); white-space: nowrap; }
+.section-head .more:hover { color: var(--tan); }
+
+/* complete the look — asymmetric 2-up */
+.look { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.look-card { display: flex; gap: 18px; background: var(--sand); border-radius: 4px; padding: 18px; align-items: center; }
+.look-card__media { width: 150px; height: 150px; border-radius: 3px; overflow: hidden; flex-shrink: 0; background: var(--cream); }
+.look-card__info { display: flex; flex-direction: column; gap: 5px; }
+.look-card__name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.look-card__note { font-size: 13px; color: var(--muted); }
+.look-card__price { font-size: 14px; font-weight: 600; margin-top: 3px; }
+.look-card__cta { margin-top: 8px; font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+
+/* related — same cards as homepage bestsellers */
+.products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.product { display: flex; flex-direction: column; gap: 12px; }
+.product__media { position: relative; height: 340px; background: var(--sand); border-radius: 4px; overflow: hidden; }
+.product__info { display: flex; flex-direction: column; gap: 3px; }
+.product__name { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.product__material { font-size: 13px; color: var(--muted); }
+.product__price { font-size: 14px; font-weight: 600; margin-top: 2px; }
+
+/* ---------- footer (same as homepage) ---------- */
+.site-footer { margin-top: 80px; background: var(--ink); color: var(--cream); }
+.site-footer__in { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 48px; padding-top: 64px; padding-bottom: 32px; }
+.site-footer .logo { align-items: flex-start; }
+.site-footer .logo__word { font-size: 18px; }
+.site-footer .logo__amp-row { width: 104px; gap: 8px; }
+.site-footer .logo__rule { background: var(--cream); opacity: 0.4; }
+.site-footer .logo__amp { font-size: 15px; color: var(--tan); }
+.footer-col { display: flex; flex-direction: column; gap: 12px; }
+.footer-col__title { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.5; }
+.footer-col a { font-size: 14px; color: var(--cream); opacity: 0.85; }
+.footer-col a:hover { color: var(--tan); opacity: 1; }
+.site-footer__bottom {
+  padding-top: 20px; padding-bottom: 40px; border-top: 1px solid rgba(244,241,234,0.14);
+  display: flex; justify-content: space-between; align-items: center; font-size: 13px; opacity: 0.55; gap: 16px; flex-wrap: wrap;
+}
+.site-footer__bottom a { color: var(--cream); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1024px) {
+  .wrap { padding-left: 24px; padding-right: 24px; }
+  .pdp { grid-template-columns: 1fr; gap: 28px; }
+  .pdp-gallery { position: static; }
+  .pdp-title { font-size: 36px; }
+  .look { grid-template-columns: 1fr; }
+  .products { grid-template-columns: repeat(2, 1fr); }
+  .pdp-making__in { grid-template-columns: 1fr; gap: 20px; }
+  .site-footer__in { grid-template-columns: 1fr 1fr; gap: 36px; }
+}
+@media (max-width: 900px) {
+  .site-nav { display: none; }
+  .site-header__in { grid-template-columns: auto 1fr; height: 68px; }
+  .logo { align-items: flex-start; }
+}
+@media (max-width: 700px) {
+  .announce .optional, .announce .sep { display: none; }
+  .pdp-title { font-size: 31px; }
+  .product__media { height: 240px; }
+  .section { padding-top: 56px; }
+  .section-head h2 { font-size: 27px; }
+  .look-card { padding: 14px; }
+  .look-card__media { width: 110px; height: 110px; }
+  .site-footer__in { grid-template-columns: 1fr; gap: 28px; padding-top: 44px; }
+}
+</style>
+</head>
+<body>
+
+<div class="announce">
+  <span>Free shipping over ₹2,499</span>
+  <span class="sep optional">/</span>
+  <span class="optional">30-day returns, no questions</span>
+  <span class="sep optional">/</span>
+  <span class="optional">Ships across India</span>
+</div>
+
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="#">New in</a>
+      <a href="#">Formal</a>
+      <a href="#">Sneakers</a>
+      <a href="#">Loafers</a>
+      <a href="#" class="is-accent">Under ₹2,999</a>
+    </nav>
+    <a href="index.html" class="logo" aria-label="Stag and Sole — home">
+      <span class="logo__word">STAG</span>
+      <span class="logo__amp-row" aria-hidden="true"><span class="logo__rule"></span><span class="logo__amp">&amp;</span><span class="logo__rule"></span></span>
+      <span class="logo__word">SOLE</span>
+    </a>
+    <div class="header-actions">
+      <a href="#">Search</a>
+      <a href="#">Account</a>
+      <a href="#" class="bag">Bag <span class="bag__count">2</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <nav class="wrap crumbs" aria-label="Breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="sep">/</span>
+    <a href="#">Formal &amp; derby</a>
+    <span class="sep">/</span>
+    <span class="current">The Marlow Derby</span>
+  </nav>
+
+  <!-- ============ product ============ -->
+  <section class="wrap pdp">
+    <div class="pdp-gallery">
+      <div class="pdp-gallery__main">
+        <img class="slot-img" src="images/p-1.jpg" alt="The Marlow Derby in chestnut full-grain calf leather, three-quarter view">
+        <span class="pdp-gallery__badge">Bestseller</span>
+      </div>
+      <div class="pdp-thumbs">
+        <button class="pdp-thumbs__item is-active"><img class="slot-img" src="images/p-1.jpg" alt=""></button>
+        <button class="pdp-thumbs__item"><img class="slot-img" src="images/p-2.jpg" alt=""></button>
+        <button class="pdp-thumbs__item"><img class="slot-img" src="images/p-3.jpg" alt=""></button>
+        <button class="pdp-thumbs__item"><img class="slot-img" src="images/p-4.jpg" alt=""></button>
+      </div>
+    </div>
+
+    <div class="pdp-info">
+      <div class="pdp-info__head">
+        <div class="eyebrow">Stag &amp; Sole · Formal &amp; derby</div>
+        <h1 class="pdp-title">The Marlow <span class="serif">Derby.</span></h1>
+        <div class="pdp-price-row">
+          <span class="pdp-price">₹3,499</span>
+          <span class="pdp-compare">₹6,000</span>
+          <span class="pdp-tax">Tax included</span>
+        </div>
+      </div>
+
+      <div class="pdp-option">
+        <span class="pdp-option__name">Color: <span>Chestnut</span></span>
+        <div class="pdp-swatches">
+          <button class="pdp-swatch is-active" style="background:#3A2318" aria-label="Chestnut"></button>
+          <button class="pdp-swatch" style="background:#14140F" aria-label="Black"></button>
+          <button class="pdp-swatch" style="background:#8A5A32" aria-label="Tan"></button>
+        </div>
+      </div>
+
+      <div class="pdp-option">
+        <span class="pdp-option__name">Size: <span>UK 9</span></span>
+        <div class="pdp-pills">
+          <button class="pdp-pill">UK 6</button>
+          <button class="pdp-pill">UK 7</button>
+          <button class="pdp-pill">UK 8</button>
+          <button class="pdp-pill is-active">UK 9</button>
+          <button class="pdp-pill">UK 10</button>
+          <button class="pdp-pill is-soldout" disabled>UK 11</button>
+        </div>
+        <span class="pdp-fit-note">Runs half a size large — <a href="#">see the fit guide</a></span>
+      </div>
+
+      <div class="pdp-buy">
+        <div class="pdp-buy__row">
+          <div class="pdp-qty">
+            <button aria-label="Decrease quantity">−</button>
+            <input type="text" value="1" aria-label="Quantity">
+            <button aria-label="Increase quantity">+</button>
+          </div>
+          <button class="btn btn--dark pdp-atc">Add to bag — ₹3,499</button>
+        </div>
+        <button class="pdp-express">Buy it now</button>
+        <div class="pdp-pickup">
+          <span class="pdp-pickup__dot"></span>
+          <span>Pickup available at Bengaluru workshop — usually ready in 24 hours</span>
+        </div>
+      </div>
+
+      <div class="pdp-usps">
+        <span class="pdp-usps__item">Free delivery over ₹2,499</span>
+        <span class="pdp-usps__item">30-day returns</span>
+        <span class="pdp-usps__item">Free size exchange</span>
+        <span class="pdp-usps__item">6-month sole warranty</span>
+      </div>
+
+      <p class="pdp-desc">A plain-toe derby on full-grain calf leather with a cushioned insole and a stitched rubber sole that survives the commute. Wears in, not out — the leather creases and darkens with you.</p>
+
+      <details class="pdp-acc" open>
+        <summary>Materials and construction</summary>
+        <div>Full-grain calf upper, leather lining, cushioned memory-foam insole, stitched anti-slip rubber sole. 42 hand steps in one family-run workshop.</div>
+      </details>
+      <details class="pdp-acc">
+        <summary>Shipping and returns</summary>
+        <div>Tracked delivery in 3–5 days across India. 30-day returns, no questions, and one free size exchange per order.</div>
+      </details>
+      <details class="pdp-acc">
+        <summary>Care</summary>
+        <div>Wipe with a soft dry cloth. Condition the leather every few months and store with a shoe tree to hold the shape.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ condensed making strip ============ -->
+  <section class="pdp-making">
+    <div class="wrap pdp-making__in">
+      <div>
+        <h2 class="pdp-making__title">One workshop. <span class="serif">No</span> middlemen.</h2>
+        <p class="pdp-making__body">Selling direct is why a ₹6,000 shoe costs ₹3,499 here. Cut, stitched and finished by one family-run workshop.</p>
+      </div>
+      <a href="#" class="btn btn--ghost-light">Read our story</a>
+    </div>
+  </section>
+
+  <!-- ============ complete the look ============ -->
+  <section class="wrap section">
+    <div class="section-head">
+      <h2>Complete the look</h2>
+    </div>
+    <div class="look">
+      <a href="#" class="look-card">
+        <div class="look-card__media"><img class="slot-img" src="images/p-3.jpg" alt="Ashe Penny Loafer in tobacco suede"></div>
+        <div class="look-card__info">
+          <span class="look-card__name">Ashe Penny Loafer</span>
+          <span class="look-card__note">The off-duty pair — suede, leather lining</span>
+          <span class="look-card__price">₹2,999</span>
+          <span class="look-card__cta">Add to bag</span>
+        </div>
+      </a>
+      <a href="#" class="look-card">
+        <div class="look-card__media"><img class="slot-img" src="images/n-1.jpg" alt="The Ridge Monk in espresso leather"></div>
+        <div class="look-card__info">
+          <span class="look-card__name">The Ridge Monk</span>
+          <span class="look-card__note">Same last, double strap — wedding-ready</span>
+          <span class="look-card__price">₹3,999</span>
+          <span class="look-card__cta">Add to bag</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ you may also like ============ -->
+  <section class="wrap section">
+    <div class="section-head">
+      <h2>You may also like</h2>
+      <a href="#" class="more">All shoes →</a>
+    </div>
+    <div class="products">
+      <a href="#" class="product">
+        <div class="product__media"><img class="slot-img" src="images/p-2.jpg" alt="Halden Low Sneaker in ivory milled leather"></div>
+        <div class="product__info">
+          <span class="product__name">Halden Low Sneaker</span>
+          <span class="product__material">Milled leather, rubber cup sole</span>
+          <span class="product__price">₹2,799</span>
+        </div>
+      </a>
+      <a href="#" class="product">
+        <div class="product__media"><img class="slot-img" src="images/p-4.jpg" alt="Fenn Chukka Boot in oiled leather"></div>
+        <div class="product__info">
+          <span class="product__name">Fenn Chukka Boot</span>
+          <span class="product__material">Oiled leather, crepe sole</span>
+          <span class="product__price">₹3,899</span>
+        </div>
+      </a>
+      <a href="#" class="product">
+        <div class="product__media"><img class="slot-img" src="images/n-2.jpg" alt="Court 01 Sneaker in cream leather"></div>
+        <div class="product__info">
+          <span class="product__name">Court 01 Sneaker</span>
+          <span class="product__material">Cream on gum sole</span>
+          <span class="product__price">₹2,499</span>
+        </div>
+      </a>
+      <a href="#" class="product">
+        <div class="product__media"><img class="slot-img" src="images/n-3.jpg" alt="Sunday Slip-on in sand suede"></div>
+        <div class="product__info">
+          <span class="product__name">Sunday Slip-on</span>
+          <span class="product__material">Unlined suede</span>
+          <span class="product__price">₹1,999</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer__in">
+    <div>
+      <div class="logo" aria-label="Stag and Sole">
+        <span class="logo__word">STAG</span>
+        <span class="logo__amp-row" aria-hidden="true"><span class="logo__rule"></span><span class="logo__amp">&amp;</span><span class="logo__rule"></span></span>
+        <span class="logo__word">SOLE</span>
+      </div>
+    </div>
+    <nav class="footer-col" aria-label="Shop">
+      <span class="footer-col__title">Shop</span>
+      <a href="#">New in</a><a href="#">Formal &amp; derby</a><a href="#">Sneakers</a><a href="#">Loafers</a>
+    </nav>
+    <nav class="footer-col" aria-label="Help">
+      <span class="footer-col__title">Help</span>
+      <a href="#">Size &amp; fit guide</a><a href="#">Shipping</a><a href="#">Returns &amp; exchange</a><a href="#">Contact us</a>
+    </nav>
+    <nav class="footer-col" aria-label="Company">
+      <span class="footer-col__title">Company</span>
+      <a href="#">Our story</a><a href="#">The workshop</a><a href="#">Instagram</a>
+    </nav>
+  </div>
+  <div class="wrap site-footer__bottom">
+    <span>© 2026 Stag &amp; Sole Footwear Pvt. Ltd.</span>
+    <span><a href="#">Privacy</a> · <a href="#">Terms</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

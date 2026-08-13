@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "contact-form",
+      "settings": {
+        "details_heading": "Get in touch",
+        "email": "care@stagandsole.com",
+        "phone": "+1 (555) 014-2210",
+        "address": "Stag & Sole Workshop\n18 Tannery Lane\nPortland, OR 97209",
+        "hours": "Monday to Friday, 9am–6pm\nSaturday, 10am–4pm\nClosed Sundays",
+        "note": "We reply to every message within two business days. For order changes, include your order number."
+      }
+    }
+  },
+  "order": ["main"]
+}

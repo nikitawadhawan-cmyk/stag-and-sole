@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "search",
+      "settings": {
+        "results_per_page": 12
+      }
+    }
+  },
+  "order": ["main"]
+}

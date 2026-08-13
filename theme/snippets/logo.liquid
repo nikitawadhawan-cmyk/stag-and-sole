@@ -1,0 +1,92 @@
+{% doc %}
+  Renders the store logo: an uploaded image when set, otherwise a stacked
+  wordmark. Store names containing "&" or "and" split into two stacked words
+  separated by a ruled ampersand row, matching the theme's art direction.
+
+  @param {image} [logo_image] - Optional uploaded logo image
+  @param {boolean} [link] - Wrap the logo in a link to the home page
+{% enddoc %}
+
+{% liquid
+  assign tag = 'div'
+  if link
+    assign tag = 'a'
+  endif
+
+  assign name_upcase = shop.name | upcase
+  assign split_word = ''
+  if name_upcase contains ' & '
+    assign split_word = ' & '
+  elsif name_upcase contains ' AND '
+    assign split_word = ' AND '
+  endif
+%}
+
+<{{ tag }}
+  class="logo"
+  {% if link %}
+    href="{{ routes.root_url }}"
+  {% endif %}
+  aria-label="{{ shop.name | escape }}"
+>
+  {% if logo_image %}
+    {{ logo_image | image_url: width: 300 | image_tag: class: 'logo__image', widths: '150, 300', sizes: '150px' }}
+  {% elsif split_word != blank %}
+    {% assign parts = name_upcase | split: split_word %}
+    <span class="logo__word">{{ parts.first }}</span>
+    <span class="logo__amp-row" aria-hidden="true">
+      <span class="logo__rule"></span>
+      <span class="logo__amp">&amp;</span>
+      <span class="logo__rule"></span>
+    </span>
+    <span class="logo__word">{{ parts.last }}</span>
+  {% else %}
+    <span class="logo__word">{{ name_upcase }}</span>
+  {% endif %}
+</{{ tag }}>
+
+{% stylesheet %}
+  .logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    line-height: 1.05;
+  }
+
+  .logo:hover {
+    color: var(--color-foreground);
+  }
+
+  .logo__image {
+    max-height: 48px;
+    width: auto;
+  }
+
+  .logo__word {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .logo__amp-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    width: 92px;
+  }
+
+  .logo__rule {
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.3;
+  }
+
+  .logo__amp {
+    font-family: var(--font-accent--family);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--color-accent);
+  }
+{% endstylesheet %}

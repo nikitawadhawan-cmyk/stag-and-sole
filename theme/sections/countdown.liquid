@@ -1,0 +1,210 @@
+{% liquid
+  assign end_date = section.settings.end_date | strip
+%}
+{% if end_date != blank %}
+  <countdown-timer class="countdown" data-end="{{ end_date | escape }}" hidden>
+    <div class="wrap countdown__in">
+      <h2 class="countdown__heading serif">{{ section.settings.heading }}</h2>
+
+      <div class="countdown__digits" data-countdown-digits>
+        <span class="countdown__unit">
+          <span class="countdown__value" data-cd-days>0</span>
+          <span class="countdown__label">{{ 'sections.countdown.days' | t }}</span>
+        </span>
+        <span class="countdown__sep" aria-hidden="true">|</span>
+        <span class="countdown__unit">
+          <span class="countdown__value" data-cd-hours>0</span>
+          <span class="countdown__label">{{ 'sections.countdown.hours' | t }}</span>
+        </span>
+        <span class="countdown__sep" aria-hidden="true">|</span>
+        <span class="countdown__unit">
+          <span class="countdown__value" data-cd-minutes>0</span>
+          <span class="countdown__label">{{ 'sections.countdown.minutes' | t }}</span>
+        </span>
+        <span class="countdown__sep" aria-hidden="true">|</span>
+        <span class="countdown__unit">
+          <span class="countdown__value" data-cd-seconds>0</span>
+          <span class="countdown__label">{{ 'sections.countdown.seconds' | t }}</span>
+        </span>
+      </div>
+
+      {% if section.settings.note != blank %}
+        <p class="countdown__note">{{ section.settings.note }}</p>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link }}" class="countdown__btn">{{ section.settings.button_label }}</a>
+      {% endif %}
+    </div>
+  </countdown-timer>
+{% endif %}
+
+{% stylesheet %}
+  .countdown {
+    display: block;
+    background: var(--color-background);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .countdown__in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    flex-wrap: wrap;
+  }
+
+  .countdown__heading {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    font-style: normal;
+  }
+
+  .countdown__digits {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+  }
+
+  .countdown__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 52px;
+  }
+
+  .countdown__value {
+    font-family: var(--font-accent--family);
+    font-size: 38px;
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .countdown__label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .countdown__sep {
+    color: var(--color-line);
+    font-size: 26px;
+    align-self: flex-start;
+  }
+
+  .countdown__note {
+    margin: 0;
+    font-size: 15px;
+    color: var(--color-muted);
+  }
+
+  .countdown__btn {
+    padding: 14px 30px;
+    border: 1px solid var(--color-foreground);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+
+  .countdown__btn:hover {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+
+  @media (max-width: 900px) {
+    .countdown__in {
+      justify-content: center;
+      text-align: center;
+      gap: 18px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class CountdownTimer extends HTMLElement {
+    connectedCallback() {
+      const end = new Date(this.dataset.end.replace(' ', 'T'));
+      if (Number.isNaN(end.getTime())) return;
+      this.end = end;
+      this.fields = {
+        days: this.querySelector('[data-cd-days]'),
+        hours: this.querySelector('[data-cd-hours]'),
+        minutes: this.querySelector('[data-cd-minutes]'),
+        seconds: this.querySelector('[data-cd-seconds]'),
+      };
+      this.tick();
+      this.timer = setInterval(() => this.tick(), 1000);
+    }
+
+    disconnectedCallback() {
+      clearInterval(this.timer);
+    }
+
+    tick() {
+      const remaining = this.end.getTime() - Date.now();
+      if (remaining <= 0) {
+        clearInterval(this.timer);
+        this.hidden = true;
+        return;
+      }
+      this.hidden = false;
+      const seconds = Math.floor(remaining / 1000);
+      this.fields.days.textContent = Math.floor(seconds / 86400);
+      this.fields.hours.textContent = Math.floor((seconds % 86400) / 3600);
+      this.fields.minutes.textContent = Math.floor((seconds % 3600) / 60);
+      this.fields.seconds.textContent = seconds % 60;
+    }
+  }
+
+  customElements.define('countdown-timer', CountdownTimer);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Countdown",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Annual sale event"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End date",
+      "info": "Format: 2026-09-30 23:59. The section hides when the date passes or is empty — always count to a real end date."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Note",
+      "default": "Limited time only."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Get notified"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown"
+    }
+  ]
+}
+{% endschema %}

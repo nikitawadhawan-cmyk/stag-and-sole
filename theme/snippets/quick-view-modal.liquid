@@ -1,0 +1,113 @@
+{% doc %}
+  Renders the quick-view dialog shell, included once from the layout.
+  global.js fills [data-quick-view-body] with the quick-view section fetched
+  for the chosen product and opens the dialog.
+{% enddoc %}
+
+<dialog class="qview" data-quick-view-dialog aria-label="{{ 'products.quick_add' | t }}">
+  <button type="button" class="qview__close" data-quick-view-close aria-label="{{ 'cart.close' | t }}">&times;</button>
+  <div class="qview__body" data-quick-view-body>
+    <p class="qview__loading">{{ 'products.quick_add_loading' | t }}</p>
+  </div>
+</dialog>
+
+{% stylesheet %}
+  .qview {
+    border: none;
+    padding: 0;
+    border-radius: 12px;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    width: min(860px, calc(100vw - 32px));
+    max-height: calc(100vh - 48px);
+  }
+
+  .qview::backdrop {
+    background: rgba(20, 20, 15, 0.45);
+  }
+
+  .qview__close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    z-index: 3;
+    border: none;
+    background: var(--color-background);
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--color-muted);
+    cursor: pointer;
+  }
+
+  .qview__close:hover {
+    color: var(--color-foreground);
+  }
+
+  .qview__body {
+    overflow-y: auto;
+    max-height: calc(100vh - 48px);
+  }
+
+  .qview__loading {
+    margin: 0;
+    padding: 48px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--color-muted);
+  }
+
+  /* Compact treatment of the reused featured-product layout. */
+  .qview .fprod--quick {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .qview .fprod--quick .fprod__media {
+    min-height: 100%;
+  }
+
+  .qview .fprod--quick .fprod__media-item {
+    height: 100%;
+    aspect-ratio: auto;
+    border-radius: 0;
+  }
+
+  .qview .fprod--quick .fprod__info {
+    padding: 34px 30px 28px;
+  }
+
+  .qview .fprod--quick .fprod__title--quick {
+    font-size: 24px;
+  }
+
+  .qview .fprod__details-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .qview .fprod__details-link:hover {
+    color: var(--color-accent-secondary);
+  }
+
+  @media (max-width: 700px) {
+    .qview .fprod--quick {
+      grid-template-columns: 1fr;
+    }
+
+    .qview .fprod--quick .fprod__media-item {
+      aspect-ratio: 4 / 3;
+    }
+
+    .qview .fprod--quick .fprod__info {
+      padding: 22px 20px 24px;
+    }
+  }
+{% endstylesheet %}

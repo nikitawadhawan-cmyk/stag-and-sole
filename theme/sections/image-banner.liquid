@@ -1,0 +1,366 @@
+<div data-reveal>
+  <section class="banner{% if section.settings.flush_top %} banner--flush{% endif %}{% if section.settings.height == 'tall' %} banner--tall{% endif %}">
+    {% if section.settings.image %}
+      {%- liquid
+        assign focal_style = nil
+        if section.settings.image.presentation.focal_point
+          assign focal_style = 'object-position: ' | append: section.settings.image.presentation.focal_point
+        endif
+      -%}
+      {{
+        section.settings.image
+        | image_url: width: 2400
+        | image_tag: class: 'banner__img', widths: '900, 1400, 2000, 2400', sizes: '100vw', loading: 'lazy', alt: section.settings.image.alt,
+          style: focal_style
+      }}
+    {% else %}
+      {% render 'placeholder-image', name: section.settings.placeholder_image, class: 'banner__img' %}
+    {% endif %}
+    <div class="banner__scrim" aria-hidden="true"></div>
+    <div class="banner__content">
+      <h2 class="banner__title{% if section.settings.serif_heading %} banner__title--serif{% endif %}">
+        {{ section.settings.heading }}
+        {%- if section.settings.heading_accent != blank %}
+        <span class="serif banner__accent">{{ section.settings.heading_accent }}</span>
+        {%- endif -%}
+      </h2>
+      {% if section.settings.text != blank %}
+        <p class="banner__body">{{ section.settings.text }}</p>
+      {% endif %}
+      {% if section.settings.button_label != blank or section.settings.secondary_label != blank %}
+        <div class="banner__actions">
+          {% if section.settings.button_label != blank %}
+            <a
+              href="{{ section.settings.button_link }}"
+              class="banner__btn{% if section.settings.button_style == 'solid' %} banner__btn--solid{% endif %}"
+            >
+              {{- section.settings.button_label -}}
+            </a>
+          {% endif %}
+          {% if section.settings.secondary_label != blank %}
+            <a href="{{ section.settings.secondary_link }}" class="banner__link-light">{{ section.settings.secondary_label }}</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+{% stylesheet %}
+  .banner {
+    position: relative;
+    height: 480px;
+    background: var(--color-foreground);
+    overflow: hidden;
+    margin-top: 76px;
+  }
+
+  .banner--flush {
+    margin-top: 0;
+  }
+
+  .banner--tall {
+    height: 620px;
+  }
+
+  .banner__title--serif {
+    font-family: var(--font-accent--family);
+    font-weight: 500;
+    font-size: 72px;
+    letter-spacing: -0.02em;
+  }
+
+  .banner__actions {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    margin-top: 8px;
+  }
+
+  .banner__btn--solid {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    border-color: var(--color-background);
+    border-radius: 999px;
+    padding: 15px 32px;
+  }
+
+  .banner__btn--solid:hover {
+    background: transparent;
+    color: var(--color-background);
+  }
+
+  .banner__link-light {
+    color: var(--color-background);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 1.5px;
+  }
+
+  .banner__link-light:hover {
+    color: var(--color-background);
+    opacity: 0.85;
+  }
+
+  .banner__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .banner__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(var(--color-foreground-rgb), 0.25),
+      rgba(var(--color-foreground-rgb), 0.62) 78%,
+      rgba(var(--color-foreground-rgb), 0.25)
+    );
+    pointer-events: none;
+  }
+
+  .banner__content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+    color: var(--color-background);
+    padding: 0 var(--page-margin);
+  }
+
+  .banner__title {
+    margin: 0;
+    font-size: 56px;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  .banner__accent {
+    color: var(--color-accent-secondary);
+  }
+
+  .banner__body {
+    margin: 0;
+    font-size: 16px;
+    opacity: 0.85;
+    max-width: 460px;
+    text-wrap: pretty;
+  }
+
+  .banner__btn {
+    margin-top: 8px;
+    padding: 14px 28px;
+    border-radius: var(--style-border-radius-inputs);
+    background: transparent;
+    color: var(--color-background);
+    border: 1px solid rgba(var(--color-background-rgb), 0.55);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+
+  .banner__btn:hover {
+    background: var(--color-background);
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 700px) {
+    .banner {
+      height: 380px;
+      margin-top: 56px;
+    }
+
+    .banner--tall {
+      height: 480px;
+    }
+
+    .banner--flush {
+      margin-top: 0;
+    }
+
+    .banner__title {
+      font-size: 38px;
+    }
+
+    .banner__title--serif {
+      font-size: 46px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "2400 × 1200px recommended"
+    },
+    {
+      "type": "checkbox",
+      "id": "flush_top",
+      "label": "Remove top spacing",
+      "info": "Use when the banner is the first section on a page",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "placeholder_image",
+      "label": "Placeholder image",
+      "info": "Shows until an image is selected",
+      "options": [
+        {
+          "value": "workshop",
+          "label": "Workshop"
+        },
+        {
+          "value": "street",
+          "label": "Street"
+        },
+        {
+          "value": "formal",
+          "label": "Formal shoes"
+        },
+        {
+          "value": "sneakers",
+          "label": "Sneakers"
+        },
+        {
+          "value": "loafers",
+          "label": "Loafers"
+        },
+        {
+          "value": "cafe",
+          "label": "Cafe"
+        },
+        {
+          "value": "scooter",
+          "label": "Scooter"
+        },
+        {
+          "value": "bench",
+          "label": "Park bench"
+        },
+        {
+          "value": "unboxing",
+          "label": "Unboxing"
+        },
+        {
+          "value": "doorway",
+          "label": "Doorway"
+        },
+        {
+          "value": "boots",
+          "label": "Boots studio"
+        },
+        {
+          "value": "runners",
+          "label": "White sneakers studio"
+        },
+        {
+          "value": "stride",
+          "label": "Street stride"
+        }
+      ],
+      "default": "workshop"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built to be"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Accent word",
+      "info": "Shows in the accent font",
+      "default": "resoled."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Body text",
+      "default": "Every pair comes back to the same bench it was made on."
+    },
+    {
+      "type": "checkbox",
+      "id": "serif_heading",
+      "label": "Use serif heading",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "tall",
+          "label": "Tall"
+        }
+      ],
+      "default": "standard"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Read our story"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "solid",
+          "label": "Solid"
+        }
+      ],
+      "default": "outline"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary link label"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image banner"
+    }
+  ]
+}
+{% endschema %}

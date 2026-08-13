@@ -1,0 +1,111 @@
+{
+  "sections": {
+    "hero": {
+      "type": "image-banner",
+      "settings": {
+        "flush_top": true,
+        "heading": "The long way,",
+        "heading_accent": "on purpose.",
+        "text": "Stag and Sole exists because good shoes got expensive for bad reasons. This is how we make them, and why the price is what it is.",
+        "button_label": "",
+        "button_link": "",
+        "placeholder_image": "street"
+      }
+    },
+    "chapter-1": {
+      "type": "image-with-text",
+      "settings": {
+        "image_position": "right",
+        "eyebrow": "Where it started",
+        "heading": "A bench in",
+        "heading_accent": "Agra.",
+        "text": "<p>Our workshop has made leather shoes for four decades \u2014 first for other people's labels, now for its own. The same family runs the benches. The same hands cut, close, and last every pair. When we say one workshop and no outsourcing, it isn't a slogan; it's the address on the box.</p>",
+        "placeholder_image": "workshop"
+      }
+    },
+    "chapter-2": {
+      "type": "image-with-text",
+      "settings": {
+        "image_position": "left",
+        "eyebrow": "How we price",
+        "heading": "No middlemen",
+        "heading_accent": "math.",
+        "text": "<p>A full-grain leather shoe passes through five or six margins before it reaches a shop window. We removed all of them but one \u2014 ours. That's the whole trick: the \u20b96,000 shoe costs \u20b93,499 because nobody else needed paying. Honest pricing, no seasonal markup games.</p>",
+        "placeholder_image": "formal"
+      }
+    },
+    "chapter-3": {
+      "type": "image-with-text",
+      "settings": {
+        "image_position": "right",
+        "eyebrow": "What we promise",
+        "heading": "Built to come",
+        "heading_accent": "back.",
+        "text": "<p>Every pair carries a batch stamp traceable to its bench and maker. If a sole wears out, we resole it \u2014 twice, on us. Leather that develops a patina instead of cracking, construction that can be opened and repaired, and a workshop that answers for its work. Shoes should come back, not get thrown out.</p>",
+        "button_label": "Read the Journal",
+        "button_link": "/blogs/journal",
+        "placeholder_image": "doorway"
+      }
+    },
+    "stats": {
+      "type": "image-with-text-stats",
+      "blocks": {
+        "stat-1": {
+          "type": "stat",
+          "settings": {
+            "value": "42",
+            "label": "hand steps per pair"
+          }
+        },
+        "stat-2": {
+          "type": "stat",
+          "settings": {
+            "value": "6 mo",
+            "label": "sole warranty"
+          }
+        },
+        "stat-3": {
+          "type": "stat",
+          "settings": {
+            "value": "2",
+            "label": "free resoles, on us"
+          }
+        }
+      },
+      "block_order": [
+        "stat-1",
+        "stat-2",
+        "stat-3"
+      ],
+      "settings": {
+        "eyebrow": "The making",
+        "heading": "One workshop.",
+        "heading_accent": "No",
+        "heading_after": " middlemen.",
+        "text": "Cutting, skiving, closing, lasting, welting, finishing \u2014 forty-two hand steps in one family-run workshop. Slower on purpose, and better for it.",
+        "button_label": "Shop all shoes",
+        "button_link": "shopify://collections/all",
+        "placeholder_image": "unboxing"
+      }
+    },
+    "closing": {
+      "type": "image-banner",
+      "settings": {
+        "heading": "Made to be",
+        "heading_accent": "worn out.",
+        "text": "Everyday shoes on full-grain leather, from our bench to your door.",
+        "button_label": "Shop the collection",
+        "button_link": "shopify://collections/all",
+        "placeholder_image": "cafe"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "chapter-1",
+    "chapter-2",
+    "chapter-3",
+    "stats",
+    "closing"
+  ]
+}

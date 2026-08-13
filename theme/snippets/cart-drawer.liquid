@@ -1,0 +1,489 @@
+{% doc %}
+  Renders the slide-out cart drawer. Included from the header so it exists
+  on every page; opened by JS when clicking the bag or after add-to-cart.
+  Card-based layout: free shipping banner, login card, line-item cards,
+  gift/note options, price details, recommendations, sticky footer.
+{% enddoc %}
+
+<cart-drawer class="drawer" data-cart-drawer data-open-on-add="{{ settings.cart_drawer_enabled }}">
+  <div class="drawer__overlay" data-drawer-close aria-hidden="true"></div>
+  <aside class="drawer__panel" role="dialog" aria-modal="true" aria-label="{{ 'cart.title' | t }}">
+    <div class="drawer__head">
+      <h2 class="drawer__title">
+        {{ 'cart.title' | t }}
+        <span class="drawer__count" data-drawer-count>{{ 'cart.item_count' | t: count: cart.item_count }}</span>
+      </h2>
+      <button type="button" class="drawer__close" data-drawer-close aria-label="{{ 'cart.close' | t }}">&times;</button>
+    </div>
+
+    <div class="drawer__body" data-drawer-body>
+      {% if cart.item_count > 0 %}
+        {% render 'free-shipping-bar' %}
+
+        {% if settings.cart_show_login_card %}
+          {% unless customer %}
+            <div class="drawer-card drawer-login">
+              <p class="drawer-login__text">{{ 'cart.login_title' | t }}</p>
+              <a href="{{ routes.account_login_url }}" class="drawer-login__btn">{{ 'cart.login_button' | t }}</a>
+            </div>
+          {% endunless %}
+        {% endif %}
+
+        {% render 'cart-line-items', compact: true %}
+
+        {% if settings.cart_show_gift_option %}
+          <details class="drawer-card drawer__opt"{% if cart.attributes['Gift'] == 'Yes' %} open{% endif %}>
+            <summary>{{ 'cart.gift_title' | t }}</summary>
+            <div class="drawer__opt-body">
+              <label class="drawer__gift-check">
+                <input
+                  type="checkbox"
+                  name="attributes[Gift]"
+                  value="Yes"
+                  data-cart-gift
+                  {% if cart.attributes['Gift'] == 'Yes' %}checked{% endif %}
+                >
+                {{ 'cart.gift_label' | t }}
+              </label>
+              <textarea
+                name="attributes[Gift message]"
+                rows="2"
+                placeholder="{{ 'cart.gift_message_placeholder' | t }}"
+                data-cart-gift-message
+                aria-label="{{ 'cart.gift_message_label' | t }}"
+              >{{ cart.attributes['Gift message'] }}</textarea>
+            </div>
+          </details>
+        {% endif %}
+
+        {% if settings.cart_show_note %}
+          <details class="drawer-card drawer__opt"{% if cart.note != blank %} open{% endif %}>
+            <summary>{{ 'cart.note_label' | t }}</summary>
+            <div class="drawer__opt-body">
+              <textarea
+                name="note"
+                rows="2"
+                placeholder="{{ 'cart.note_placeholder' | t }}"
+                data-cart-note
+                aria-label="{{ 'cart.note_label' | t }}"
+              >{{ cart.note }}</textarea>
+            </div>
+          </details>
+        {% endif %}
+
+        <details class="drawer-card drawer-price">
+          <summary class="drawer-price__head">
+            <span class="drawer-price__title">{{ 'cart.price_details' | t }}</span>
+            <span class="drawer-price__total">{{ cart.total_price | money }}</span>
+            <span class="drawer-price__chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </summary>
+          <div class="drawer-price__body">
+            <div class="drawer-price__row">
+              <span>{{ 'cart.subtotal' | t }}</span>
+              <span>{{ cart.original_total_price | money }}</span>
+            </div>
+            {% if cart.total_discount > 0 %}
+              <div class="drawer-price__row drawer-price__row--discount">
+                <span>{{ 'cart.you_save' | t }}</span>
+                <span>&minus;{{ cart.total_discount | money }}</span>
+              </div>
+            {% endif %}
+            <div class="drawer-price__row drawer-price__row--grand">
+              <span>{{ 'cart.grand_total' | t }}</span>
+              <span>{{ cart.total_price | money }}</span>
+            </div>
+            <p class="drawer__taxes">
+              {% if cart.taxes_included %}
+                {{ 'cart.taxes_included' | t }}
+              {% else %}
+                {{ 'cart.taxes_at_checkout' | t }}
+              {% endif %}
+            </p>
+          </div>
+        </details>
+
+        {% if settings.cart_show_recommendations %}
+          <cart-recommendations
+            class="drawer__recs"
+            data-url="{{ routes.product_recommendations_url }}"
+            data-limit="4"
+            hidden
+          ></cart-recommendations>
+        {% endif %}
+      {% else %}
+        <div class="drawer__empty">
+          <p>{{ 'cart.empty' | t }}</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn--dark">{{ 'cart.empty_cta' | t }}</a>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if cart.item_count > 0 %}
+      <footer class="drawer__foot" data-drawer-foot>
+        <div class="drawer__foot-row">
+          <div class="drawer__grand">
+            <span class="drawer__grand-amount">{{ cart.total_price | money }}</span>
+            <span class="drawer__grand-label">{{ 'cart.grand_total' | t }}</span>
+          </div>
+          <form action="{{ routes.cart_url }}" method="post" class="drawer__checkout-form">
+            <button type="submit" name="checkout" class="drawer__checkout">
+              {{ 'cart.proceed' | t }}
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13M10 1.5L14.5 6L10 10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </form>
+        </div>
+      </footer>
+    {% endif %}
+  </aside>
+</cart-drawer>
+
+{% stylesheet %}
+  .drawer {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .drawer.is-open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .drawer__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--color-foreground-rgb), 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .drawer.is-open .drawer__overlay {
+    opacity: 1;
+  }
+
+  .drawer__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(430px, 100vw);
+    background: var(--color-background-secondary);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .drawer.is-open .drawer__panel {
+    transform: none;
+  }
+
+  .drawer__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 20px 20px 16px;
+    background: var(--color-background);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .drawer__title {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .drawer__count {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-muted);
+  }
+
+  .drawer__close {
+    border: none;
+    background: none;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--color-muted);
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .drawer__close:hover {
+    color: var(--color-foreground);
+  }
+
+  .drawer__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .drawer-card {
+    background: var(--color-background);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+  }
+
+  .drawer-card > summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .drawer-card > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .drawer-login {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .drawer-login__text {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .drawer-login__btn {
+    display: block;
+    text-align: center;
+    padding: 11px 16px;
+    border: 1.5px solid var(--color-accent);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+
+  .drawer-login__btn:hover {
+    background: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  .drawer__opt summary {
+    padding: 13px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+
+  .drawer__opt summary::after {
+    content: ' +';
+    color: var(--color-muted);
+  }
+
+  .drawer__opt[open] summary::after {
+    content: ' \2212';
+  }
+
+  .drawer__opt-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 16px 14px;
+  }
+
+  .drawer__gift-check {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .drawer__gift-check input {
+    accent-color: var(--color-accent);
+    width: 16px;
+    height: 16px;
+  }
+
+  .drawer__opt-body textarea {
+    width: 100%;
+    border: 1px solid var(--color-input-line);
+    border-radius: var(--style-border-radius-inputs);
+    background: var(--color-background);
+    padding: 10px 12px;
+    font-family: var(--font-primary--family);
+    font-size: 14px;
+    color: var(--color-foreground);
+    resize: vertical;
+    outline: none;
+  }
+
+  .drawer__opt-body textarea:focus {
+    border-color: var(--color-accent-secondary);
+  }
+
+  .drawer-price__chevron {
+    flex: none;
+    display: inline-flex;
+    color: var(--color-muted);
+    transition: transform 0.2s ease;
+  }
+
+  .drawer-price[open] .drawer-price__chevron {
+    transform: rotate(180deg);
+  }
+
+  .drawer-price__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  .drawer-price__title {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .drawer-price__total {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .drawer-price__body {
+    padding: 0 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .drawer-price__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--color-muted);
+  }
+
+  .drawer-price__row--discount {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .drawer-price__row--grand {
+    padding-top: 10px;
+    border-top: 1px solid var(--color-line);
+    color: var(--color-foreground);
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .drawer__taxes {
+    margin: 0;
+    font-size: 12px;
+    color: var(--color-muted);
+  }
+
+  .drawer__empty {
+    padding: 70px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .drawer__empty p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--color-muted);
+  }
+
+  .drawer__foot {
+    background: var(--color-background);
+    border-top: 1px solid var(--color-line);
+    padding: 14px 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .drawer__foot-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .drawer__grand {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .drawer__grand-amount {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .drawer__grand-label {
+    font-size: 12px;
+    color: var(--color-muted);
+  }
+
+  .drawer__checkout-form {
+    flex: 1;
+    max-width: 240px;
+  }
+
+  .drawer__checkout {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 24px;
+    border: none;
+    border-radius: var(--style-border-radius-inputs);
+    background: var(--color-accent);
+    color: var(--color-background);
+    font-family: var(--font-primary--family);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.18s ease;
+  }
+
+  .drawer__checkout:hover {
+    background: var(--color-accent-deep);
+  }
+
+  .drawer__recs {
+    display: block;
+    padding: 8px 2px 0;
+  }
+
+  .drawer__recs[hidden] {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drawer__overlay,
+    .drawer__panel,
+    .drawer-price__chevron {
+      transition: none;
+    }
+  }
+{% endstylesheet %}

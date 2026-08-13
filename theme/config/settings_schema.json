@@ -1,0 +1,230 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Stag",
+    "theme_version": "1.0.0",
+    "theme_author": "Eclectic Digital",
+    "theme_documentation_url": "https://nikitawadhawan-cmyk.github.io/stag-and-sole/",
+    "theme_support_url": "https://nikitawadhawan-cmyk.github.io/stag-and-sole/support.html"
+  },
+  {
+    "name": "t:general.typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:general.fonts"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_primary_font",
+        "default": "archivo_n4",
+        "label": "t:general.primary"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_accent_font",
+        "default": "playfair_display_n4",
+        "label": "Accent"
+      }
+    ]
+  },
+  {
+    "name": "t:general.layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "max_page_width",
+        "label": "t:labels.page_width",
+        "options": [
+          {
+            "value": "90rem",
+            "label": "t:options.page_width.narrow"
+          },
+          {
+            "value": "110rem",
+            "label": "t:options.page_width.wide"
+          }
+        ],
+        "default": "90rem"
+      },
+      {
+        "type": "range",
+        "id": "min_page_margin",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "t:labels.page_margin",
+        "default": 40
+      }
+    ]
+  },
+  {
+    "name": "t:general.colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "default": "#F4F1EA",
+        "label": "t:labels.background"
+      },
+      {
+        "type": "color",
+        "id": "background_secondary_color",
+        "default": "#E3DCCD",
+        "label": "Secondary background"
+      },
+      {
+        "type": "color",
+        "id": "foreground_secondary_color",
+        "default": "#14140F",
+        "label": "Text on secondary background"
+      },
+      {
+        "type": "color",
+        "id": "foreground_color",
+        "default": "#14140F",
+        "label": "t:labels.foreground"
+      },
+      {
+        "type": "color",
+        "id": "foreground_muted_color",
+        "default": "#6B6558",
+        "label": "Muted text"
+      },
+      {
+        "type": "color",
+        "id": "accent_color",
+        "default": "#23402F",
+        "label": "Primary accent"
+      },
+      {
+        "type": "color",
+        "id": "accent_secondary_color",
+        "default": "#C0703A",
+        "label": "Secondary accent"
+      },
+      {
+        "type": "color",
+        "id": "line_color",
+        "default": "#DFD8CA",
+        "label": "Borders"
+      },
+      {
+        "type": "range",
+        "id": "input_corner_radius",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "t:labels.input_corner_radius",
+        "default": 3
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cart_drawer_enabled",
+        "label": "Open cart drawer when adding to cart",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_free_shipping_bar",
+        "label": "Show free shipping progress bar",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "free_shipping_threshold",
+        "min": 0,
+        "max": 500,
+        "step": 10,
+        "label": "Free shipping threshold",
+        "info": "In your store currency. Set to 0 to hide the bar.",
+        "default": 50
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_note",
+        "label": "Show order note field",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_gift_option",
+        "label": "Show gift option",
+        "info": "Adds a gift checkbox and gift message saved with the order.",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_recommendations",
+        "label": "Show product recommendations in cart drawer",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_login_card",
+        "label": "Show login card in cart drawer",
+        "info": "Shown to logged-out customers only.",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "https://instagram.com/yourstore"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https://facebook.com/yourstore"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "info": "https://youtube.com/@yourstore"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest",
+        "info": "https://pinterest.com/yourstore"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok",
+        "info": "https://tiktok.com/@yourstore"
+      },
+      {
+        "type": "text",
+        "id": "social_x_link",
+        "label": "X",
+        "info": "https://x.com/yourstore"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "32 × 32px .png recommended"
+      }
+    ]
+  }
+]

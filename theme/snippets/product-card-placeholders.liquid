@@ -1,0 +1,18 @@
+{% doc %}
+  Renders empty product card placeholders for the theme editor when no
+  collection is selected yet.
+
+  @param {number} count - Number of placeholders to render
+{% enddoc %}
+
+{% for i in (1..count) %}
+  <div class="product-card">
+    <div class="product-card__media">
+      {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'product-card__img' }}
+    </div>
+    <div class="product-card__info">
+      <span class="product-card__name">{{ 'products.placeholder_title' | t }}</span>
+      <span class="product-card__price">{{ 1999 | money }}</span>
+    </div>
+  </div>
+{% endfor %}

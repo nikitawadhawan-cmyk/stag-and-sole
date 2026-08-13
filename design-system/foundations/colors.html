@@ -1,0 +1,61 @@
+<!-- @dsCard group="Foundations" name="Colors" subtitle="5 brand + 5 utility tokens, approved pairings" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Colors</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#F4F1EA; --sand:#E3DCCD; --ink:#14140F; --green:#23402F; --green-deep:#1B3325;
+  --tan:#C0703A; --muted:#6B6558; --body-muted:#4A463C; --line:#DFD8CA; --input-line:#C9C0AE;
+  --font-sans:'Archivo',system-ui,sans-serif; --font-serif:'Instrument Serif',serif;
+  --r-tag:2px; --r-ui:3px; --r-card:4px;
+}
+*{box-sizing:border-box}
+body{margin:0;padding:28px;background:var(--cream);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:none} a:hover{color:var(--tan)}
+.serif{font-family:var(--font-serif);font-style:italic;font-weight:400}
+:focus-visible{outline:2px solid var(--tan);outline-offset:2px}
+.g-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;display:block}
+.g-spec{font-size:12px;color:var(--muted);font-family:ui-monospace,monospace}
+.row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+.stack{display:flex;flex-direction:column;gap:22px}
+</style>
+</head>
+<body>
+<style>
+.sw{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.sc{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden}
+.chip{height:72px}
+.meta{padding:10px 12px}
+.nm{font-size:13px;font-weight:600}
+.pairs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.pair{border-radius:var(--r-card);padding:14px;font-size:13px;font-weight:500;min-height:70px;display:flex;flex-direction:column;justify-content:space-between}
+</style>
+<span class="g-label">Tokens</span>
+<div class="sw">
+  <div class="sc"><div class="chip" style="background:var(--cream)"></div><div class="meta"><div class="nm">Cream</div><div class="g-spec">#F4F1EA page bg</div></div></div>
+  <div class="sc"><div class="chip" style="background:var(--sand)"></div><div class="meta"><div class="nm">Sand</div><div class="g-spec">#E3DCCD cards, media</div></div></div>
+  <div class="sc"><div class="chip" style="background:var(--ink)"></div><div class="meta"><div class="nm">Ink</div><div class="g-spec">#14140F text, footer</div></div></div>
+  <div class="sc"><div class="chip" style="background:var(--green)"></div><div class="meta"><div class="nm">Forest</div><div class="g-spec">#23402F bands, accents</div></div></div>
+  <div class="sc"><div class="chip" style="background:var(--tan)"></div><div class="meta"><div class="nm">Tan</div><div class="g-spec">#C0703A hover, stars</div></div></div>
+  <div class="sc"><div class="chip" style="background:var(--green-deep)"></div><div class="meta"><div class="nm">Forest deep</div><div class="g-spec">#1B3325</div></div></div>
+  <div class="sc"><div class="chip" style="background:var(--muted)"></div><div class="meta"><div class="nm">Muted</div><div class="g-spec">#6B6558 secondary text</div></div></div>
+  <div class="sc"><div class="chip" style="background:var(--body-muted)"></div><div class="meta"><div class="nm">Body</div><div class="g-spec">#4A463C long-form</div></div></div>
+  <div class="sc"><div class="chip" style="background:var(--line)"></div><div class="meta"><div class="nm">Line</div><div class="g-spec">#DFD8CA hairlines</div></div></div>
+  <div class="sc"><div class="chip" style="background:var(--input-line)"></div><div class="meta"><div class="nm">Input line</div><div class="g-spec">#C9C0AE form borders</div></div></div>
+</div>
+<span class="g-label" style="margin-top:20px">Approved pairings — cream is the only page bg; tan is never a bg</span>
+<div class="pairs">
+  <div class="pair" style="background:var(--cream);color:var(--ink);border:1px solid var(--line)"><span>Ink on cream</span><span class="g-spec">body default</span></div>
+  <div class="pair" style="background:var(--sand);color:var(--ink)"><span>Ink on sand</span><span class="g-spec">cards</span></div>
+  <div class="pair" style="background:var(--green);color:var(--cream)"><span>Cream on forest</span><span class="g-spec">bands</span></div>
+  <div class="pair" style="background:var(--ink);color:var(--cream)"><span>Cream on ink</span><span class="g-spec">footer, buttons</span></div>
+</div>
+</body>
+</html>

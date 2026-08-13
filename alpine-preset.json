@@ -1,0 +1,12 @@
+{
+  "note": "Saved palette for a future second preset (deferred from 1.0). Re-add under settings_data.json presets.Alpine and build a matching demo store + /listings/alpine/templates before submitting it.",
+  "settings": {
+    "background_color": "#FFFFFF",
+    "background_secondary_color": "#F3F4F5",
+    "foreground_color": "#26262B",
+    "foreground_muted_color": "#6E7076",
+    "accent_color": "#35566B",
+    "accent_secondary_color": "#6C8EA4",
+    "line_color": "#E4E5E7"
+  }
+}

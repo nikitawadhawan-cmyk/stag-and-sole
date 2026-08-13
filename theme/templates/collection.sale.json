@@ -1,0 +1,54 @@
+{
+  "sections": {
+    "hero": {
+      "type": "image-banner",
+      "settings": {
+        "flush_top": true,
+        "serif_heading": true,
+        "height": "tall",
+        "heading": "End of season",
+        "heading_accent": "",
+        "text": "Full-grain leather, honest markdowns. When a size sells through, it's gone.",
+        "button_label": "",
+        "button_link": "",
+        "button_style": "solid",
+        "secondary_label": "",
+        "secondary_link": "",
+        "placeholder_image": "scooter"
+      }
+    },
+    "ticker": {
+      "type": "ticker",
+      "blocks": {
+        "item-1": { "type": "item", "settings": { "text": "Honest pricing" } },
+        "item-2": { "type": "item", "settings": { "text": "Free shipping over $50" } },
+        "item-3": { "type": "item", "settings": { "text": "Responsibly made" } }
+      },
+      "block_order": ["item-1", "item-2", "item-3"],
+      "settings": {
+        "color_scheme": "ink"
+      }
+    },
+    "countdown": {
+      "type": "countdown",
+      "settings": {
+        "heading": "Annual sale event",
+        "end_date": "2026-09-28 23:59",
+        "note": "Limited time only.",
+        "button_label": "Get notified",
+        "button_link": "shopify://pages/contact-us"
+      }
+    },
+    "main": {
+      "type": "collection",
+      "settings": {
+        "show_breadcrumbs": false,
+        "show_description": false,
+        "products_per_page": 12,
+        "enable_filtering": true,
+        "enable_sorting": true
+      }
+    }
+  },
+  "order": ["hero", "ticker", "countdown", "main"]
+}

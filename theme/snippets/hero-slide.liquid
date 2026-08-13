@@ -1,0 +1,91 @@
+{% doc %}
+  Renders one hero slide (the split copy/media layout).
+
+  @param {object} s - Slide settings (eyebrow, heading, heading_accent, text, buttons, image, featured_product, placeholder_image)
+  @param {boolean} active - Whether this slide starts visible
+  @param {boolean} first - First slide loads its image eagerly
+  @param {string} [points] - Pre-rendered selling points markup
+  @param {string} [attrs] - Extra attributes for the slide root
+{% enddoc %}
+
+<div class="hero heroc__slide{% if active %} is-active{% endif %}" data-slide {{ attrs }}>
+  <div class="hero__copy">
+    {% if s.eyebrow != blank %}
+      <div class="eyebrow">{{ s.eyebrow }}</div>
+    {% endif %}
+
+    {% liquid
+      assign title_tag = 'h2'
+      if first
+        assign title_tag = 'h1'
+      endif
+    %}
+    <{{ title_tag }} class="hero__title">
+      {{ s.heading }}
+      {%- if s.heading_accent != blank -%}
+        <br><span class="serif">{{ s.heading_accent }}</span>
+      {%- endif -%}
+    </{{ title_tag }}>
+
+    {% if s.text != blank %}
+      <p class="hero__lede">{{ s.text }}</p>
+    {% endif %}
+
+    <div class="hero__ctas">
+      {% if s.button_primary_label != blank %}
+        <a href="{{ s.button_primary_link | default: routes.all_products_collection_url }}" class="btn btn--dark">
+          {{- s.button_primary_label -}}
+        </a>
+      {% endif %}
+      {% if s.button_secondary_label != blank %}
+        <a href="{{ s.button_secondary_link | default: routes.all_products_collection_url }}" class="btn btn--outline">
+          {{- s.button_secondary_label -}}
+        </a>
+      {% endif %}
+    </div>
+
+    {% if points != blank %}
+      <div class="hero__points">{{ points }}</div>
+    {% endif %}
+  </div>
+
+  <div class="hero__media">
+    {% if s.image %}
+      {% liquid
+        assign img_loading = 'lazy'
+        assign img_priority = 'auto'
+        if first
+          assign img_loading = 'eager'
+          assign img_priority = 'high'
+        endif
+      %}
+      {%- liquid
+        assign focal_style = nil
+        if s.image.presentation.focal_point
+          assign focal_style = 'object-position: ' | append: s.image.presentation.focal_point
+        endif
+      -%}
+      {{
+        s.image
+        | image_url: width: 1600
+        | image_tag: class: 'hero__img', widths: '600, 900, 1200, 1600', sizes: '(max-width: 1024px) 100vw, 55vw', loading: img_loading, fetchpriority: img_priority,
+          style: focal_style
+      }}
+    {% else %}
+      {% render 'placeholder-image', name: s.placeholder_image, class: 'hero__img', loading: img_loading, fetchpriority: img_priority, sizes: '(max-width: 1024px) 100vw, 55vw' %}
+    {% endif %}
+
+    {% liquid
+      assign card_product = s.featured_product
+    %}
+    {% if card_product != blank %}
+      <a href="{{ card_product.url }}" class="hero__card">
+        <span class="hero__card-name">{{ card_product.title }}</span>
+        <span class="hero__card-price">
+          {{- card_product.price | money -}}
+          {%- if card_product.price_varies %}+{% endif -%}
+        </span>
+      </a>
+    {% endif %}
+  </div>
+</div>

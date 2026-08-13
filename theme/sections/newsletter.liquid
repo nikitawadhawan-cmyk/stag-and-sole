@@ -1,0 +1,172 @@
+<section class="wrap newsletter">
+  <div class="newsletter__card">
+    <div>
+      <h2 class="newsletter__title">{{ section.settings.heading }}</h2>
+      {% if section.settings.text != blank %}
+        <p class="newsletter__body">{{ section.settings.text }}</p>
+      {% endif %}
+    </div>
+
+    {% form 'customer', class: 'newsletter__form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      {% if form.posted_successfully? %}
+        <p class="newsletter__success" tabindex="-1" autofocus>{{ 'newsletter.success' | t }}</p>
+      {% else %}
+        {% if form.errors %}
+          <p class="newsletter__error" role="alert">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+        {% endif %}
+        <div class="newsletter__row">
+          <label class="visually-hidden" for="newsletter-email-{{ section.id }}">{{ 'newsletter.email_label' | t }}</label>
+          <input
+            id="newsletter-email-{{ section.id }}"
+            class="newsletter__input"
+            type="email"
+            name="contact[email]"
+            value="{{ form.email }}"
+            placeholder="{{ 'newsletter.email_placeholder' | t }}"
+            autocomplete="email"
+            required
+          >
+          <button class="btn btn--dark newsletter__btn" type="submit">{{ 'newsletter.submit' | t }}</button>
+        </div>
+      {% endif %}
+      {% if section.settings.note != blank %}
+        <span class="newsletter__note">{{ section.settings.note }}</span>
+      {% endif %}
+    {% endform %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .newsletter {
+    margin-top: 80px;
+  }
+
+  .newsletter__card {
+    background: var(--color-background-secondary);
+    border-radius: 4px;
+    padding: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .newsletter__title {
+    margin: 0;
+    font-size: 38px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+  }
+
+  .newsletter__body {
+    margin: 14px 0 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-muted);
+    max-width: 400px;
+  }
+
+  .newsletter__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .newsletter__row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .newsletter__input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--color-input-line);
+    background: var(--color-background);
+    border-radius: var(--style-border-radius-inputs);
+    padding: 16px 18px;
+    font-family: var(--font-primary--family);
+    font-size: 15px;
+    color: var(--color-foreground);
+    outline: none;
+  }
+
+  .newsletter__input:focus {
+    border-color: var(--color-accent-secondary);
+  }
+
+  .newsletter__note {
+    font-size: 12px;
+    color: var(--color-muted);
+  }
+
+  .newsletter__success {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .newsletter__error {
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-accent-secondary);
+  }
+
+  @media (max-width: 1024px) {
+    .newsletter__card {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 44px 32px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .newsletter {
+      margin-top: 56px;
+    }
+
+    .newsletter__title {
+      font-size: 30px;
+    }
+
+    .newsletter__row {
+      flex-direction: column;
+    }
+
+    .newsletter__btn {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Join the list"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Body text",
+      "default": "One email a fortnight — new arrivals, restocks, and a fit guide worth reading."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Note",
+      "default": "By subscribing you agree to our privacy policy."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}

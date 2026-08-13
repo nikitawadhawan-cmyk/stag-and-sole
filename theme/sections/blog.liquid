@@ -1,0 +1,206 @@
+{% paginate blog.articles by 9 %}
+  <section class="wrap blog-page">
+    <header class="blog-page__head">
+      <h1 class="blog-page__title">{{ blog.title }}</h1>
+      {% if section.settings.text != blank %}
+        <p class="blog-page__intro">{{ section.settings.text }}</p>
+      {% endif %}
+    </header>
+
+    <div class="blog-page__grid" data-reveal-stagger>
+      {% for article in blog.articles %}
+        <article class="post-card">
+          <a href="{{ article.url }}" class="post-card__media">
+            {% if article.image %}
+              {%- liquid
+                assign focal_style = nil
+                if article.image.presentation.focal_point
+                  assign focal_style = 'object-position: ' | append: article.image.presentation.focal_point
+                endif
+              -%}
+              {{
+                article.image
+                | image_url: width: 900
+                | image_tag: class: 'post-card__img', widths: '450, 700, 900', sizes: '(max-width: 900px) 100vw, 33vw', loading: 'lazy', alt: article.image.alt,
+                  style: focal_style
+              }}
+            {% else %}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'post-card__img' }}
+            {% endif %}
+          </a>
+          <div class="post-card__meta">
+            <span>{{ article.published_at | date: '%B %-d, %Y' }}</span>
+            {% if section.settings.show_author %}
+              <span class="post-card__dot" aria-hidden="true">&middot;</span>
+              <span>{{ article.author }}</span>
+            {% endif %}
+          </div>
+          <h2 class="post-card__title">
+            <a href="{{ article.url }}">{{ article.title }}</a>
+          </h2>
+          <p class="post-card__excerpt">{{ article.excerpt_or_content | strip_html | truncate: 150 }}</p>
+          <a href="{{ article.url }}" class="post-card__more">{{ 'blog.read_more' | t }} &rarr;</a>
+        </article>
+      {% else %}
+        <p class="blog-page__empty">{{ 'blog.empty' | t }}</p>
+      {% endfor %}
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <nav class="pagination" aria-label="{{ 'collections.pagination' | t }}">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="pagination__arrow">&larr;</a>
+        {% endif %}
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" class="pagination__page">{{ part.title }}</a>
+          {% elsif part.title == paginate.current_page %}
+            <span class="pagination__page is-current" aria-current="page">{{ part.title }}</span>
+          {% else %}
+            <span class="pagination__gap">{{ part.title }}</span>
+          {% endif %}
+        {% endfor %}
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="pagination__arrow">&rarr;</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  </section>
+{% endpaginate %}
+
+{% stylesheet %}
+  .blog-page {
+    padding-top: 40px;
+    padding-bottom: 80px;
+  }
+
+  .blog-page__head {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .blog-page__title {
+    margin: 0;
+    font-size: 42px;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+  }
+
+  .blog-page__intro {
+    margin: 12px auto 0;
+    max-width: 480px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+
+  .blog-page__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    row-gap: 44px;
+  }
+
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .post-card__media {
+    display: block;
+    aspect-ratio: 3 / 2;
+    background: var(--color-background-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .post-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .post-card__meta {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-top: 6px;
+  }
+
+  .post-card__dot {
+    opacity: 0.5;
+  }
+
+  .post-card__title {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .post-card__excerpt {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  .post-card__more {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-top: 2px;
+  }
+
+  .blog-page__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 0;
+    font-size: 16px;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .blog-page__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .blog-page__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .blog-page__title {
+      font-size: 32px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Intro text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

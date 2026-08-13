@@ -1,0 +1,165 @@
+{% comment %}
+  Rendered via the Section Rendering API by the search overlay:
+  /search/suggest?q=...&section_id=predictive-search
+{% endcomment %}
+
+{% if predictive_search.performed %}
+  <div class="predictive">
+    {% if predictive_search.resources.products.size > 0 %}
+      <h3 class="predictive__heading">{{ 'search.products' | t }}</h3>
+      <ul class="predictive__products" role="list">
+        {% for product in predictive_search.resources.products %}
+          <li>
+            <a href="{{ product.url }}" class="predictive__product">
+              <span class="predictive__thumb">
+                {% if product.featured_image %}
+                  {%- liquid
+                    assign focal_style = nil
+                    if product.featured_image.presentation.focal_point
+                      assign focal_style = 'object-position: ' | append: product.featured_image.presentation.focal_point
+                    endif
+                  -%}
+                  {{ product.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: product.featured_image.alt, style: focal_style }}
+                {% endif %}
+              </span>
+              <span class="predictive__info">
+                <span class="predictive__title">{{ product.title }}</span>
+                <span class="predictive__price">
+                  {%- if product.price_varies %}{{ 'products.from_price_html' | t: price: product.price_min | money }}{% else %}{{ product.price | money }}{% endif -%}
+                </span>
+              </span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% liquid
+      assign other_results = false
+      if predictive_search.resources.pages.size > 0 or predictive_search.resources.articles.size > 0
+        assign other_results = true
+      endif
+    %}
+    {% if other_results %}
+      <h3 class="predictive__heading">{{ 'search.pages_and_articles' | t }}</h3>
+      <ul class="predictive__links" role="list">
+        {% for page in predictive_search.resources.pages %}
+          <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+        {% endfor %}
+        {% for article in predictive_search.resources.articles %}
+          <li><a href="{{ article.url }}">{{ article.title }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if predictive_search.resources.products.size == 0 and other_results == false %}
+      <p class="predictive__none">{{ 'search.no_results_html' | t: terms: predictive_search.terms }}</p>
+    {% endif %}
+
+    <a class="predictive__all" href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&options%5Bprefix%5D=last">
+      {{ 'search.see_all' | t: terms: predictive_search.terms }} &rarr;
+    </a>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .predictive {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 18px;
+  }
+
+  .predictive__heading {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .predictive__products {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+  }
+
+  .predictive__product {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 0;
+  }
+
+  .predictive__thumb {
+    flex: none;
+    width: 52px;
+    height: 62px;
+    background: var(--color-background-secondary);
+    border-radius: var(--style-border-radius-inputs);
+    overflow: hidden;
+  }
+
+  .predictive__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .predictive__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .predictive__title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .predictive__price {
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+
+  .predictive__links {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .predictive__none {
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-muted);
+  }
+
+  .predictive__all {
+    align-self: flex-start;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 700px) {
+    .predictive__products {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Predictive search",
+  "settings": []
+}
+{% endschema %}

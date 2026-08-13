@@ -1,0 +1,148 @@
+{% comment %}
+  Renders "You may also like" product cards for the cart drawer. Never
+  placed in a template — fetched by cart.js through the product
+  recommendations endpoint with section_id=cart-recommendations, using the
+  first cart line's product as the seed. The stylesheet below is bundled
+  theme-wide, so the styles are on the page before this HTML arrives.
+{% endcomment %}
+
+{% if recommendations.performed? and recommendations.products_count > 0 %}
+  <h3 class="cart-recs__heading">{{ 'cart.recommendations_heading' | t }}</h3>
+  <ul class="cart-recs__list" role="list">
+    {% for product in recommendations.products %}
+      <li class="cart-recs__item">
+        <a href="{{ product.url }}" class="cart-recs__media" tabindex="-1" aria-hidden="true">
+          {% if product.featured_image %}
+            {%- liquid
+              assign focal_style = nil
+              if product.featured_image.presentation.focal_point
+                assign focal_style = 'object-position: ' | append: product.featured_image.presentation.focal_point
+              endif
+            -%}
+            {{
+              product.featured_image
+              | image_url: width: 300
+              | image_tag: widths: '150, 300', sizes: '96px', loading: 'lazy', alt: product.featured_image.alt,
+                style: focal_style
+            }}
+          {% endif %}
+        </a>
+        <div class="cart-recs__info">
+          <a href="{{ product.url }}" class="cart-recs__title">{{ product.title }}</a>
+          <span class="cart-recs__price">
+            {% if product.compare_at_price > product.price %}
+              <s>{{ product.compare_at_price | money }}</s>
+            {% endif %}
+            {{ product.price | money }}
+          </span>
+          {% if product.has_only_default_variant and product.available %}
+            <form action="{{ routes.cart_add_url }}" method="post" class="cart-recs__add-form">
+              <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
+              <button type="submit" name="add" class="cart-recs__add">{{ 'cart.recommendations_add' | t }}</button>
+            </form>
+          {% else %}
+            <a href="{{ product.url }}" class="cart-recs__add">{{ 'cart.recommendations_view' | t }}</a>
+          {% endif %}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% stylesheet %}
+  .cart-recs__heading {
+    margin: 0 0 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .cart-recs__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cart-recs__item {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .cart-recs__media {
+    flex: none;
+    width: 72px;
+    aspect-ratio: 4 / 5;
+    background: var(--color-background-secondary);
+    border-radius: var(--style-border-radius-inputs);
+    overflow: hidden;
+  }
+
+  .cart-recs__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cart-recs__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: flex-start;
+  }
+
+  .cart-recs__title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .cart-recs__price {
+    font-size: 13px;
+    color: var(--color-muted);
+    display: flex;
+    gap: 8px;
+  }
+
+  .cart-recs__price s {
+    color: var(--color-muted);
+  }
+
+  .cart-recs__add-form {
+    display: contents;
+  }
+
+  .cart-recs__add {
+    margin-top: 3px;
+    border: none;
+    background: none;
+    padding: 0;
+    font-family: var(--font-primary--family);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  .cart-recs__add:hover {
+    color: var(--color-accent-secondary);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Cart recommendations",
+  "settings": []
+}
+{% endschema %}

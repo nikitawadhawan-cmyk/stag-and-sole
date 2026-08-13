@@ -1,0 +1,619 @@
+{% liquid
+  assign slides = section.blocks | where: 'type', 'slide'
+
+  capture points_html
+    assign point_count = 0
+    for block in section.blocks
+      if block.type == 'point'
+        unless point_count == 0
+          echo '<span class="hero__dot" aria-hidden="true">&middot;</span>'
+        endunless
+        echo '<span '
+        echo block.shopify_attributes
+        echo '>'
+        echo block.settings.text
+        echo '</span>'
+        assign point_count = point_count | plus: 1
+      endif
+    endfor
+  endcapture
+  if point_count == 0
+    assign points_html = ''
+  endif
+%}
+
+<hero-carousel
+  class="wrap heroc"
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-interval="{{ section.settings.interval }}"
+>
+  {% if slides.size > 0 %}
+    {% for block in slides %}
+      {% liquid
+        assign is_active = false
+        if forloop.first
+          assign is_active = true
+        endif
+      %}
+      {% render 'hero-slide', s: block.settings, active: is_active, first: forloop.first, points: points_html, attrs: block.shopify_attributes %}
+    {% endfor %}
+  {% else %}
+    {% render 'hero-slide', s: section.settings, active: true, first: true, points: points_html %}
+  {% endif %}
+
+  {% if slides.size > 1 %}
+    <div class="heroc__controls">
+      <button type="button" class="heroc__arrow" data-hero-prev aria-label="{{ 'general.previous' | t }}">&larr;</button>
+      <div class="heroc__dots">
+        {% for block in slides %}
+          <button
+            type="button"
+            class="heroc__dot{% if forloop.first %} is-active{% endif %}"
+            data-hero-dot="{{ forloop.index0 }}"
+            aria-label="{{ 'sections.hero.slide_number' | t: number: forloop.index }}"
+          ></button>
+        {% endfor %}
+      </div>
+      <button type="button" class="heroc__arrow" data-hero-next aria-label="{{ 'general.next' | t }}">&rarr;</button>
+    </div>
+  {% endif %}
+</hero-carousel>
+
+{% stylesheet %}
+  .heroc {
+    display: block;
+    position: relative;
+  }
+
+  .heroc__slide {
+    display: none;
+  }
+
+  .heroc__slide.is-active {
+    display: grid;
+    animation: hero-fade 0.5s ease;
+  }
+
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .heroc__controls {
+    position: absolute;
+    bottom: 22px;
+    right: calc(var(--page-margin) + 22px);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(var(--color-background-rgb), 0.92);
+    border-radius: 999px;
+    padding: 8px 12px;
+  }
+
+  .heroc__arrow {
+    border: none;
+    background: none;
+    padding: 4px 6px;
+    font-size: 14px;
+    color: var(--color-foreground);
+    cursor: pointer;
+  }
+
+  .heroc__arrow:hover {
+    color: var(--color-accent-secondary);
+  }
+
+  .heroc__dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  .heroc__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background: var(--color-muted);
+    opacity: 0.35;
+    transition: opacity 0.18s ease;
+  }
+
+  .heroc__dot.is-active {
+    background: var(--color-foreground);
+    opacity: 1;
+  }
+
+  .hero {
+    padding-top: 32px;
+    grid-template-columns: 1fr 1.12fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .hero__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    padding: 32px 0 56px;
+  }
+
+  .hero__title {
+    margin: 0;
+    font-size: 76px;
+    line-height: 0.94;
+    letter-spacing: -0.04em;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  .hero__title .serif {
+    letter-spacing: -0.02em;
+    color: var(--color-accent);
+  }
+
+  .hero__lede {
+    margin: 0;
+    max-width: 400px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--color-muted);
+    text-wrap: pretty;
+  }
+
+  .hero__ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .hero__points {
+    display: flex;
+    gap: 22px;
+    padding-top: 6px;
+    font-size: 13px;
+    color: var(--color-muted);
+    flex-wrap: wrap;
+  }
+
+  .hero__dot {
+    opacity: 0.5;
+  }
+
+  .hero__media {
+    position: relative;
+    height: 600px;
+    background: var(--color-background-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .hero__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__card {
+    position: absolute;
+    left: 22px;
+    bottom: 22px;
+    background: var(--color-background);
+    padding: 13px 17px;
+    border-radius: var(--style-border-radius-inputs);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .hero__card-name {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .hero__card-price {
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .heroc__slide.is-active {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 1180px) {
+    .hero__title {
+      font-size: 62px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .hero__copy {
+      padding: 24px 0 8px;
+    }
+
+    .hero__media {
+      height: 480px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .hero__title {
+      font-size: 47px;
+    }
+
+    .hero__media {
+      height: 420px;
+    }
+
+    .heroc__controls {
+      bottom: 16px;
+      right: calc(var(--page-margin) + 12px);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class HeroCarousel extends HTMLElement {
+    connectedCallback() {
+      this.slides = [...this.querySelectorAll('[data-slide]')];
+      if (this.slides.length < 2) return;
+      this.dots = [...this.querySelectorAll('[data-hero-dot]')];
+      this.index = 0;
+      this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const prev = this.querySelector('[data-hero-prev]');
+      const next = this.querySelector('[data-hero-next]');
+      if (prev) prev.addEventListener('click', () => this.go(this.index - 1, true));
+      if (next) next.addEventListener('click', () => this.go(this.index + 1, true));
+      this.dots.forEach((dot) => {
+        dot.addEventListener('click', () => this.go(parseInt(dot.dataset.heroDot, 10), true));
+      });
+
+      if (this.dataset.autoplay === 'true' && !this.reduced) {
+        this.start();
+        this.addEventListener('mouseenter', () => this.stop());
+        this.addEventListener('mouseleave', () => this.start());
+        this.addEventListener('focusin', () => this.stop());
+        this.addEventListener('focusout', () => this.start());
+      }
+    }
+
+    disconnectedCallback() {
+      this.stop();
+    }
+
+    start() {
+      this.stop();
+      const seconds = parseInt(this.dataset.interval, 10) || 6;
+      this.timer = setInterval(() => this.go(this.index + 1, false), seconds * 1000);
+    }
+
+    stop() {
+      clearInterval(this.timer);
+    }
+
+    go(index, userInitiated) {
+      const n = this.slides.length;
+      this.index = ((index % n) + n) % n;
+      this.slides.forEach((slide, i) => slide.classList.toggle('is-active', i === this.index));
+      this.dots.forEach((dot, i) => dot.classList.toggle('is-active', i === this.index));
+      if (userInitiated && this.dataset.autoplay === 'true' && !this.reduced) this.start();
+    }
+  }
+
+  customElements.define('hero-carousel', HeroCarousel);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Hero slideshow",
+  "max_blocks": 9,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Rotate slides automatically",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "interval",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "label": "Change slides every",
+      "default": 6
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "info": "Legacy settings used only when the section has no slide blocks"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Accent heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Body text"
+    },
+    {
+      "type": "text",
+      "id": "button_primary_label",
+      "label": "Primary button label"
+    },
+    {
+      "type": "url",
+      "id": "button_primary_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "button_secondary_label",
+      "label": "Secondary button label"
+    },
+    {
+      "type": "url",
+      "id": "button_secondary_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "placeholder_image",
+      "label": "Placeholder image",
+      "options": [
+        {
+          "value": "workshop",
+          "label": "Workshop"
+        },
+        {
+          "value": "street",
+          "label": "Street"
+        },
+        {
+          "value": "formal",
+          "label": "Formal shoes"
+        },
+        {
+          "value": "sneakers",
+          "label": "Sneakers"
+        },
+        {
+          "value": "loafers",
+          "label": "Loafers"
+        },
+        {
+          "value": "cafe",
+          "label": "Cafe"
+        },
+        {
+          "value": "scooter",
+          "label": "Scooter"
+        },
+        {
+          "value": "bench",
+          "label": "Park bench"
+        },
+        {
+          "value": "unboxing",
+          "label": "Unboxing"
+        },
+        {
+          "value": "doorway",
+          "label": "Doorway"
+        },
+        {
+          "value": "boots",
+          "label": "Boots studio"
+        },
+        {
+          "value": "runners",
+          "label": "White sneakers studio"
+        },
+        {
+          "value": "stride",
+          "label": "Street stride"
+        }
+      ],
+      "default": "street"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Featured product card"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow text",
+          "default": "New collection"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Made to be"
+        },
+        {
+          "type": "text",
+          "id": "heading_accent",
+          "label": "Accent heading",
+          "info": "Shows on a second line in the accent font",
+          "default": "worn out."
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Body text",
+          "default": "Everyday shoes on full-grain leather with a sole that survives the commute."
+        },
+        {
+          "type": "text",
+          "id": "button_primary_label",
+          "label": "Primary button label",
+          "default": "Shop all shoes"
+        },
+        {
+          "type": "url",
+          "id": "button_primary_link",
+          "label": "Primary button link"
+        },
+        {
+          "type": "text",
+          "id": "button_secondary_label",
+          "label": "Secondary button label"
+        },
+        {
+          "type": "url",
+          "id": "button_secondary_link",
+          "label": "Secondary button link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "3:4 aspect ratio recommended"
+        },
+        {
+          "type": "select",
+          "id": "placeholder_image",
+          "label": "Placeholder image",
+          "info": "Shows until an image is selected",
+          "options": [
+            {
+              "value": "workshop",
+              "label": "Workshop"
+            },
+            {
+              "value": "street",
+              "label": "Street"
+            },
+            {
+              "value": "formal",
+              "label": "Formal shoes"
+            },
+            {
+              "value": "sneakers",
+              "label": "Sneakers"
+            },
+            {
+              "value": "loafers",
+              "label": "Loafers"
+            },
+            {
+              "value": "cafe",
+              "label": "Cafe"
+            },
+            {
+              "value": "scooter",
+              "label": "Scooter"
+            },
+            {
+              "value": "bench",
+              "label": "Park bench"
+            },
+            {
+              "value": "unboxing",
+              "label": "Unboxing"
+            },
+            {
+              "value": "doorway",
+              "label": "Doorway"
+            },
+            {
+              "value": "boots",
+              "label": "Boots studio"
+            },
+            {
+              "value": "runners",
+              "label": "White sneakers studio"
+            },
+            {
+              "value": "stride",
+              "label": "Street stride"
+            }
+          ],
+          "default": "street"
+        },
+        {
+          "type": "product",
+          "id": "featured_product",
+          "label": "Featured product card"
+        }
+      ]
+    },
+    {
+      "type": "point",
+      "name": "Selling point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Full-grain leather"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero slideshow",
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "point"
+        },
+        {
+          "type": "point",
+          "settings": {
+            "text": "Cushioned insole"
+          }
+        },
+        {
+          "type": "point",
+          "settings": {
+            "text": "Direct pricing"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

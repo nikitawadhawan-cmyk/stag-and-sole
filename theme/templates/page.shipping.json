@@ -1,0 +1,145 @@
+{
+  "sections": {
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "eyebrow": "Delivery and returns",
+        "heading": "Tracked there.",
+        "heading_accent": "Free back.",
+        "text": "<p>Every order leaves the workshop within two business days and travels tracked, door to door. If it isn't right, sending it back costs you nothing — that's the whole policy.</p>",
+        "button_label": "Contact support",
+        "button_link": "shopify://pages/contact-us"
+      }
+    },
+    "usps": {
+      "type": "value-props",
+      "blocks": {
+        "usp-1": { "type": "item", "settings": { "heading": "Free delivery over $50", "text": "3–5 days, tracked" } },
+        "usp-2": { "type": "item", "settings": { "heading": "30-day returns", "text": "No questions, postage paid" } },
+        "usp-3": { "type": "item", "settings": { "heading": "Free size exchange", "text": "Both directions" } },
+        "usp-4": { "type": "item", "settings": { "heading": "6-month sole warranty", "text": "Resoled or replaced" } }
+      },
+      "block_order": ["usp-1", "usp-2", "usp-3", "usp-4"]
+    },
+    "shipping-chapter": {
+      "type": "image-with-text",
+      "settings": {
+        "image_position": "right",
+        "eyebrow": "Shipping",
+        "heading": "From the bench to your",
+        "heading_accent": "door.",
+        "text": "<p>Orders are cut from the shelf and boxed within two business days. Delivery takes 3–5 business days across India, tracked the whole way — you get the tracking link the moment it ships. Shipping is free over the threshold shown in the bar at the top of the page.</p>",
+        "placeholder_image": "street"
+      }
+    },
+    "returns-chapter": {
+      "type": "image-with-text",
+      "settings": {
+        "image_position": "left",
+        "eyebrow": "Returns and exchanges",
+        "heading": "Change your mind,",
+        "heading_accent": "freely.",
+        "text": "<p>Thirty days, no questions. Keep the box, wear them indoors, and if they're not right we arrange the pickup — you never stand in a courier line. Size exchanges are free in both directions, and refunds land within 5–7 business days of the return reaching us.</p>",
+        "button_label": "Start a return",
+        "button_link": "shopify://pages/contact-us",
+        "placeholder_image": "unboxing"
+      }
+    },
+    "ticker": {
+      "type": "ticker",
+      "blocks": {
+        "item-1": { "type": "item", "settings": { "text": "30-day returns" } },
+        "item-2": { "type": "item", "settings": { "text": "Free size exchange" } },
+        "item-3": { "type": "item", "settings": { "text": "Tracked delivery" } },
+        "item-4": { "type": "item", "settings": { "text": "6-month sole warranty" } }
+      },
+      "block_order": ["item-1", "item-2", "item-3", "item-4"],
+      "settings": {
+        "color_scheme": "sand"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q-when": {
+          "type": "question",
+          "settings": {
+            "question": "When will my order ship?",
+            "answer": "<p>Within 2 business days. You'll get a tracking link by email the moment it leaves the workshop.</p>"
+          }
+        },
+        "q-cost": {
+          "type": "question",
+          "settings": {
+            "question": "What does shipping cost?",
+            "answer": "<p>Free on qualifying orders — the current threshold shows in the announcement bar. Below it, the exact rate shows at checkout before you pay.</p>"
+          }
+        },
+        "q-return-how": {
+          "type": "question",
+          "settings": {
+            "question": "How do I return or exchange a pair?",
+            "answer": "<p>Write to us from the contact page with your order number. We arrange pickup from your door — returns post-paid, exchanges free both directions.</p>"
+          }
+        },
+        "q-refund": {
+          "type": "question",
+          "settings": {
+            "question": "When do I get my refund?",
+            "answer": "<p>Within 5–7 business days of the return reaching the workshop, to your original payment method.</p>"
+          }
+        }
+      },
+      "block_order": ["q-when", "q-cost", "q-return-how", "q-refund"],
+      "settings": {
+        "heading": "Quick answers"
+      }
+    },
+    "reviews": {
+      "type": "testimonials",
+      "blocks": {
+        "review-1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Ordered Tuesday, wearing them Friday. The tracking updated at every step — no guessing.",
+            "author": "Sanjay P.",
+            "detail": "Chennai"
+          }
+        },
+        "review-2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Exchanged a 9 for an 8 without leaving the house. Pickup came to my door in two days.",
+            "author": "Rohan V.",
+            "detail": "Hyderabad"
+          }
+        },
+        "review-3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Returned a pair that didn't suit me — refund hit my account in four days. As promised.",
+            "author": "Meera K.",
+            "detail": "Pune"
+          }
+        }
+      },
+      "block_order": ["review-1", "review-2", "review-3"],
+      "settings": {
+        "heading": "Delivery, reviewed",
+        "subheading": "from verified orders"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Sign up and save",
+        "text": "Be the first to know about new lasts, restocks, and the annual sale. Never more than one email a month.",
+        "note": "By subscribing you agree to our privacy policy."
+      }
+    }
+  },
+  "order": ["intro", "usps", "shipping-chapter", "returns-chapter", "ticker", "faq", "reviews", "newsletter"]
+}

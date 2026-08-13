@@ -1,0 +1,31 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "social_instagram_link": "https://instagram.com/stagandsole",
+    "social_facebook_link": "https://facebook.com/stagandsole",
+    "social_youtube_link": "https://youtube.com/@stagandsole",
+    "social_pinterest_link": "https://pinterest.com/stagandsole",
+    "social_tiktok_link": "https://tiktok.com/@stagandsole",
+    "cart_show_gift_option": true,
+    "cart_show_recommendations": true
+  },
+  "presets": {
+    "Stag": {
+      "background_color": "#F4F1EA",
+      "background_secondary_color": "#E3DCCD",
+      "foreground_color": "#14140F",
+      "foreground_muted_color": "#6B6558",
+      "accent_color": "#23402F",
+      "accent_secondary_color": "#C0703A",
+      "line_color": "#DFD8CA"
+    }
+  }
+}

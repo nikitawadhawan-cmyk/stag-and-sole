@@ -1,0 +1,419 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Men's footwear · Autumn 2026",
+            "heading": "Made to be",
+            "heading_accent": "worn out.",
+            "text": "Everyday men's shoes on full-grain leather with a sole that survives the commute. Honest pricing, no seasonal markup games.",
+            "button_primary_label": "Shop all shoes",
+            "button_secondary_label": "See new arrivals",
+            "button_secondary_link": "shopify://collections/new-in",
+            "placeholder_image": "street",
+            "featured_product": "the-marlow-derby"
+          }
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "End of season",
+            "heading": "Honest",
+            "heading_accent": "markdowns.",
+            "text": "Full-grain leather at its fairest. When a size sells through, it's gone.",
+            "button_primary_label": "Shop the sale",
+            "button_primary_link": "shopify://collections/sale",
+            "button_secondary_label": "",
+            "placeholder_image": "scooter",
+            "featured_product": "the-ashford-oxford"
+          }
+        },
+        "slide-3": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "The making",
+            "heading": "Built to be",
+            "heading_accent": "resoled.",
+            "text": "Forty-two hand steps in one family-run workshop — and every pair comes back to the bench it was made on, twice, on us.",
+            "button_primary_label": "Read our story",
+            "button_primary_link": "shopify://pages/our-story",
+            "button_secondary_label": "Shop bestsellers",
+            "button_secondary_link": "shopify://collections/bestsellers",
+            "placeholder_image": "workshop",
+            "featured_product": ""
+          }
+        },
+        "point-1": {
+          "type": "point",
+          "settings": {
+            "text": "Full-grain leather"
+          }
+        },
+        "point-2": {
+          "type": "point",
+          "settings": {
+            "text": "Cushioned insole"
+          }
+        },
+        "point-3": {
+          "type": "point",
+          "settings": {
+            "text": "Direct pricing"
+          }
+        }
+      },
+      "block_order": [
+        "slide-1",
+        "slide-2",
+        "slide-3",
+        "point-1",
+        "point-2",
+        "point-3"
+      ],
+      "settings": {
+        "autoplay": true,
+        "interval": 6
+      }
+    },
+    "value-props": {
+      "type": "value-props",
+      "blocks": {
+        "usp-1": {
+          "type": "item",
+          "settings": {
+            "heading": "Free delivery over $50",
+            "text": "3–5 days, tracked"
+          }
+        },
+        "usp-2": {
+          "type": "item",
+          "settings": {
+            "heading": "30-day returns",
+            "text": "Wear them home first"
+          }
+        },
+        "usp-3": {
+          "type": "item",
+          "settings": {
+            "heading": "Free size exchange",
+            "text": "One swap per order"
+          }
+        },
+        "usp-4": {
+          "type": "item",
+          "settings": {
+            "heading": "6-month sole warranty",
+            "text": "Resoled or replaced"
+          }
+        }
+      },
+      "block_order": [
+        "usp-1",
+        "usp-2",
+        "usp-3",
+        "usp-4"
+      ],
+      "settings": {}
+    },
+    "video-gallery": {
+      "type": "video-gallery",
+      "blocks": {
+        "reel-1": {
+          "type": "video",
+          "settings": {
+            "handle": "@arjunfits",
+            "caption": "Three ways to wear a derby",
+            "product": "the-marlow-derby"
+          }
+        },
+        "reel-2": {
+          "type": "video",
+          "settings": {
+            "handle": "@thecleanfit",
+            "caption": "Sneaker unboxing, day one",
+            "product": "halden-low-sneaker"
+          }
+        },
+        "reel-3": {
+          "type": "video",
+          "settings": {
+            "handle": "@dailyandsundry",
+            "caption": "Loafers with linen, no socks",
+            "product": "ashe-penny-loafer"
+          }
+        },
+        "reel-4": {
+          "type": "video",
+          "settings": {
+            "handle": "@onfootreview",
+            "caption": "30 days of wear, honest take",
+            "product": "fenn-chukka-boot"
+          }
+        }
+      },
+      "block_order": [
+        "reel-1",
+        "reel-2",
+        "reel-3",
+        "reel-4"
+      ],
+      "settings": {}
+    },
+    "category-tiles": {
+      "type": "category-tiles",
+      "blocks": {
+        "tile-1": {
+          "type": "tile",
+          "settings": {
+            "collection": "formal-shoes",
+            "heading": "Formal & derby"
+          }
+        },
+        "tile-2": {
+          "type": "tile",
+          "settings": {
+            "collection": "sneakers"
+          }
+        },
+        "tile-3": {
+          "type": "tile",
+          "settings": {
+            "collection": "loafers"
+          }
+        }
+      },
+      "block_order": [
+        "tile-1",
+        "tile-2",
+        "tile-3"
+      ],
+      "settings": {}
+    },
+    "bestsellers": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "This week's bestsellers",
+        "collection": "bestsellers",
+        "products_to_show": 4,
+        "layout": "grid",
+        "link_label": "View all"
+      }
+    },
+    "making": {
+      "type": "image-with-text-stats",
+      "blocks": {
+        "stat-1": {
+          "type": "stat",
+          "settings": {
+            "value": "42",
+            "label": "hand steps per pair"
+          }
+        },
+        "stat-2": {
+          "type": "stat",
+          "settings": {
+            "value": "6 mo",
+            "label": "sole warranty"
+          }
+        },
+        "stat-3": {
+          "type": "stat",
+          "settings": {
+            "value": "1",
+            "label": "workshop, no outsourcing"
+          }
+        }
+      },
+      "block_order": [
+        "stat-1",
+        "stat-2",
+        "stat-3"
+      ],
+      "settings": {
+        "eyebrow": "The making",
+        "heading": "One workshop.",
+        "heading_accent": "No",
+        "heading_after": " middlemen.",
+        "text": "We cut, stitch and finish every pair with one family-run workshop that has made leather shoes for four decades. Selling direct is why our shoes cost half the usual retail price.",
+        "button_label": "Read our story",
+        "button_link": "shopify://pages/our-story"
+      }
+    },
+    "new-arrivals": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "New this month",
+        "collection": "new-in",
+        "products_to_show": 3,
+        "layout": "editorial",
+        "link_label": "All new in"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "review-1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Wore the derby straight out of the box to a nine-hour wedding. No blisters, no break-in period. That never happens at this price.",
+            "author": "Aditya R.",
+            "detail": "Bengaluru"
+          }
+        },
+        "review-2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Ordered a size up on the fit guide's advice and it was spot on. Exchange would have been free anyway, which is why I risked it.",
+            "author": "Farhan Q.",
+            "detail": "Mumbai"
+          }
+        },
+        "review-3": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "quote": "Leather is genuinely good — creases like real leather should. Only gripe is I wanted the loafer in black and it was sold out.",
+            "author": "Nikhil S.",
+            "detail": "Delhi"
+          }
+        }
+      },
+      "block_order": [
+        "review-1",
+        "review-2",
+        "review-3"
+      ],
+      "settings": {
+        "heading": "4.7 out of 5",
+        "subheading": "from verified reviews"
+      }
+    },
+    "gallery": {
+      "type": "image-gallery",
+      "blocks": {
+        "img-1": {
+          "type": "image",
+          "settings": {}
+        },
+        "img-2": {
+          "type": "image",
+          "settings": {}
+        },
+        "img-3": {
+          "type": "image",
+          "settings": {}
+        },
+        "img-4": {
+          "type": "image",
+          "settings": {}
+        },
+        "img-5": {
+          "type": "image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "img-1",
+        "img-2",
+        "img-3",
+        "img-4",
+        "img-5"
+      ],
+      "settings": {
+        "heading": "#StagAndSole",
+        "link_label": "Follow on Instagram"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Get 10% off your first pair",
+        "text": "One email a fortnight — new lasts, restocks, and a fit guide worth reading. No spam.",
+        "note": "By subscribing you agree to our privacy policy."
+      }
+    },
+    "featured-hero-product": {
+      "type": "featured-product",
+      "blocks": {
+        "fp-title": {
+          "type": "title",
+          "settings": {}
+        },
+        "fp-price": {
+          "type": "price",
+          "settings": {}
+        },
+        "fp-picker": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "fp-qty": {
+          "type": "quantity",
+          "settings": {}
+        },
+        "fp-buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "fp-desc": {
+          "type": "description",
+          "settings": {
+            "word_limit": 50
+          }
+        }
+      },
+      "block_order": [
+        "fp-title",
+        "fp-price",
+        "fp-picker",
+        "fp-qty",
+        "fp-buy",
+        "fp-desc"
+      ],
+      "settings": {
+        "product": "the-marlow-derby"
+      }
+    },
+    "journal-posts": {
+      "type": "blog-posts",
+      "settings": {
+        "eyebrow": "Journal",
+        "heading": "Stories from the workshop",
+        "blog": "journal",
+        "posts_to_show": 3,
+        "show_date": true,
+        "show_excerpt": true
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "value-props",
+    "video-gallery",
+    "category-tiles",
+    "bestsellers",
+    "featured-hero-product",
+    "making",
+    "new-arrivals",
+    "testimonials",
+    "journal-posts",
+    "gallery",
+    "newsletter"
+  ]
+}

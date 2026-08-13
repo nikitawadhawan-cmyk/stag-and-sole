@@ -1,0 +1,230 @@
+{
+  "404": {
+    "title": "404",
+    "not_found": "Page not found.",
+    "back_to_shopping": "Back to shopping"
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content"
+  },
+  "blog": {
+    "article_comments": "Comments",
+    "article_metadata_html": "{{ date }} by {{ author }}",
+    "comment_form_body": "Comment",
+    "comment_form_email": "Email",
+    "comment_form_name": "Name",
+    "comment_form_submit": "Post comment",
+    "comment_form_title": "Add a comment",
+    "comment_moderated": "Your comment was posted and is awaiting moderation.",
+    "comment_posted": "Your comment was posted.",
+    "comments_title": {
+      "one": "{{ count }} comment",
+      "other": "{{ count }} comments"
+    },
+    "read_more": "Read more",
+    "written_by": "By {{ author }}",
+    "back_to": "Back to {{ blog }}",
+    "empty": "No stories yet — check back soon."
+  },
+  "cart": {
+    "checkout": "Checkout",
+    "title": "Your bag",
+    "item_count": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    },
+    "update": "Update bag",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "taxes_included": "Tax included and shipping calculated at checkout",
+    "taxes_at_checkout": "Taxes and shipping calculated at checkout",
+    "note_label": "Order note",
+    "note_placeholder": "Anything we should know?",
+    "empty": "Your bag is empty.",
+    "empty_cta": "Shop all shoes",
+    "view_bag": "View bag",
+    "close": "Close bag",
+    "free_shipping_away_html": "You're {{ amount }} away from free shipping",
+    "free_shipping_unlocked": "Free shipping unlocked",
+    "quantity_label": "Quantity for {{ title }}",
+    "discount": "Discount",
+    "gift_title": "Gift options",
+    "gift_label": "This order is a gift",
+    "gift_message_label": "Gift message",
+    "gift_message_placeholder": "Add a message for the recipient (optional)",
+    "recommendations_heading": "You may also like",
+    "recommendations_add": "Add",
+    "recommendations_view": "View",
+    "you_pay": "You pay",
+    "login_title": "Get started & grab the best offers!",
+    "login_button": "Log in / Register",
+    "price_details": "Price details",
+    "grand_total": "Grand total",
+    "proceed": "Proceed",
+    "you_save": "You save"
+  },
+  "customers": {
+    "login": {
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "title": "Login"
+    }
+  },
+  "collections": {
+    "title": "Collections",
+    "sort_by": "Sort by",
+    "clear_all": "Clear all",
+    "apply": "Apply",
+    "from": "From",
+    "to": "To",
+    "empty": "No products match these filters.",
+    "pagination": "Pagination"
+  },
+  "footer": {
+    "payment_methods": "Payment methods"
+  },
+  "general": {
+    "breadcrumbs": "Breadcrumbs",
+    "home": "Home",
+    "close": "Close",
+    "previous": "Scroll back",
+    "next": "Scroll forward"
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Add to Apple Wallet",
+    "card": "Gift card",
+    "expired": "This gift card has expired",
+    "expires_on": "Expires on {{ expires_on }}",
+    "use_at_checkout": "Use this gift card at checkout",
+    "recipient_checkbox": "I want to send this as a gift",
+    "recipient_email": "Recipient email",
+    "recipient_name": "Recipient name",
+    "recipient_message": "Message",
+    "recipient_send_on": "Send on"
+  },
+  "header": {
+    "menu": "Menu",
+    "primary_navigation": "Primary",
+    "search": "Search",
+    "search_placeholder": "Type to search",
+    "currency": "Currency",
+    "utility_navigation": "Utility",
+    "account": "Account",
+    "bag": "Bag",
+    "cart_count": "{{ count }} items in cart",
+    "language": "Language"
+  },
+  "newsletter": {
+    "email_label": "Email address",
+    "email_placeholder": "you@email.com",
+    "submit": "Subscribe",
+    "submit_short": "Sign up",
+    "success": "Thanks for subscribing. Check your inbox for a confirmation."
+  },
+  "password": {
+    "title": "This shop is private",
+    "password": "Password",
+    "enter": "Enter",
+    "enter_password": "Enter using password",
+    "wrong_password": "That password is not right. Try again."
+  },
+  "products": {
+    "on_sale": "Sale",
+    "bestseller": "Bestseller",
+    "from_price_html": "From {{ price }}",
+    "placeholder_title": "Example product",
+    "add_to_cart": "Add to bag",
+    "add_to_cart_with_price": "Add to bag — {{ price }}",
+    "in_stock": "In stock, ready to ship",
+    "save_amount": "Save {{ amount }}",
+    "share": "Share",
+    "pin_it": "Pin it",
+    "copy_link": "Copy link",
+    "link_copied": "Copied",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable",
+    "quantity": "Quantity",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "taxes_included": "Tax included",
+    "sku": "SKU",
+    "select_variant": "Select a variant",
+    "media_thumbnail": "Show media {{ index }}",
+    "pickup_available": "Pickup available at {{ location }}",
+    "pickup_unavailable": "Currently unavailable for pickup at {{ location }}",
+    "size_chart_hint": "Select a size to choose it on the product page.",
+    "share_facebook": "Share on Facebook",
+    "share_x": "Share on X",
+    "share_pinterest": "Pin on Pinterest",
+    "share_whatsapp": "Share on WhatsApp",
+    "quick_add": "Quick add",
+    "quick_add_loading": "Loading…",
+    "view_full_details": "View full details"
+  },
+  "search": {
+    "title": "Search results",
+    "heading": "Search",
+    "placeholder": "Search products, pages, and articles",
+    "submit": "Search",
+    "no_results_html": "No results found for \"{{ terms }}\". Check the spelling or try a different word.",
+    "results_for_html": "{{ count }} results for \"{{ terms }}\"",
+    "products": "Products",
+    "pages_and_articles": "Pages and articles",
+    "page": "Page",
+    "article": "Article",
+    "see_all": "See all results for \"{{ terms }}\""
+  },
+  "notfound": {
+    "title": "This page walked off.",
+    "body": "The link is broken or the page has moved. Try a search, or head back to solid ground.",
+    "home": "Back to the home page"
+  },
+  "contact": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "optional": "optional",
+    "message": "Message",
+    "send": "Send message",
+    "success": "Thanks for reaching out. We reply within two business days.",
+    "error": "Please fix the following and send again:",
+    "visit": "Visit us",
+    "hours": "Opening hours"
+  },
+  "sections": {
+    "announcement": {
+      "label": "Announcement"
+    },
+    "category_tiles": {
+      "styles_count": {
+        "one": "{{ count }} style",
+        "other": "{{ count }} styles"
+      }
+    },
+    "hero": {
+      "slide_number": "Slide {{ number }}"
+    },
+    "countdown": {
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds"
+    },
+    "testimonials": {
+      "stars_label": "{{ rating }} out of 5 stars",
+      "review_number": "Review {{ number }}",
+      "previous": "Previous review",
+      "next": "Next review"
+    },
+    "featured_product": {
+      "placeholder_title": "Featured product"
+    },
+    "blog_posts": {
+      "view_all": "View all",
+      "placeholder_title": "Share a story from your world",
+      "placeholder_excerpt": "Use your blog to talk about craft, materials, and the people behind your products."
+    }
+  }
+}

@@ -1,0 +1,142 @@
+{% if section.blocks.size > 0 %}
+  <announcement-rotator
+    class="announce"
+    role="region"
+    aria-label="{{ 'sections.announcement.label' | t }}"
+    data-interval="{{ section.settings.rotate_interval }}"
+  >
+    {% for block in section.blocks %}
+      <div
+        class="announce__item{% if forloop.first %} is-active{% endif %}"
+        data-announcement
+        {{ block.shopify_attributes }}
+      >
+        {%- if block.settings.link != blank -%}
+          <a href="{{ block.settings.link }}" class="announce__inner">
+        {%- else -%}
+          <span class="announce__inner">
+        {%- endif -%}
+
+        <span class="announce__label">{{ block.settings.text }}</span>
+        {% if block.settings.detail != blank %}
+          <span class="announce__detail">{{ block.settings.detail }}</span>
+        {% endif %}
+
+        {%- if block.settings.link != blank -%}
+          </a>
+        {%- else -%}
+          </span>
+        {%- endif -%}
+      </div>
+    {% endfor %}
+  </announcement-rotator>
+{% endif %}
+
+{% stylesheet %}
+  .announce {
+    display: block;
+    position: relative;
+    height: 42px;
+    overflow: hidden;
+    background: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  .announce__item {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .announce__item.is-active {
+    opacity: 1;
+  }
+
+  .announce__inner {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    color: var(--color-background);
+  }
+
+  a.announce__inner:hover .announce__label {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .announce__label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .announce__detail {
+    font-size: 13px;
+    opacity: 0.75;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .announce__item {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "range",
+      "id": "rotate_interval",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Rotation speed",
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Label",
+          "default": "Free shipping"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Detail",
+          "default": "on orders over $50"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar",
+      "blocks": [
+        { "type": "message" },
+        { "type": "message", "settings": { "text": "30-day returns", "detail": "no questions" } },
+        { "type": "message", "settings": { "text": "Free size exchange", "detail": "both directions" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

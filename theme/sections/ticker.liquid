@@ -1,0 +1,92 @@
+{% if section.blocks.size > 0 %}
+  <auto-scroller class="autoscroll ticker ticker--{{ section.settings.color_scheme }}">
+    <div class="ticker__track" data-autoscroll-track>
+      {% for block in section.blocks %}
+        <span class="ticker__item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+      {% endfor %}
+    </div>
+  </auto-scroller>
+{% endif %}
+
+{% stylesheet %}
+  .ticker {
+    display: block;
+    padding: 14px 0;
+    --autoscroll-gap: 72px;
+  }
+
+  .ticker--ink {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+
+  .ticker--forest {
+    background: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  .ticker--sand {
+    background: var(--color-background-secondary);
+    color: var(--color-foreground);
+  }
+
+  .ticker__track {
+    display: flex;
+    gap: var(--autoscroll-gap);
+  }
+
+  .ticker__item {
+    font-size: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  html:not(.js) .ticker__track {
+    justify-content: center;
+    overflow: hidden;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Ticker",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "ink", "label": "Ink" },
+        { "value": "forest", "label": "Forest" },
+        { "value": "sand", "label": "Sand" }
+      ],
+      "default": "ink"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Text item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Honest pricing"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ticker",
+      "blocks": [
+        { "type": "item" },
+        { "type": "item", "settings": { "text": "Free shipping over $50" } },
+        { "type": "item", "settings": { "text": "Responsibly made" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

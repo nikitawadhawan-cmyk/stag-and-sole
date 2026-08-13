@@ -1,0 +1,56 @@
+{% doc %}
+  Renders one of the theme's bundled placeholder photographs, used when a
+  section has no image selected. Served through the CDN image pipeline with
+  responsive sizes so fresh installs stay fast.
+
+  @param {string} name - workshop, street, formal, sneakers, loafers, boots, runners, stride, cafe, scooter, bench, unboxing, or doorway
+  @param {string} class - CSS class for the img element
+  @param {string} [loading] - 'lazy' (default) or 'eager'
+  @param {string} [fetchpriority] - e.g. 'high' for the LCP image
+  @param {string} [sizes] - sizes attribute, defaults to 100vw
+{% enddoc %}
+
+{% liquid
+  case name
+    when 'street'
+      assign file = 'placeholder-hero.jpg'
+    when 'formal'
+      assign file = 'placeholder-cat-1.jpg'
+    when 'sneakers'
+      assign file = 'placeholder-cat-2.jpg'
+    when 'loafers'
+      assign file = 'placeholder-cat-3.jpg'
+    when 'boots'
+      assign file = 'placeholder-boots.jpg'
+    when 'runners'
+      assign file = 'placeholder-runners.jpg'
+    when 'stride'
+      assign file = 'placeholder-stride.jpg'
+    when 'cafe'
+      assign file = 'placeholder-ugc-1.jpg'
+    when 'scooter'
+      assign file = 'placeholder-ugc-2.jpg'
+    when 'bench'
+      assign file = 'placeholder-ugc-3.jpg'
+    when 'unboxing'
+      assign file = 'placeholder-ugc-4.jpg'
+    when 'doorway'
+      assign file = 'placeholder-ugc-5.jpg'
+    else
+      assign file = 'placeholder-craft.jpg'
+  endcase
+
+  assign img_loading = loading | default: 'lazy'
+  assign img_sizes = sizes | default: '100vw'
+%}
+<img
+  src="{{ file | asset_img_url: '800x' }}"
+  srcset="{{ file | asset_img_url: '480x' }} 480w, {{ file | asset_img_url: '800x' }} 800w, {{ file | asset_img_url: '1200x' }} 1200w"
+  sizes="{{ img_sizes }}"
+  class="{{ class }}"
+  alt=""
+  width="1200"
+  height="1200"
+  loading="{{ img_loading }}"
+  {% if fetchpriority %}fetchpriority="{{ fetchpriority }}"{% endif %}
+>

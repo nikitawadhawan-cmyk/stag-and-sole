@@ -1,0 +1,58 @@
+<section class="wrap page-main">
+  <article class="page-main__inner">
+    <h1 class="page-main__title">{{ page.title }}</h1>
+    <div class="page-main__content rte">
+      {{ page.content }}
+    </div>
+  </article>
+</section>
+
+{% stylesheet %}
+  .page-main {
+    padding-top: 48px;
+    padding-bottom: 80px;
+  }
+
+  .page-main__inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .page-main__title {
+    margin: 0 0 26px;
+    font-size: 42px;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+  }
+
+  .page-main__content {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  .page-main__content h2,
+  .page-main__content h3 {
+    color: var(--color-foreground);
+  }
+
+  .page-main__content img {
+    border-radius: 4px;
+  }
+
+  @media (max-width: 700px) {
+    .page-main__title {
+      font-size: 32px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Page",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

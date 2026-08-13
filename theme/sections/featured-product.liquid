@@ -1,0 +1,534 @@
+{% liquid
+  assign product = section.settings.product
+  assign current_variant = product.selected_or_first_available_variant
+%}
+
+<section class="wrap featured-product" data-section-id="{{ section.id }}">
+  <featured-product class="fprod" data-featured-product>
+    <div class="fprod__media">
+      {% if product.media.size > 0 %}
+        {% for media in product.media limit: 6 %}
+          <div
+            class="fprod__media-item{% if forloop.first %} is-active{% endif %}"
+            data-fp-media="{{ media.id }}"
+          >
+            {% case media.media_type %}
+              {% when 'image' %}
+                {%- liquid
+                  assign focal_style = nil
+                  if media.preview_image.presentation.focal_point
+                    assign focal_style = 'object-position: ' | append: media.preview_image.presentation.focal_point
+                  endif
+                -%}
+                {{
+                  media
+                  | image_url: width: 1200
+                  | image_tag:
+                    class: 'fprod__img',
+                    widths: '600, 900, 1200',
+                    sizes: '(max-width: 900px) 100vw, 50vw',
+                    loading: 'lazy',
+                    alt: media.alt,
+                    style: focal_style
+                }}
+              {% else %}
+                {{ media | media_tag: class: 'fprod__img fprod__img--media' }}
+            {% endcase %}
+          </div>
+        {% endfor %}
+        {% if product.media.size > 1 %}
+          <div class="fprod__thumbs">
+            {% for media in product.media limit: 6 %}
+              <button
+                type="button"
+                class="fprod__thumb{% if forloop.first %} is-active{% endif %}"
+                data-fp-thumb="{{ media.id }}"
+                aria-label="{{ 'products.media_thumbnail' | t: index: forloop.index }}"
+              >
+                {{ media.preview_image | image_url: width: 150 | image_tag: loading: 'lazy', alt: media.preview_image.alt }}
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'fprod__img fprod__img--placeholder' }}
+      {% endif %}
+    </div>
+
+    <div class="fprod__info">
+      {% form 'product', product, data-fp-form: '' %}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-fp-id>
+
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when '@app' %}
+              {% render block %}
+
+            {% when 'custom_liquid' %}
+              <div class="fprod__block" {{ block.shopify_attributes }}>
+                {{ block.settings.custom_liquid }}
+              </div>
+
+            {% when 'title' %}
+              <h2 class="fprod__title" {{ block.shopify_attributes }}>
+                {% if product != blank %}
+                  <a href="{{ product.url }}">{{ product.title }}</a>
+                {% else %}
+                  {{ 'sections.featured_product.placeholder_title' | t }}
+                {% endif %}
+              </h2>
+
+            {% when 'price' %}
+              <div class="fprod__price" data-fp-price {{ block.shopify_attributes }}>
+                {% if current_variant.compare_at_price > current_variant.price %}
+                  <s>{{ current_variant.compare_at_price | money }}</s>
+                {% endif %}
+                <span>{{ current_variant.price | money | default: '—' }}</span>
+                {% if current_variant.unit_price_measurement %}
+                  <span class="fprod__unit">
+                    {{ current_variant.unit_price | money }} /
+                    {{ current_variant.unit_price_measurement.reference_unit }}
+                  </span>
+                {% endif %}
+                {% if cart.taxes_included %}
+                  <span class="fprod__tax">{{ 'products.taxes_included' | t }}</span>
+                {% endif %}
+              </div>
+
+            {% when 'variant_picker' %}
+              {% unless product.has_only_default_variant or product == blank %}
+                <div class="fprod__options" {{ block.shopify_attributes }}>
+                  {% for option in product.options_with_values %}
+                    <label class="fprod__option">
+                      <span>{{ option.name }}</span>
+                      <select data-fp-option="{{ forloop.index0 }}">
+                        {% for value in option.values %}
+                          <option
+                            value="{{ value | escape }}"
+                            {% if option.selected_value == value %}selected{% endif %}
+                          >
+                            {{ value }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </label>
+                  {% endfor %}
+                </div>
+                <script type="application/json" data-fp-variants>
+                  [
+                    {%- for variant in product.variants -%}
+                      {
+                        "id": {{ variant.id }},
+                        "available": {{ variant.available }},
+                        "options": {{ variant.options | json }},
+                        "price": {{ variant.price | money | json }},
+                        "compare_at_price": {% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | json }}{% else %}null{% endif %},
+                        "media_id": {{ variant.featured_media.id | default: 'null' }}
+                      }{% unless forloop.last %},{% endunless %}
+                    {%- endfor -%}
+                  ]
+                </script>
+              {% endunless %}
+
+            {% when 'quantity' %}
+              {% if product != blank %}
+                <label class="fprod__qty" {{ block.shopify_attributes }}>
+                  <span>{{ 'products.quantity' | t }}</span>
+                  <quantity-input class="fprod__qty-input">
+                    <button type="button" class="fprod__qty-btn" data-qty-change="-1" aria-label="{{ 'products.decrease_quantity' | t }}">&minus;</button>
+                    <input type="number" name="quantity" value="1" min="1" inputmode="numeric" aria-label="{{ 'products.quantity' | t }}">
+                    <button type="button" class="fprod__qty-btn" data-qty-change="1" aria-label="{{ 'products.increase_quantity' | t }}">+</button>
+                  </quantity-input>
+                </label>
+              {% endif %}
+
+            {% when 'buy_buttons' %}
+              <div class="fprod__buy" {{ block.shopify_attributes }}>
+                <button
+                  type="submit"
+                  name="add"
+                  class="btn btn--dark fprod__atc"
+                  data-fp-add
+                  data-add-label="{{ 'products.add_to_cart' | t | escape }}"
+                  data-sold-out-label="{{ 'products.sold_out' | t | escape }}"
+                  data-unavailable-label="{{ 'products.unavailable' | t | escape }}"
+                  {% if product == blank or current_variant.available == false %}disabled{% endif %}
+                >
+                  {% if product == blank %}
+                    {{ 'products.add_to_cart' | t }}
+                  {% elsif current_variant.available %}
+                    {{ 'products.add_to_cart' | t }}
+                  {% else %}
+                    {{ 'products.sold_out' | t }}
+                  {% endif %}
+                </button>
+                {% if block.settings.show_dynamic_checkout and product != blank %}
+                  {{ form | payment_button }}
+                {% endif %}
+              </div>
+
+            {% when 'description' %}
+              {% if product.description != blank %}
+                <div class="fprod__desc rte" {{ block.shopify_attributes }}>
+                  {{ product.description | truncatewords: block.settings.word_limit }}
+                </div>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+      {% endform %}
+    </div>
+  </featured-product>
+</section>
+
+{% javascript %}
+  class FeaturedProduct extends HTMLElement {
+    connectedCallback() {
+      this.variantData = null;
+      const data = this.querySelector('[data-fp-variants]');
+      if (data) this.variantData = JSON.parse(data.textContent);
+
+      this.addEventListener('change', (event) => {
+        if (event.target.closest('[data-fp-option]')) this.onOptionChange();
+      });
+      this.addEventListener('click', (event) => {
+        const thumb = event.target.closest('[data-fp-thumb]');
+        if (thumb) this.showMedia(thumb.dataset.fpThumb);
+      });
+    }
+
+    onOptionChange() {
+      if (!this.variantData) return;
+      const selected = [...this.querySelectorAll('[data-fp-option]')].map((s) => s.value);
+      const variant = this.variantData.find((v) => v.options.every((o, i) => o === selected[i]));
+      const add = this.querySelector('[data-fp-add]');
+      const price = this.querySelector('[data-fp-price]');
+      if (!variant) {
+        if (add) {
+          add.disabled = true;
+          add.textContent = add.dataset.unavailableLabel || add.textContent;
+        }
+        return;
+      }
+      const id = this.querySelector('[data-fp-id]');
+      if (id) id.value = variant.id;
+      if (price) {
+        price.innerHTML = `${variant.compare_at_price ? `<s>${variant.compare_at_price}</s> ` : ''}<span>${variant.price}</span>`;
+      }
+      if (add) {
+        add.disabled = !variant.available;
+        add.textContent = variant.available ? add.dataset.addLabel || add.textContent : add.dataset.soldOutLabel || add.textContent;
+      }
+      if (variant.media_id) this.showMedia(String(variant.media_id));
+    }
+
+    showMedia(mediaId) {
+      this.querySelectorAll('[data-fp-media]').forEach((el) => {
+        el.classList.toggle('is-active', el.dataset.fpMedia === mediaId);
+      });
+      this.querySelectorAll('[data-fp-thumb]').forEach((el) => {
+        el.classList.toggle('is-active', el.dataset.fpThumb === mediaId);
+      });
+    }
+  }
+
+  if (!customElements.get('featured-product')) {
+    customElements.define('featured-product', FeaturedProduct);
+  }
+{% endjavascript %}
+
+{% stylesheet %}
+  .featured-product {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+
+  .fprod {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .fprod__media {
+    position: relative;
+  }
+
+  .fprod__media-item {
+    display: none;
+    aspect-ratio: 4 / 5;
+    background: var(--color-background-secondary);
+    border-radius: var(--style-border-radius-inputs);
+    overflow: hidden;
+  }
+
+  .fprod__media-item.is-active {
+    display: block;
+  }
+
+  .fprod__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .fprod__img--placeholder {
+    aspect-ratio: 4 / 5;
+    background: var(--color-background-secondary);
+    border-radius: var(--style-border-radius-inputs);
+  }
+
+  .fprod__thumbs {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .fprod__thumb {
+    width: 64px;
+    aspect-ratio: 4 / 5;
+    border: 1px solid var(--color-line);
+    border-radius: var(--style-border-radius-inputs);
+    overflow: hidden;
+    padding: 0;
+    background: var(--color-background-secondary);
+    cursor: pointer;
+  }
+
+  .fprod__thumb.is-active {
+    border-color: var(--color-foreground);
+  }
+
+  .fprod__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .fprod__info form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .fprod__title {
+    margin: 0;
+    font-size: 34px;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+
+  .fprod__title a {
+    color: var(--color-foreground);
+  }
+
+  .fprod__price {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 19px;
+    font-weight: 600;
+  }
+
+  .fprod__price s {
+    color: var(--color-muted);
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  .fprod__unit,
+  .fprod__tax {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-muted);
+  }
+
+  .fprod__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .fprod__option {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .fprod__option select {
+    border: 1px solid var(--color-input-line);
+    border-radius: var(--style-border-radius-inputs);
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-primary--family);
+    font-size: 14px;
+    padding: 10px 12px;
+    min-width: 120px;
+  }
+
+  .fprod__qty {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .fprod__qty-input {
+    display: inline-flex;
+    align-items: stretch;
+    border: 1px solid var(--color-input-line);
+    border-radius: var(--style-border-radius-inputs);
+    overflow: hidden;
+    width: fit-content;
+  }
+
+  .fprod__qty-input input {
+    width: 52px;
+    border: none;
+    text-align: center;
+    font-family: var(--font-primary--family);
+    font-size: 14px;
+    background: transparent;
+    color: var(--color-foreground);
+    padding: 10px 0;
+  }
+
+  .fprod__qty-btn {
+    width: 38px;
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    color: var(--color-foreground);
+    cursor: pointer;
+  }
+
+  .fprod__qty-btn:hover {
+    background: var(--color-background-secondary);
+  }
+
+  .fprod__buy {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .fprod__atc[disabled] {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .fprod__desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 900px) {
+    .fprod {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .fprod__title {
+      font-size: 27px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Featured product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1
+    },
+    {
+      "type": "quantity",
+      "name": "Quantity selector",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Show dynamic checkout buttons",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "settings": [
+        {
+          "type": "range",
+          "id": "word_limit",
+          "min": 20,
+          "max": 120,
+          "step": 10,
+          "label": "Word limit",
+          "default": 60
+        }
+      ]
+    },
+    {
+      "type": "custom_liquid",
+      "name": "Custom Liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom Liquid"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured product",
+      "blocks": [
+        { "type": "title" },
+        { "type": "price" },
+        { "type": "variant_picker" },
+        { "type": "quantity" },
+        { "type": "buy_buttons" },
+        { "type": "description" }
+      ]
+    }
+  ]
+}
+{% endschema %}

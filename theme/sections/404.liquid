@@ -1,0 +1,107 @@
+<section class="wrap notfound">
+  <span class="notfound__code serif">404</span>
+  <h1 class="notfound__title">{{ 'notfound.title' | t }}</h1>
+  <p class="notfound__body">{{ 'notfound.body' | t }}</p>
+
+  <form action="{{ routes.search_url }}" method="get" role="search" class="notfound__form">
+    <input
+      type="search"
+      name="q"
+      placeholder="{{ 'search.placeholder' | t }}"
+      aria-label="{{ 'search.placeholder' | t }}"
+      class="notfound__input"
+    >
+    <input type="hidden" name="options[prefix]" value="last">
+    <button type="submit" class="notfound__submit">{{ 'search.submit' | t }}</button>
+  </form>
+
+  <div class="notfound__actions">
+    <a href="{{ routes.root_url }}" class="btn btn--dark">{{ 'notfound.home' | t }}</a>
+    <a href="{{ routes.all_products_collection_url }}" class="btn btn--outline">{{ 'cart.empty_cta' | t }}</a>
+  </div>
+</section>
+
+{% stylesheet %}
+  .notfound {
+    padding: 90px 0 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .notfound__code {
+    font-size: 110px;
+    line-height: 1;
+    color: var(--color-accent);
+  }
+
+  .notfound__title {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .notfound__body {
+    margin: 0;
+    font-size: 15px;
+    color: var(--color-muted);
+    max-width: 420px;
+  }
+
+  .notfound__form {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    width: min(420px, 100%);
+  }
+
+  .notfound__input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--color-input-line);
+    background: var(--color-background);
+    border-radius: var(--style-border-radius-inputs);
+    padding: 14px 16px;
+    font-family: var(--font-primary--family);
+    font-size: 14px;
+    color: var(--color-foreground);
+    outline: none;
+  }
+
+  .notfound__input:focus {
+    border-color: var(--color-accent-secondary);
+  }
+
+  .notfound__submit {
+    padding: 14px 22px;
+    border: none;
+    border-radius: var(--style-border-radius-inputs);
+    background: var(--color-foreground);
+    color: var(--color-background);
+    font-family: var(--font-primary--family);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .notfound__actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "404",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,64 @@
+<!-- @dsCard group="Foundations" name="Layout, motion, imagery, voice" subtitle="Container, rhythm, radii, no shadows, copy rules" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Rules</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#F4F1EA; --sand:#E3DCCD; --ink:#14140F; --green:#23402F; --green-deep:#1B3325;
+  --tan:#C0703A; --muted:#6B6558; --body-muted:#4A463C; --line:#DFD8CA; --input-line:#C9C0AE;
+  --font-sans:'Archivo',system-ui,sans-serif; --font-serif:'Instrument Serif',serif;
+  --r-tag:2px; --r-ui:3px; --r-card:4px;
+}
+*{box-sizing:border-box}
+body{margin:0;padding:28px;background:var(--cream);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:none} a:hover{color:var(--tan)}
+.serif{font-family:var(--font-serif);font-style:italic;font-weight:400}
+:focus-visible{outline:2px solid var(--tan);outline-offset:2px}
+.g-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;display:block}
+.g-spec{font-size:12px;color:var(--muted);font-family:ui-monospace,monospace}
+.row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+.stack{display:flex;flex-direction:column;gap:22px}
+</style>
+</head>
+<body>
+<style>
+.rc{border:1px solid var(--line);border-radius:var(--r-card);padding:18px;flex:1;min-width:230px}
+ul{margin:0;padding-left:16px;font-size:13px;color:var(--body-muted);line-height:1.7}
+</style>
+<div class="row">
+  <div class="rc"><span class="g-label">Layout</span><ul>
+    <li>Container 1320px · gutters 40px (24 ≤1024)</li>
+    <li>Section rhythm 76–80px top (56 ≤700)</li>
+    <li>Gaps: 18 cards · 16 tiles · 10 dense</li>
+    <li>Breakpoints 1180 / 1024 / 900 / 700</li>
+    <li>Radii 2 tags · 3 controls · 4 cards — never larger</li>
+    <li>No shadows. Depth = color, scrims, hairlines</li>
+  </ul></div>
+  <div class="rc"><span class="g-label">Imagery</span><ul>
+    <li>Warm, sunlit, editorial; shoes in use, not studio</li>
+    <li>Always on sand, object-fit cover</li>
+    <li>Hero 3:4 · PDP 4:5 · reels 9:16 · UGC 1:1</li>
+    <li>Ink gradient scrim under text on imagery</li>
+  </ul></div>
+  <div class="rc"><span class="g-label">Motion</span><ul>
+    <li>Color/bg transitions only, 0.15–0.18s ease</li>
+    <li>No movement, scale, parallax, entrances</li>
+    <li>Respect prefers-reduced-motion</li>
+  </ul></div>
+  <div class="rc"><span class="g-label">Voice</span><ul>
+    <li>Sentence case (wordmark + eyebrows excepted)</li>
+    <li>Honest, specific, lightly wry</li>
+    <li>Direct-from-workshop value story, never "discount"</li>
+    <li>₹ Indian grouping: ₹3,499</li>
+    <li>Do: "42 hand steps per pair" · Don't: "Premium luxury"</li>
+  </ul></div>
+</div>
+</body>
+</html>

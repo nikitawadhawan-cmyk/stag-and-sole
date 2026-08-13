@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stag Theme Support</title>
+<meta name="description" content="Contact support for the Stag Shopify theme.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#F4F1EA;--sand:#E3DCCD;--ink:#14140F;--forest:#23402F;--tan:#C0703A;--muted:#6B6558;--line:#DFD8CA}
+  *{box-sizing:border-box;margin:0}
+  body{font-family:'Archivo',system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.65;font-size:16px}
+  .wrap{max-width:660px;margin:0 auto;padding:0 24px}
+  header.site{background:var(--forest);color:var(--cream);padding:52px 0 42px}
+  header.site h1{font-size:38px;letter-spacing:-.03em;font-weight:600}
+  header.site h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+  header.site p{margin-top:10px;opacity:.85}
+  header.site a{color:var(--sand)}
+  main{padding:48px 0 90px}
+  form{display:flex;flex-direction:column;gap:18px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:30px}
+  label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  input,select,textarea{border:1px solid var(--line);border-radius:8px;padding:13px 15px;font-family:'Archivo',sans-serif;font-size:15px;color:var(--ink);background:var(--cream)}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--tan)}
+  textarea{resize:vertical}
+  button{align-self:flex-start;background:var(--forest);color:var(--cream);border:none;border-radius:8px;padding:14px 30px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+  button:hover{background:#1a3024}
+  .note{font-size:13px;color:var(--muted);margin-top:14px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:600px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <h1>Stag <em>support</em></h1>
+    <p>Questions about setting up or customizing the Stag theme? Check the <a href="index.html">documentation</a> first — otherwise send us the form below. We reply within two business days.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <form action="https://formsubmit.co/nikita@eclecticdigital.in" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="_subject" value="Stag theme support request">
+    <input type="hidden" name="_captcha" value="true">
+    <input type="hidden" name="_autoresponse" value="Thanks for contacting Stag theme support — we've received your request and will reply within two business days. If you have more details or screenshots to add, just reply to this email.">
+    <input type="hidden" name="theme_name" value="Stag">
+    <div class="row">
+      <label>Your name
+        <input type="text" name="name" autocomplete="name" required>
+      </label>
+      <label>Email address
+        <input type="email" name="email" autocomplete="email" required>
+      </label>
+    </div>
+    <label>Store URL (yourstore.myshopify.com)
+      <input type="text" name="store_url" placeholder="example.myshopify.com" required>
+    </label>
+    <div class="row">
+      <label>Theme version
+        <input type="text" name="theme_version" placeholder="1.0.0" required>
+      </label>
+      <label>Topic
+        <select name="topic" required>
+          <option value="">Choose…</option>
+          <option>Theme setup</option>
+          <option>Sections and customization</option>
+          <option>Cart and checkout</option>
+          <option>Bug report</option>
+          <option>Feature request</option>
+          <option>Other</option>
+        </select>
+      </label>
+    </div>
+    <label>Attach a screenshot (optional)
+      <input type="file" name="attachment" accept="image/png,image/jpeg,image/gif,image/webp">
+    </label>
+    <label>What can we help with?
+      <textarea name="message" rows="7" required placeholder="Describe the issue, and include the page URL and steps to reproduce if it's a bug."></textarea>
+    </label>
+    <button type="submit">Send request</button>
+    <p class="note">We use the details above only to answer your request. For urgent storefront outages, contact Shopify support directly — the theme cannot take your store offline.</p>
+  </form>
+</main>
+</body>
+</html>

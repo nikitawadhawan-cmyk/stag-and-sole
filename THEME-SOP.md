@@ -271,6 +271,16 @@ not your catalog.
 
 ## Phase 7 — After submission
 
+**Learned the hard way (Stag, submission 1):** there is an ENTRY design
+screen before the full review. Reviewers skim the demo and reject on
+design alone — "must surpass the catalog including the free themes",
+"seek inspiration from Awwwards" — without checking a single technical
+requirement. Compliance gets you to the door; only distinctive,
+art-directed design gets you through it. Three rejections = 90-day
+suspension, so never resubmit on a quick polish. Design ambition must be
+decided in Phase 0, with the demo's photography treated as half the
+design.
+
 - Expect Stage-4 subjective feedback (uniqueness/design). A revision round
   is the normal path — plan the calendar for at least one resubmission.
 - Support SLA once live: reply within 2 business days; critical bugs

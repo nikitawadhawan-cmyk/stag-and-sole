@@ -1,5 +1,12 @@
 # Stag — Presubmission Checklist
 
+> **STATUS 2026-09-01: SUBMISSION 1 REJECTED at the entry design screen** (no full
+> review performed; no technical requirement cited). Reason: design must
+> "surpass the catalog including free themes"; reviewer pointed to Awwwards.
+> Strike 1 of 3 — a third rejection suspends submissions for 90 days. Next
+> submission only after a transformative redesign (see REDESIGN-BRIEF.md).
+
+
 Working roadmap for taking the Stag theme live on the Shopify Theme Store.
 Status keys: `[x]` done · `[ ]` pending · `[~]` partial.
 
